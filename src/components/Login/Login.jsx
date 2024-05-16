@@ -88,7 +88,7 @@ const Login = () => {
         if (user.name !== undefined && user.password !== undefined)
             // TODO:check if in store...
             // TODO:axios... dispath to current user
-            navigate('/')
+            navigate('/home')
     }
     return (
         <div className='Login'>
@@ -133,7 +133,7 @@ const Login = () => {
                     <BootstrapButton variant="contained" onClick={handleClickLogin}>Log in</BootstrapButton>
                     <div>
                         <span>Don't have an account? &nbsp;</span>
-                        <Link to='/SingUp'>Sing Up</Link>
+                        <Link to='/SignUp'>Sign Up</Link>
                     </div>
                 </div>
 
