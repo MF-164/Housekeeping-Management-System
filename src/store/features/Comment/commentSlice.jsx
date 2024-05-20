@@ -1,5 +1,5 @@
-const { createSlice } = require("@reduxjs/toolkit")
-import { Delete, GetAll, GetOne, Insert, Update } from './CommentAPI'
+import { GetAll, GetOne } from './CommentAPI'
+const { createSlice, createAsyncThunk } = require("@reduxjs/toolkit")
 
 const commentState = {
     allComments: { comments: [] },
@@ -8,8 +8,10 @@ const commentState = {
 }
 
 const fetchAllFromServer=createAsyncThunk("comment-getAllComment", async (thunkAPI) => {
+    return await GetAll()
 })
 const fetchByIdFromServer= createAsyncThunk("comment-getCommentById", async (thunkAPI,id) => {
+    return await GetOne()
 })
 // const =createAsyncThunk("comment-updateComment", async (thunkAPI,id, comment) => {})
 // const =createAsyncThunk("comment-deleteComment", async (thunkAPI,id) => {})
