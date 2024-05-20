@@ -1,5 +1,6 @@
-const { createSlice, createAsyncThunk } = require("@reduxjs/toolkit")
+
 import {  GetAll, GetOne } from './DayAPI'
+const { createSlice, createAsyncThunk } = require("@reduxjs/toolkit")
 
 const dayState = {
     allDays: { days: [] },

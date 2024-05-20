@@ -1,5 +1,6 @@
-const { createSlice } = require("@reduxjs/toolkit")
+
 import { Delete, GetAll, GetOne, Insert, Update } from './DiaryAPI'
+const { createSlice ,createAsyncThunk} = require("@reduxjs/toolkit") 
 
 const diaryState = {
     allDiaries: { diaries: [] },

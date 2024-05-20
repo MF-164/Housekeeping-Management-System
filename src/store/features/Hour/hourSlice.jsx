@@ -1,5 +1,6 @@
-const { createSlice, createAsyncThunk } = require("@reduxjs/toolkit")
+
 import {  GetAll, GetOne } from './HourAPI'
+const { createSlice, createAsyncThunk } = require("@reduxjs/toolkit")
 
 const hourState = {
     allHours: { hours: [] },
