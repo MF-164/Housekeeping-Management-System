@@ -1,14 +1,16 @@
-import { createSlice } from '@reduxjs/toolkit'
-import { Delete, GetAll, GetOne, Insert, Update } from './OrderAPI'
+const { createSlice, createAsyncThunk } = '@reduxjs/toolkit'
+import { GetAll, GetOne} from './OrderAPI'
 const orderState = {
     allOrders: { orders: [] },
     currentOrder: null,
     status: "idle"
 }
 
-const fetchAllFromServer=createAsyncThunk("client-getAllClient", async (thunkAPI) => {
+const fetchAllFromServer = createAsyncThunk('Order-getAll', async (thunkAPI) => {
+    return await GetAll()
 })
-const fetchByIdFromServer=createAsyncThunk("client-getClientById", async (id) => {
+const fetchByIdFromServer = createAsyncThunk('Order-getOne', async (id) => {
+    return await GetOne()
 })
 
 export const orderSlice = createSlice({
@@ -31,21 +33,21 @@ export const orderSlice = createSlice({
         //TODO:do current order?
     },
     extraReducers: (builder) => {
-        builder.addCase(GetAll.fulfilled, (state, action) => {
+        builder.addCase(fetchAllFromServer.fulfilled, (state, action) => {
             state.allOrders.orders = action.payload
             state.status = "success"
-        }).addCase(GetAll.rejected, (state, action) => {
+        }).addCase(fetchAllFromServer.rejected, (state, action) => {
             state.status = "failed"
-        }).addCase(GetAll.pending, (state, action) => {
+        }).addCase(fetchAllFromServer.pending, (state, action) => {
             state.status = "pending"
         })
 
-            .addCase(GetOne.fulfilled, (state, action) => {
+            .addCase(fetchByIdFromServer.fulfilled, (state, action) => {
                 state.currentOrder = action.payload
                 state.status = "success"
-            }).addCase(GetOne.rejected, (state, action) => {
+            }).addCase(fetchByIdFromServer.rejected, (state, action) => {
                 state.status = "failed"
-            }).addCase(GetOne.pending, (state, action) => {
+            }).addCase(fetchByIdFromServer.pending, (state, action) => {
                 state.status = "pending"
             })
 
