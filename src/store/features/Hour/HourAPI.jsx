@@ -1,5 +1,4 @@
 import axios from "axios"
-import { createAsyncThunk } from '@reduxjs/toolkit'
 
 export const GetAll =async()=> {
     return {data} =await axios.get('https://localhost:7218/api/Hours/all')

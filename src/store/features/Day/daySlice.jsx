@@ -1,14 +1,16 @@
-const { createSlice } = require("@reduxjs/toolkit")
-import { Delete, GetAll, GetOne, Insert, Update } from './DayAPI'
+const { createSlice, createAsyncThunk } = require("@reduxjs/toolkit")
+import {  GetAll, GetOne } from './DayAPI'
 
 const dayState = {
     allDays: { days: [] },
     status: "idle"
 }
 
-const fetchAllFromServer=createAsyncThunk("client-getAllClient", async (thunkAPI) => {
+const fetchAllFromServer=createAsyncThunk("day-getAllDay", async (thunkAPI) => {
+    return await GetAll()
 })
-const fetchByIdFromServer=createAsyncThunk("client-getClientById", async (id) => {
+const fetchByIdFromServer=createAsyncThunk("Day-getDayById", async (id) => {
+    return await GetOne(id)
 })
 
 export const daySlice = createSlice({
@@ -30,20 +32,20 @@ export const daySlice = createSlice({
         }
     },
     extraReducers: (builder) => {
-        builder.addCase(GetAll.fulfilled, (state, action) => {
+        builder.addCase(fetchAllFromServer.fulfilled, (state, action) => {
             state.allDays.days = action.payload
             state.status = "success"
-        }).addCase(GetAll.rejected, (state, action) => {
+        }).addCase(fetchAllFromServer.rejected, (state, action) => {
             state.status = "failed"
-        }).addCase(GetAll.pending, (state, action) => {
+        }).addCase(fetchAllFromServer.pending, (state, action) => {
             state.status = "pending"
         })
 
-        .addCase(GetOne.fulfilled, (state, action) => {
+        .addCase(fetchByIdFromServer.fulfilled, (state, action) => {
             state.status = "success"
-        }).addCase(GetOne.rejected, (state, action) => {
+        }).addCase(fetchByIdFromServer.rejected, (state, action) => {
             state.status = "failed"
-        }).addCase(GetOne.pending, (state, action) => {
+        }).addCase(fetchByIdFromServer.pending, (state, action) => {
             state.status = "pending"
         })
 
