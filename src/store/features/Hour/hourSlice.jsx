@@ -13,10 +13,10 @@ const fetchByIdFromServer = createAsyncThunk('Hours-getOne', async (id) => {
     return GetOne()
 })
 
-const fetchAllFromServer=createAsyncThunk("client-getAllClient", async (thunkAPI) => {
-})
-const fetchByIdFromServer=createAsyncThunk("client-getClientById", async (id) => {
-})
+// const fetchAllFromServer=createAsyncThunk("client-getAllClient", async (thunkAPI) => {
+// })
+// const fetchByIdFromServer=createAsyncThunk("client-getClientById", async (id) => {
+// })
 
 export const hourSlice = createSlice({
     name: 'hourSlice',
