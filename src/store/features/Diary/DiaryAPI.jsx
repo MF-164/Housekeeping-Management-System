@@ -1,16 +1,14 @@
 import axios from "axios"
-import { createAsyncThunk } from '@reduxjs/toolkit'
-import { async } from "q"
 
 export const GetAll = async () => {
-    return { data } = await axios.get('https://localhost:7218/api/Diary/all')
-
+    const { data } = await axios.get('https://localhost:7218/api/Diary/all')
+    return data
 }
 
-export const GetOne = async () => {
+export const GetOne = async (id) => {
     let url = 'https://localhost:7218/api/Diary/getById/' + id
-    return { data } = await axios.get(url)
-
+    const { data } = await axios.get(url)
+    return data
 }
 
 // export const Insert=createAsyncThunk('Diary-insert',async(diary)=>{

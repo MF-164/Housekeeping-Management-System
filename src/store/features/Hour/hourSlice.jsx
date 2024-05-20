@@ -10,8 +10,8 @@ const fetchAllFromServer = createAsyncThunk('Hours-getAll', async (thunkAPI) => 
     return GetAll()
 })
 
-const fetchByIdFromServer = createAsyncThunk('Hours-getOne', async (id) => {
-    return GetOne()
+const fetchByIdFromServer = createAsyncThunk('Hours-getOne', async (thunkAPI,id) => {
+    return GetOne(id)
 })
 
 // const fetchAllFromServer=createAsyncThunk("client-getAllClient", async (thunkAPI) => {

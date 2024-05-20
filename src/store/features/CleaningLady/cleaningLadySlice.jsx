@@ -1,4 +1,4 @@
-import { GetAll, GetOne, Insert } from './CleaningLadyAPI'
+import { GetAll, GetOne} from './CleaningLadyAPI'
 const { createSlice, createAsyncThunk } = require("@reduxjs/toolkit")
 
 const cleaningLadyState = {

@@ -1,12 +1,14 @@
 import axios from "axios"
 
 export const GetAll =async()=> {
-    return {data} =await axios.get('https://localhost:7218/api/Hours/all')
+    const {data} =await axios.get('https://localhost:7218/api/Hours/all')
+    return data
 }
 
-export const GetOne = async()=> {
+export const GetOne = async(id)=> {
     let url = 'https://localhost:7218/api/Hours/getById/' + id
-    return {data} = await axios.get(url)
+    const {data} = await axios.get(url)
+    return data
 }
 
 // export const Insert=createAsyncThunk('Hours-insert',async(Hour)=>{

@@ -10,8 +10,8 @@ const orderState = {
 const fetchAllFromServer = createAsyncThunk('Order-getAll', async (thunkAPI) => {
     return await GetAll()
 })
-const fetchByIdFromServer = createAsyncThunk('Order-getOne', async (id) => {
-    return await GetOne()
+const fetchByIdFromServer = createAsyncThunk('Order-getOne', async (thunkAPI,id) => {
+    return await GetOne(id)
 })
 
 export const orderSlice = createSlice({

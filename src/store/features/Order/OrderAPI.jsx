@@ -1,14 +1,13 @@
 import axios from "axios"
-import { createAsyncThunk } from '@reduxjs/toolkit'
-
 export const GetAll = async () => {
     let { data } = await axios.get('https://localhost:7218/api/Order/all')
     return data
 }
 
-export const GetOne = async () => {
+export const GetOne = async (id) => {
     let url = 'https://localhost:7218/api/Order/getById/' + id
-    return { data } = await axios.get(url)
+    const { data } = await axios.get(url)
+    return data
 }
 
 // export const Insert=createAsyncThunk('Order-insert',async(Order)=>{
