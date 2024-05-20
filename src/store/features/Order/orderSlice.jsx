@@ -1,5 +1,6 @@
-const { createSlice, createAsyncThunk } = '@reduxjs/toolkit'
+
 import { GetAll, GetOne} from './OrderAPI'
+const { createSlice, createAsyncThunk } = '@reduxjs/toolkit'
 const orderState = {
     allOrders: { orders: [] },
     currentOrder: null,
