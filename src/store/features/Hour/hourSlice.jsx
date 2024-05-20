@@ -6,6 +6,11 @@ const hourState = {
     status: "idle"
 }
 
+const fetchAllFromServer=createAsyncThunk("client-getAllClient", async (thunkAPI) => {
+})
+const fetchByIdFromServer=createAsyncThunk("client-getClientById", async (id) => {
+})
+
 export const hourSlice = createSlice({
     name: 'hourSlice',
     initialState: hourState,

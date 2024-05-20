@@ -6,6 +6,11 @@ const orderState = {
     status: "idle"
 }
 
+const fetchAllFromServer=createAsyncThunk("client-getAllClient", async (thunkAPI) => {
+})
+const fetchByIdFromServer=createAsyncThunk("client-getClientById", async (id) => {
+})
+
 export const orderSlice = createSlice({
     name: 'orderSlice',
     initialState: orderState,

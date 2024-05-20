@@ -1,12 +1,24 @@
-const { createSlice } = require("@reduxjs/toolkit")
-import { Delete, GetAll, GetOne, Insert, Update } from './ClientAPI'
-
+import { GetAll, GetOne} from './ClientAPI'
+const { createSlice, createAsyncThunk } = require("@reduxjs/toolkit")
 
 const clientState = {
     allClients: { clients: [] },
     currentClient: undefined,
     status:"idle"
 }
+
+const fetchAllFromServer=createAsyncThunk("client-getAllClient", async (thunkAPI) => {
+    return await GetAll()
+})
+const fetchByIdFromServer=createAsyncThunk("client-getClientById", async (id) => {
+    return await GetOne()
+})
+// const fetch3=createAsyncThunk("client-getClientById", async (client) => {
+// })
+// const fetch4=createAsyncThunk("client-updateClient", async (id, client) => {
+// })
+// const fetch5=createAsyncThunk("client-deleteClient", async (id) => {
+// })
 
 export const clientSlice = createSlice({
     name: 'client',
@@ -33,21 +45,21 @@ export const clientSlice = createSlice({
         }
     },
     extraReducers: (builder) => {
-        builder.addCase(GetAll.fulfilled, (state, action) => {
+        builder.addCase(fetchAllFromServer.fulfilled, (state, action) => {
             state.allClients.clients = action.payload
             state.status = "success"
-        }).addCase(GetAll.rejected, (state, action) => {
+        }).addCase(fetchAllFromServer.rejected, (state, action) => {
             state.status = "failed"
-        }).addCase(GetAll.pending, (state, action) => {
+        }).addCase(fetchAllFromServer.pending, (state, action) => {
             state.status = "pending"
         })
 
-        .addCase(GetOne.fulfilled, (state, action) => {
+        .addCase(fetchByIdFromServer.fulfilled, (state, action) => {
             state.currentClient = action.payload
             state.status = "success"
-        }).addCase(GetOne.rejected, (state, action) => {
+        }).addCase(fetchByIdFromServer.rejected, (state, action) => {
             state.status = "failed"
-        }).addCase(GetOne.pending, (state, action) => {
+        }).addCase(fetchByIdFromServer.pending, (state, action) => {
             state.status = "pending"
         })
     }

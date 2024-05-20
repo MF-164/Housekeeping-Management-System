@@ -7,6 +7,14 @@ const commentState = {
     status: "idle"
 }
 
+const fetchAllFromServer=createAsyncThunk("comment-getAllComment", async (thunkAPI) => {
+})
+const fetchByIdFromServer= createAsyncThunk("comment-getCommentById", async (thunkAPI,id) => {
+})
+// const =createAsyncThunk("comment-updateComment", async (thunkAPI,id, comment) => {})
+// const =createAsyncThunk("comment-deleteComment", async (thunkAPI,id) => {})
+// const =createAsyncThunk("comment-deleteComment", async (thunkAPI,comment) => {})
+
 export const commentSlice = createSlice({
     name: 'commentSlice',
     initialState: commentState,

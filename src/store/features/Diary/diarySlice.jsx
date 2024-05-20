@@ -7,6 +7,11 @@ const diaryState = {
     status: "idle"
 }
 
+const fetchAllFromServer=createAsyncThunk("client-getAllClient", async (thunkAPI) => {
+})
+const fetchByIdFromServer=createAsyncThunk("client-getClientById", async (id) => {
+})
+
 export const diarySlice = createSlice({
     name: 'diarySlice',
     initialState: diaryState,

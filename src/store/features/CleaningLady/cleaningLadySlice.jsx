@@ -1,11 +1,23 @@
-const { createSlice } = require("@reduxjs/toolkit")
-import { Delete, GetAll, GetOne, Insert, Update } from './CleaningLadyAPI'
+import { GetAll, GetOne, Insert } from './CleaningLadyAPI'
+const { createSlice, createAsyncThunk } = require("@reduxjs/toolkit")
 
 const cleaningLadyState = {
     allCleaningLadies: { ladies: [] },
     currentLady: undefined,
     status: "idle"
 }
+
+export const fetchAllFromServer = createAsyncThunk('cleaningLady-getAll', async (thunkAPI) => {
+    return await GetAll()
+})
+
+export const fetchByIdFromServer = createAsyncThunk('cleaningLady-getOne', async (id) => {
+    return await GetOne(id)
+})
+
+// export const InsertForServer = createAsyncThunk('cleaningLady-insert',async(cleaningLady)=>{
+//     return await Insert(cleaningLady)
+// })
 
 export const cleaningLadySlice = createSlice({
     name: 'cleaningLadySlice',
@@ -26,23 +38,23 @@ export const cleaningLadySlice = createSlice({
         }
     },
     extraReducers: (builder) => {
-        builder.addCase(GetAll.fulfilled, (state, action) => {
+        builder.addCase(fetchAllFromServer.fulfilled, (state, action) => {
             state.allCleaningLadies.ladies = action.payload
             state.status = "success"
-        }).addCase(GetAll.rejected, (state, action) => {
+        }).addCase(fetchAllFromServer.rejected, (state, action) => {
             state.status = "failed"
-        }).addCase(GetAll.pending, (state, action) => {
+        }).addCase(fetchAllFromServer.pending, (state, action) => {
             state.status = "pending"
         })
 
-        .addCase(GetOne.fulfilled, (state, action) => {
-            state.currentLady = action.payload
-            state.status = "success"
-        }).addCase(GetOne.rejected, (state, action) => {
-            state.status = "failed"
-        }).addCase(GetOne.pending, (state, action) => {
-            state.status = "pending"
-        })
+            .addCase(fetchByIdFromServer.fulfilled, (state, action) => {
+                state.currentLady = action.payload
+                state.status = "success"
+            }).addCase(fetchByIdFromServer.rejected, (state, action) => {
+                state.status = "failed"
+            }).addCase(fetchByIdFromServer.pending, (state, action) => {
+                state.status = "pending"
+            })
 
         // .addCase(Insert.fulfilled, (state, action) => {
         //     state.allCleaningLadies.ladies = action
