@@ -7,9 +7,12 @@ const diaryState = {
     status: "idle"
 }
 
-const fetchAllFromServer=createAsyncThunk("client-getAllClient", async (thunkAPI) => {
+const fetchAllFromServer = createAsyncThunk('Diary-getAll', async (thunkAPI) => {
+    return GetAll()
 })
-const fetchByIdFromServer=createAsyncThunk("client-getClientById", async (id) => {
+
+const fetchByIdFromServer = createAsyncThunk('Diary-getOne', async (id) => {
+    return GetOne()
 })
 
 export const diarySlice = createSlice({
@@ -31,23 +34,23 @@ export const diarySlice = createSlice({
         }
     },
     extraReducers: (builder) => {
-        builder.addCase(GetAll.fulfilled, (state, action) => {
+        builder.addCase(fetchAllFromServer.fulfilled, (state, action) => {
             state.allDiaries.diaries = action.payload
             state.status = "success"
-        }).addCase(GetAll.rejected, (state, action) => {
+        }).addCase(fetchAllFromServer.rejected, (state, action) => {
             state.status = "failed"
-        }).addCase(GetAll.pending, (state, action) => {
+        }).addCase(fetchAllFromServer.pending, (state, action) => {
             state.status = "pending"
         })
 
-        .addCase(GetOne.fulfilled, (state, action) => {
-            state.currentDiary = action.payload
-            state.status = "success"
-        }).addCase(GetOne.rejected, (state, action) => {
-            state.status = "failed"
-        }).addCase(GetOne.pending, (state, action) => {
-            state.status = "pending"
-        })
+            .addCase(fetchByIdFromServer.fulfilled, (state, action) => {
+                state.currentDiary = action.payload
+                state.status = "success"
+            }).addCase(fetchByIdFromServer.rejected, (state, action) => {
+                state.status = "failed"
+            }).addCase(fetchByIdFromServer.pending, (state, action) => {
+                state.status = "pending"
+            })
 
         // .addCase(Insert.fulfilled, (state, action) => {
         //     state.allDiaries.diaries = action
