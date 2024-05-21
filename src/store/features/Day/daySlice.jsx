@@ -1,6 +1,6 @@
 
 import {  GetAll, GetOne } from './DayAPI'
-const { createSlice, createAsyncThunk } = require("@reduxjs/toolkit")
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
 
 const dayState = {
     allDays: { days: [] },
@@ -8,10 +8,12 @@ const dayState = {
 }
 
 const fetchAllFromServer=createAsyncThunk("day-getAllDay", async (thunkAPI) => {
-    return await GetAll()
+    const response =  await GetAll()
+    return response
 })
 const fetchByIdFromServer=createAsyncThunk("Day-getDayById", async (id) => {
-    return await GetOne(id)
+    const response =  await GetOne(id)
+    return response
 })
 
 export const daySlice = createSlice({

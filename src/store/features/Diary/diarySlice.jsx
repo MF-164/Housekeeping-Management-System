@@ -1,6 +1,6 @@
 
 import {GetAll, GetOne } from './DiaryAPI'
-const { createSlice ,createAsyncThunk} = require("@reduxjs/toolkit") 
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
 
 const diaryState = {
     allDiaries: { diaries: [] },
@@ -9,11 +9,13 @@ const diaryState = {
 }
 
 const fetchAllFromServer = createAsyncThunk('Diary-getAll', async (thunkAPI) => {
-    return GetAll()
+    const response =  await GetAll()
+    return response
 })
 
 const fetchByIdFromServer = createAsyncThunk('Diary-getOne', async (thunkAPI,id) => {
-    return GetOne(id)
+    const response =  await GetOne(id)
+    return response
 })
 
 export const diarySlice = createSlice({

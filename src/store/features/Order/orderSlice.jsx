@@ -1,6 +1,7 @@
 
 import { GetAll, GetOne} from './OrderAPI'
-const { createSlice, createAsyncThunk } = '@reduxjs/toolkit'
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
+
 const orderState = {
     allOrders: { orders: [] },
     currentOrder: null,
@@ -8,10 +9,12 @@ const orderState = {
 }
 
 const fetchAllFromServer = createAsyncThunk('Order-getAll', async (thunkAPI) => {
-    return await GetAll()
+    const response =  await GetAll()
+    return response
 })
 const fetchByIdFromServer = createAsyncThunk('Order-getOne', async (thunkAPI,id) => {
-    return await GetOne(id)
+    const response =  await GetOne(id)
+    return response
 })
 
 export const orderSlice = createSlice({

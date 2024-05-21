@@ -1,17 +1,19 @@
 
 import {  GetAll, GetOne } from './HourAPI'
-const { createSlice, createAsyncThunk } = require("@reduxjs/toolkit")
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
 
 const hourState = {
     allHours: { hours: [] },
     status: "idle"
 }
 const fetchAllFromServer = createAsyncThunk('Hours-getAll', async (thunkAPI) => {
-    return GetAll()
+    const response =  await GetAll()
+    return response
 })
 
 const fetchByIdFromServer = createAsyncThunk('Hours-getOne', async (thunkAPI,id) => {
-    return GetOne(id)
+    const response =  await GetOne(id)
+    return response
 })
 
 // const fetchAllFromServer=createAsyncThunk("client-getAllClient", async (thunkAPI) => {

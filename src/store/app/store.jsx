@@ -10,12 +10,12 @@ import diarySlice from '../features/Diary/diarySlice'
 
 export const store = configureStore({
     reducer: {
-        client: clientSlice,
-        cleaningLady: cleaningLadySlice,
-        comment: commentSlice,
-        order: orderSlice,
-        hour: hourSlice,
         day: daySlice,
-        diary: diarySlice
+        hour: hourSlice,
+        order: orderSlice,
+        diary: diarySlice,
+        client: clientSlice,
+        comment: commentSlice,
+        cleaningLady: cleaningLadySlice
     }
 })

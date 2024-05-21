@@ -1,5 +1,5 @@
 import { GetAll, GetOne} from './ClientAPI'
-const { createSlice, createAsyncThunk } = require("@reduxjs/toolkit")
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
 
 const clientState = {
     allClients: { clients: [] },
@@ -7,12 +7,22 @@ const clientState = {
     status:"idle"
 }
 
-const fetchAllFromServer=createAsyncThunk("client-getAllClient", async (thunkAPI) => {
-    return await GetAll()
+export const fetchAllFromServer = createAsyncThunk("client-getAll", async (thunkAPI) => {
+    const response =  await GetAll()
+    return response
 })
-const fetchByIdFromServer=createAsyncThunk("client-getClientById", async (id) => {
-    return await GetOne()
+
+export const fetchByIdFromServer = createAsyncThunk("client-getOne", async (thunkAPI, id) => {
+    const response =  await GetOne(id)
+    return response
 })
+
+// export const fetchAllFromServer=createAsyncThunk("client-getAllClient", async (thunkAPI) => {
+//     return await GetAll()
+// })
+// export const fetchByIdFromServer=createAsyncThunk("client-getClientById", async (id) => {
+//     return await GetOne()
+// })
 // const fetch3=createAsyncThunk("client-getClientById", async (client) => {
 // })
 // const fetch4=createAsyncThunk("client-updateClient", async (id, client) => {

@@ -1,5 +1,5 @@
 import { GetAll, GetOne} from './CleaningLadyAPI'
-const { createSlice, createAsyncThunk } = require("@reduxjs/toolkit")
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
 
 const cleaningLadyState = {
     allCleaningLadies: { ladies: [] },
@@ -8,11 +8,13 @@ const cleaningLadyState = {
 }
 
 export const fetchAllFromServer = createAsyncThunk('cleaningLady-getAll', async (thunkAPI) => {
-    return await GetAll()
+    const response =  await GetAll()
+    return response
 })
 
 export const fetchByIdFromServer = createAsyncThunk('cleaningLady-getOne', async (id) => {
-    return await GetOne(id)
+    const response =  await GetOne(id)
+    return response
 })
 
 // export const InsertForServer = createAsyncThunk('cleaningLady-insert',async(cleaningLady)=>{
@@ -47,14 +49,14 @@ export const cleaningLadySlice = createSlice({
             state.status = "pending"
         })
 
-            .addCase(fetchByIdFromServer.fulfilled, (state, action) => {
-                state.currentLady = action.payload
-                state.status = "success"
-            }).addCase(fetchByIdFromServer.rejected, (state, action) => {
-                state.status = "failed"
-            }).addCase(fetchByIdFromServer.pending, (state, action) => {
-                state.status = "pending"
-            })
+            // .addCase(fetchByIdFromServer.fulfilled, (state, action) => {
+            //     state.currentLady = action.payload
+            //     state.status = "success"
+            // }).addCase(fetchByIdFromServer.rejected, (state, action) => {
+            //     state.status = "failed"
+            // }).addCase(fetchByIdFromServer.pending, (state, action) => {
+            //     state.status = "pending"
+            // })
 
         // .addCase(Insert.fulfilled, (state, action) => {
         //     state.allCleaningLadies.ladies = action
