@@ -16,6 +16,9 @@ import MoreIcon from '@mui/icons-material/MoreVert';
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+import LoginIcon from '@mui/icons-material/Login';
+import InputIcon from '@mui/icons-material/Input';
+import PersonIcon from '@mui/icons-material/Person';
 
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
@@ -56,6 +59,17 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
         },
     },
 }));
+
+const StyledSelect = { 
+    m: 1,
+     minWidth: 120,
+     backgroundColor:'rgba(255, 255, 255, 0.176)',
+     borderRadius:'10px',
+     border:'solid none',
+     '&:hover': {
+        backgroundColor: 'rgba(255, 255, 255, 0.286)',
+    },
+    }
 
 const Navbar = (props) => {
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -100,15 +114,16 @@ const Navbar = (props) => {
         >
             <Link to='/Login' className='connect'>
                 <MenuItem onClick={handleMenuClose}>
-                    Login
+                    <LoginIcon sx={{fontSize:'medium'}}/>
+                    &nbsp;Log Out
                 </MenuItem>
             </Link>
             <Link to='/SignUp' className='connect'>
                 <MenuItem onClick={handleMenuClose}>
-                    Sing Up
+                    <InputIcon sx={{fontSize:'medium'}}/>
+                    &nbsp;Sing Up
                 </MenuItem>
             </Link>
-            <MenuItem onClick={handleMenuClose}>My account</MenuItem>
         </Menu>
     );
 
@@ -139,7 +154,9 @@ const Navbar = (props) => {
                 >
                     <AccountCircle />
                 </IconButton>
-                <p>My account</p>
+                <p>
+                    My account
+                </p>
             </MenuItem>
         </Menu>
     );
@@ -150,14 +167,6 @@ const Navbar = (props) => {
         setFilter(event.target.value);
     };
 
-    const ladies = [
-        { name: 'aaa' },
-        { name: 'aaa' },
-        { name: 'aaa' },
-        { name: 'aaa' },
-        { name: 'aaa' },
-        { name: 'aaa' }
-    ]
     return (
         <Box sx={{ flexGrow: 1 }}>
             <AppBar position="static">
@@ -188,7 +197,7 @@ const Navbar = (props) => {
                             inputProps={{ 'aria-label': 'search' }}
                         />
                     </Search>
-                    <FormControl sx={{ m: 1, minWidth: 120}} size="small">
+                    <FormControl sx={StyledSelect} size="small">
                         <InputLabel id="demo-select-small-label" sx={{color:"white"}}>Filter By</InputLabel>
                             <Select
                                 labelId="demo-select-small-label"

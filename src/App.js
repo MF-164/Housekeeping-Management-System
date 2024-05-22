@@ -4,7 +4,7 @@ import './App.css';
 import  Login  from './components/Login/Login';
 import SignUp from './components/SingUp/SignUp'
 import Home from './components/Home/Home'
-import Navbar from './components/Home/Navbar';
+import Navbar from './components/Navbar/Navbar';
 
 function App() {
   return (
