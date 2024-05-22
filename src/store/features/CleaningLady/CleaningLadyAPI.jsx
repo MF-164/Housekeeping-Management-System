@@ -12,8 +12,8 @@ export const GetOne = async (id) =>{
     return data
 }
 
-export const Insert=(cleaningLady)=>{
-     let {data} = axios.post('https://localhost:7218/api/CleaningLady/insert',{cleaningLady})
+export const Insert=async(cleaningLady)=>{
+     let {data} = await axios.post('https://localhost:7218/api/CleaningLady/insert',{cleaningLady})
     return data
 }
 
