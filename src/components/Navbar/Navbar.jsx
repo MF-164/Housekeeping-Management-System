@@ -16,6 +16,7 @@ import MoreIcon from '@mui/icons-material/MoreVert';
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+import LogoutIcon from '@mui/icons-material/Logout';
 import LoginIcon from '@mui/icons-material/Login';
 import InputIcon from '@mui/icons-material/Input';
 import PersonIcon from '@mui/icons-material/Person';
@@ -114,13 +115,13 @@ const Navbar = (props) => {
         >
             <Link to='/Login' className='connect'>
                 <MenuItem onClick={handleMenuClose}>
-                    <LoginIcon sx={{fontSize:'medium'}}/>
+                    <LogoutIcon sx={{fontSize:'medium'}}/>
                     &nbsp;Log Out
                 </MenuItem>
             </Link>
             <Link to='/SignUp' className='connect'>
                 <MenuItem onClick={handleMenuClose}>
-                    <InputIcon sx={{fontSize:'medium'}}/>
+                    <LoginIcon sx={{fontSize:'medium'}}/>
                     &nbsp;Sing Up
                 </MenuItem>
             </Link>
@@ -176,6 +177,7 @@ const Navbar = (props) => {
                         edge="start"
                         color="inherit"
                         aria-label="open drawer"
+                        onClick={handleMobileMenuOpen}
                         sx={{ mr: 2 }}
                     >
                         <MenuIcon />
