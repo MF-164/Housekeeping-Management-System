@@ -58,6 +58,66 @@ const Client = ({ client }) => {
     const handleDeleteClient = (id) => {
     //dis(id)//מחיקה מהרידקס ומהsql
     }
+    const [showPassword, setShowPassword] = useState(false);
+    const handleClickShowPassword = () => setShowPassword((show) => !show);
+    const [phoneFlag, setPhoneFlag] = useState(false);
+    const [phoneFlag2, setPhoneFlag2] = useState(false);
+    //const [idFlag, setIdFlag] = useState(false);
+
+
+    const handleMouseDownPassword = (event) => {
+        event.preventDefault();
+    };
+    const handleBlurPhone = (e) => {
+        const tel = e.target.value
+        if (tel.length === 10 || tel.length === 9) {
+            e.target.value = tel
+            setPhoneFlag2(false)
+        }
+        else {
+            setPhoneFlag2(true)
+        }
+
+
+
+    }
+    const handleChangePhone = (e) => {
+        const tel = e.target.value
+
+        if (tel.charAt(tel.length - 1) > '9' || tel.charAt(tel.length - 1) < '0' || tel.length > 10) {
+            e.target.value = tel.slice(0, tel.length - 1)
+            setPhoneFlag(true)
+        }
+        else {
+            e.target.value = tel
+            setPhoneFlag(false)
+        }
+        setPhoneFlag2(false)
+    }
+    const handleChangeID = (event) => {
+        const id = event.target.value;
+
+        if (id.charAt(id.length - 1) > '9' || id.charAt(id.length - 1) < '0') {
+            event.target.value = id.slice(0, id.length - 1);
+        }
+        if (id.length > 9) {
+            event.target.value = id.slice(0, 9);
+        }
+    };
+    const handleChangeHouseNumber = (e) => {
+        const num = e.target.value
+        if (num.charAt(num.length - 1) > '9' || num.charAt(num.length - 1) < '0' || num.length > 2)
+            e.target.value = num.slice(0, num.length - 1)
+    }
+    const handleChangeCity = (e) => {
+        const city = e.target.value;
+
+        if (!((city.charAt(city.length - 1) >= 'a' && city.charAt(city.length - 1) <= 'z') ||
+            (city.charAt(city.length - 1) >= 'A' && city.charAt(city.length - 1) <= 'Z') || (city.charAt(city.length - 1) === ' ')))
+            e.target.value = city.slice(0, city.length - 1)
+
+    }
+
     return (
         <Card sx={{ width: 1000 }}>
             <CardHeader sx={{ width: 200 }}
@@ -114,7 +174,7 @@ const Client = ({ client }) => {
           <CloseIcon />
         </IconButton>
         <DialogContent dividers>
-          <Typography gutterBottom>
+          {/* <Typography gutterBottom>
             Praesent commodo cursus magna, vel scelerisque nisl consectetur et.
             Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.
           </Typography>
@@ -122,7 +182,99 @@ const Client = ({ client }) => {
             Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus
             magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec
             ullamcorper nulla non metus auctor fringilla.
-          </Typography>
+          </Typography> */}
+          <TextField
+                    id="input-with-sx"
+                    label="UserID"
+                    variant="standard"
+                    onChange={handleChangeID}
+                    InputProps={{
+                        endAdornment: (
+                            <FingerprintOutlinedIcon sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
+                        ),
+                    }}
+                />
+
+                <TextField
+                    id="input-with-sx"
+                    label="Username"
+                    variant="standard"
+                    onChange={handleChangeCity}
+                    InputProps={{
+                        endAdornment: (
+                            <PersonIcon sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
+                        ),
+                    }}
+                />
+
+                <FormControl sx={{ m: 1, width: '25ch' }} variant="standard">
+                    <InputLabel htmlFor="standard-adornment-password">Password</InputLabel>
+                    <Input
+                        id="standard-adornment-password"
+                        type={showPassword ? 'text' : 'password'}
+                        endAdornment={
+                            <InputAdornment position="end">
+                                <IconButton
+                                    aria-label="toggle password visibility"
+                                    onClick={handleClickShowPassword}
+                                    onMouseDown={handleMouseDownPassword}
+                                >
+                                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                                </IconButton>
+                            </InputAdornment>
+                        }
+                    />
+                </FormControl>
+
+                <TextField
+                    id="input-with-sx"
+                    label="Phone"
+                    variant="standard"
+                    onChange={handleChangePhone}
+                    onBlur={handleBlurPhone}
+                    InputProps={{
+                        endAdornment: (
+                            <LocalPhoneOutlinedIcon sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
+                        ),
+                    }}
+                />
+                {phoneFlag && <Alert severity="error">phone contains just numbers!</Alert>}
+                {phoneFlag2 && <Alert severity="warning">Invalid phone number!</Alert>}
+
+                <TextField
+                    id="input-with-sx"
+                    label="City"
+                    variant="standard"
+                    onChange={handleChangeCity}
+                    InputProps={{
+                        endAdornment: (
+                            <LocationCityOutlinedIcon sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
+                        ),
+                    }}
+                />
+
+                <TextField
+                    id="input-with-sx"
+                    label="Address"
+                    variant="standard"
+                    InputProps={{
+                        endAdornment: (
+                            <HomeWorkOutlinedIcon sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
+                        ),
+                    }}
+                />
+
+                <TextField
+                    id="input-with-sx"
+                    label="HouseNumber"
+                    variant="standard"
+                    onChange={handleChangeHouseNumber}
+                    InputProps={{
+                        endAdornment: (
+                            <HouseOutlinedIcon sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
+                        ),
+                    }}
+                />
         </DialogContent>
         <DialogActions>
           <Button autoFocus onClick={handleClose}>
