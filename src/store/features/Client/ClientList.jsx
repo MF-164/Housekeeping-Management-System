@@ -13,6 +13,7 @@ import { useState } from "react";
 import Dialog from '@mui/material/Dialog';
 import { styled } from '@mui/material/styles';
 import Input from '@mui/material/Input';
+import FingerprintOutlinedIcon from '@mui/icons-material/FingerprintOutlined';
 import InputLabel from '@mui/material/InputLabel';
 import InputAdornment from '@mui/material/InputAdornment';
 import FormControl from '@mui/material/FormControl';
@@ -28,6 +29,8 @@ import Button from '@mui/material/Button';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogActions from '@mui/material/DialogActions';
 import CloseIcon from '@mui/icons-material/Close';
+import { useDispatch } from 'react-redux'
+import {fetch3} from './clientSlice'
 const ClientList = ({ allClients }) => {
     //const allClients=useSelector(store.)
     const [open, setOpen] = React.useState(false);
@@ -37,6 +40,7 @@ const ClientList = ({ allClients }) => {
     const [houseNumber, setHouseNumber] = useState(false);
     let newClient = {}
 
+    const dis = useDispatch();
     const handleClickShowPassword = () => setShowPassword((show) => !show);
     const handleClickOpen = () => {
         setOpen(true);
@@ -49,6 +53,7 @@ const ClientList = ({ allClients }) => {
         if (tel.length === 10 || tel.length === 9) {
             e.target.value = tel
             setPhoneFlag2(false)
+            newClient.phone(tel)
         }
         else {
             setPhoneFlag2(true)
@@ -90,7 +95,8 @@ const ClientList = ({ allClients }) => {
     };
     const handleCloseWithSave = () => {
         setOpen(false)
-
+        console.log(newClient);
+        dis(fetch3(newClient))
         alert('save data')
     }
     const handleChangeID = (event) => {
@@ -103,6 +109,26 @@ const ClientList = ({ allClients }) => {
             event.target.value = id.slice(0, 9);
         }
     };
+    const saveId = (e) => {
+        newClient.id = e.target.value
+    }
+    const saveName = (e) => {
+        newClient.name = e.target.value
+    }
+    const savePasword = (e) => {
+        newClient.password = e.target.value
+    }
+    const saveCity = (e) => {
+        newClient.city = e.target.value
+    }
+    const saveAddress = (e) => {
+        newClient.address = e.target.value
+    }
+    const savehouseNum = (e) => {
+        newClient.houseNumber = e.target.value
+    }
+
+
     const BootstrapDialog = styled(Dialog)(({ theme }) => ({
         '& .MuiDialogContent-root': {
             padding: theme.spacing(2),
@@ -162,18 +188,20 @@ const ClientList = ({ allClients }) => {
                                             label="UserID"
                                             variant="standard"
                                             onChange={handleChangeID}
+                                            onBlur={(e) => saveId(e)}
                                             InputProps={{
                                                 endAdornment: (
                                                     <FingerprintOutlinedIcon sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
                                                 ),
                                             }}
                                         />
-
+                                        <br />
                                         <TextField
                                             id="input-with-sx"
                                             label="Username"
                                             variant="standard"
                                             onChange={handleChangeCity}
+                                            onBlur={(e) => saveName(e)}
                                             InputProps={{
                                                 endAdornment: (
                                                     <PersonIcon sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
@@ -198,6 +226,7 @@ const ClientList = ({ allClients }) => {
                                                         </IconButton>
                                                     </InputAdornment>
                                                 }
+                                                onBlur={(e) => savePasword(e)}
                                             />
                                         </FormControl>
                                         <br />
@@ -206,7 +235,8 @@ const ClientList = ({ allClients }) => {
                                             label="Phone"
                                             variant="standard"
                                             onChange={handleChangePhone}
-                                            onBlur={handleBlurPhone}
+                                            onBlur={(e) => handleBlurPhone(e)}
+
                                             InputProps={{
                                                 endAdornment: (
                                                     <LocalPhoneOutlinedIcon sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
@@ -222,6 +252,7 @@ const ClientList = ({ allClients }) => {
                                             label="City"
                                             variant="standard"
                                             onChange={handleChangeCity}
+                                            onBlur={(e) => saveCity(e)}
                                             InputProps={{
                                                 endAdornment: (
                                                     <LocationCityOutlinedIcon sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
@@ -234,6 +265,7 @@ const ClientList = ({ allClients }) => {
                                             id="input-with-sx"
                                             label="Address"
                                             variant="standard"
+                                            onBlur={(e) => saveAddress(e)}
                                             InputProps={{
                                                 endAdornment: (
                                                     <HomeWorkOutlinedIcon sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
@@ -246,6 +278,7 @@ const ClientList = ({ allClients }) => {
                                             label="HouseNumber"
                                             variant="standard"
                                             onChange={handleChangeHouseNumber}
+                                            onBlur={(e) => savehouseNum(e)}
                                             InputProps={{
                                                 endAdornment: (
                                                     <HouseOutlinedIcon sx={{ color: 'action.active', mr: 1, my: 0.5 }} />

@@ -1,4 +1,4 @@
-import { GetAll, GetOne} from './ClientAPI'
+import { GetAll, GetOne, Insert} from './ClientAPI'
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
 
 const clientState = {
@@ -23,8 +23,10 @@ export const fetchByIdFromServer = createAsyncThunk("client-getOne", async (thun
 // export const fetchByIdFromServer=createAsyncThunk("client-getClientById", async (id) => {
 //     return await GetOne()
 // })
-// const fetch3=createAsyncThunk("client-getClientById", async (client) => {
-// })
+export const fetch3=createAsyncThunk("client-insert", async (thunkAPI,client) => {
+    const response = await Insert(client)
+    return response
+})
 // const fetch4=createAsyncThunk("client-updateClient", async (id, client) => {
 // })
 // const fetch5=createAsyncThunk("client-deleteClient", async (id) => {
@@ -70,6 +72,15 @@ export const clientSlice = createSlice({
         }).addCase(fetchByIdFromServer.rejected, (state, action) => {
             state.status = "failed"
         }).addCase(fetchByIdFromServer.pending, (state, action) => {
+            state.status = "pending"
+        })
+
+        .addCase(fetch3.fulfilled, (state, action) => {
+            state.allClients.clients = [...state.allClients.clients, action.payload]
+            state.status = "success"
+        }).addCase(fetch3.rejected, (state, action) => {
+            state.status = "failed"
+        }).addCase(fetch3.pending, (state, action) => {
             state.status = "pending"
         })
     }

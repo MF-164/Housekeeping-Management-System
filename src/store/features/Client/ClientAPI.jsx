@@ -11,9 +11,10 @@ export const GetOne = (id) => {
     return data
 }
 
-// export const Insert = (client) => {
-//     return { data } = axios.post('https://localhost:7218/api/Client/insert', { client })
-// }
+export const Insert = (client) => {
+    const { data } = axios.post('https://localhost:7218/api/Client/insert', { client })
+    return data
+}
 
 // export const Update = (id, client) => {
 //     let url = 'https://localhost:7218/api/Client/update/' + id
