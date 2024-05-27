@@ -6,17 +6,16 @@ import HomeWorkOutlinedIcon from '@mui/icons-material/HomeWorkOutlined';
 import HouseOutlinedIcon from '@mui/icons-material/HouseOutlined';
 import LocalPhoneOutlinedIcon from '@mui/icons-material/LocalPhoneOutlined';
 import FingerprintOutlinedIcon from '@mui/icons-material/FingerprintOutlined';
-
+import React from 'react';
 import Input from '@mui/material/Input';
 import InputLabel from '@mui/material/InputLabel';
 import InputAdornment from '@mui/material/InputAdornment';
 import FormControl from '@mui/material/FormControl';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
 import Alert from '@mui/material/Alert';
-
-import * as React from 'react';
 import { styled } from '@mui/material/styles';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
@@ -28,18 +27,17 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import { blue } from '@mui/material/colors';
 import Button from '@mui/material/Button';
-
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
-import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import CloseIcon from '@mui/icons-material/Close';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import EditNoteIcon from '@mui/icons-material/EditNote';
-// import ShareIcon from '@mui/icons-material/Share';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-// import MoreVertIcon from '@mui/icons-material/MoreVert';
+
+
+
 
 const ExpandMore = styled((props) => {
     const { expand, ...other } = props;
@@ -53,34 +51,39 @@ const ExpandMore = styled((props) => {
 }));
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     '& .MuiDialogContent-root': {
-      padding: theme.spacing(2),
+        padding: theme.spacing(2),
     },
     '& .MuiDialogActions-root': {
-      padding: theme.spacing(1),
+        padding: theme.spacing(1),
     },
-  }));
+}));
 const Client = ({ client }) => {
     const [expanded, setExpanded] = React.useState(false);
     const [open, setOpen] = React.useState(false);
+    const [showPassword, setShowPassword] = useState(false);
+    const [phoneFlag, setPhoneFlag] = useState(false);
+    const [phoneFlag2, setPhoneFlag2] = useState(false);
+    const [houseNumber,setHouseNumber] = useState(false);
 
+    const handleClickShowPassword = () => setShowPassword((show) => !show);
     const handleClickOpen = () => {
-      setOpen(true);
+        setOpen(true);
     };
     const handleClose = () => {
-      setOpen(false);
+        setOpen(false);
     };
+    const handleCloseWithSave =()=>{
+        setOpen(false)
+        alert('save data')
+    }
 
     const handleExpandClick = () => {
         setExpanded(!expanded);
     };
     const handleDeleteClient = (id) => {
-    //dis(id)//מחיקה מהרידקס ומהsql
+        //dis(id)//מחיקה מהרידקס ומהsql
     }
-    const [showPassword, setShowPassword] = useState(false);
-    const handleClickShowPassword = () => setShowPassword((show) => !show);
-    const [phoneFlag, setPhoneFlag] = useState(false);
-    const [phoneFlag2, setPhoneFlag2] = useState(false);
-    //const [idFlag, setIdFlag] = useState(false);
+
 
 
     const handleMouseDownPassword = (event) => {
@@ -95,9 +98,6 @@ const Client = ({ client }) => {
         else {
             setPhoneFlag2(true)
         }
-
-
-
     }
     const handleChangePhone = (e) => {
         const tel = e.target.value
@@ -112,20 +112,15 @@ const Client = ({ client }) => {
         }
         setPhoneFlag2(false)
     }
-    const handleChangeID = (event) => {
-        const id = event.target.value;
-
-        if (id.charAt(id.length - 1) > '9' || id.charAt(id.length - 1) < '0') {
-            event.target.value = id.slice(0, id.length - 1);
-        }
-        if (id.length > 9) {
-            event.target.value = id.slice(0, 9);
-        }
-    };
+    
     const handleChangeHouseNumber = (e) => {
+        setHouseNumber(false)
         const num = e.target.value
-        if (num.charAt(num.length - 1) > '9' || num.charAt(num.length - 1) < '0' || num.length > 2)
+        if (num.charAt(num.length - 1) > '9' || num.charAt(num.length - 1) < '0' || num.length > 2){
             e.target.value = num.slice(0, num.length - 1)
+            setHouseNumber(true)
+        }
+            
     }
     const handleChangeCity = (e) => {
         const city = e.target.value;
@@ -140,7 +135,7 @@ const Client = ({ client }) => {
         <Card sx={{ width: 1000 }}>
             <CardHeader sx={{ width: 200 }}
                 avatar={
-                    <Avatar sx={{ bgcolor: blue[500], fontFamily: 'Century' }} aria-label="recipe">
+                    <Avatar sx={{ bgcolor: blue[500], fontFamily: 'Arial Black' }} aria-label="recipe">
                         {client.Name?.charAt(0)}
                     </Avatar>
                 }
@@ -163,143 +158,143 @@ const Client = ({ client }) => {
                     <DeleteForeverIcon sx={{ fontSize: 'xx-large' }} />
                 </IconButton>
 
-                {/* <IconButton aria-label="update one" className='update'>
-                    <EditNoteIcon sx={{ fontSize: 'xx-large' }} />
-                </IconButton> */}
+                <React.Fragment>
+                    <Button variant="none" onClick={handleClickOpen}>
+                        <EditNoteIcon sx={{ fontSize: 'xx-large' }} />
+                    </Button>
+                    <div className='around'>
+                        <div className='contant'>
+                            <BootstrapDialog
+                                onClose={handleClose}
+                                aria-labelledby="customized-dialog-title"
+                                open={open}
 
-<React.Fragment>
-      <Button variant="none" onClick={handleClickOpen}>
-      <EditNoteIcon sx={{ fontSize: 'xx-large' }} />
-      </Button>
-      <BootstrapDialog
-        onClose={handleClose}
-        aria-labelledby="customized-dialog-title"
-        open={open}
+                            >
+                                <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
+                                    Edit
+                                </DialogTitle>
 
-      >
-        <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
-        Edit
-        </DialogTitle>
-        <IconButton
-          aria-label="close"
-          onClick={handleClose}
-          sx={{
-            position: 'absolute',
-            right: 8,
-            top: 8,
-            color: (theme) => theme.palette.grey[500],
-          }}
-        >
-          <CloseIcon />
-        </IconButton>
-       
-          <TextField
-                    id="input-with-sx"
-                    label="UserID"
-                    value={client.Id}
-                    variant="standard"
-                    onChange={handleChangeID}
-                    InputProps={{
-                        endAdornment: (
-                            <FingerprintOutlinedIcon sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
-                        ),
-                    }}
-                />
-
-                <TextField
-                    id="input-with-sx"
-                    label="Username"
-                    variant="standard"
-                    value={client.Name}
-                    onChange={handleChangeCity}
-                    InputProps={{
-                        endAdornment: (
-                            <PersonIcon sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
-                        ),
-                    }}
-                />
-
-                <FormControl sx={{ m: 1, width: '25ch' }} variant="standard">
-                    <InputLabel htmlFor="standard-adornment-password">Password</InputLabel>
-                    <Input
-                        id="standard-adornment-password"
-                        type={showPassword ? 'text' : 'password'}
-                        value={client.Password}
-                        endAdornment={
-                            <InputAdornment position="end">
                                 <IconButton
-                                    aria-label="toggle password visibility"
-                                    onClick={handleClickShowPassword}
-                                    onMouseDown={handleMouseDownPassword}
+                                    aria-label="close"
+                                    onClick={handleClose}
+                                    sx={{
+                                        position: 'absolute',
+                                        right: 8,
+                                        top: 8,
+                                        color: (theme) => theme.palette.grey[500],
+                                    }}
                                 >
-                                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                                    <CloseIcon />
                                 </IconButton>
-                            </InputAdornment>
-                        }
-                    />
-                </FormControl>
+                                <DialogContent >
+                                    <DialogContentText id="alert-dialog-slide-description" sx={{ display: 'block' }}>   
+                                        <br />
 
-                <TextField
-                    id="input-with-sx"
-                    label="Phone"
-                    variant="standard"
-                    value={client.Phone}
-                    onChange={handleChangePhone}
-                    onBlur={handleBlurPhone}
-                    InputProps={{
-                        endAdornment: (
-                            <LocalPhoneOutlinedIcon sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
-                        ),
-                    }}
-                />
-                {phoneFlag && <Alert severity="error">phone contains just numbers!</Alert>}
-                {phoneFlag2 && <Alert severity="warning">Invalid phone number!</Alert>}
+                                        <TextField
+                                            id="input-with-sx"
+                                            label="Username"
+                                            variant="standard"
+                                            defaultValue={client.Name}
+                                            onChange={handleChangeCity}
+                                            InputProps={{
+                                                endAdornment: (
+                                                    <PersonIcon sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
+                                                ),
+                                            }}
+                                        />
+                                        <br />
 
-                <TextField
-                    id="input-with-sx"
-                    label="City"
-                    variant="standard"
-                    value={client.City}
-                    onChange={handleChangeCity}
-                    InputProps={{
-                        endAdornment: (
-                            <LocationCityOutlinedIcon sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
-                        ),
-                    }}
-                />
+                                        <FormControl sx={{ m: 1, width: '25ch' }} variant="standard">
+                                            <InputLabel htmlFor="standard-adornment-password">Password</InputLabel>
+                                            <Input
+                                                id="standard-adornment-password"
+                                                type={showPassword ? 'text' : 'password'}
+                                                defaultValue={client.Password}
+                                                endAdornment={
+                                                    <InputAdornment position="end">
+                                                        <IconButton
+                                                            aria-label="toggle password visibility"
+                                                            onClick={handleClickShowPassword}
+                                                            onMouseDown={handleMouseDownPassword}
+                                                        >
+                                                            {showPassword ? <VisibilityOff /> : <Visibility />}
+                                                        </IconButton>
+                                                    </InputAdornment>
+                                                }
+                                            />
+                                        </FormControl>
+                                        <br />
+                                        <TextField
+                                            id="input-with-sx"
+                                            label="Phone"
+                                            variant="standard"
+                                            defaultValue={client.Phone}
+                                            onChange={handleChangePhone}
+                                            onBlur={handleBlurPhone}
+                                            InputProps={{
+                                                endAdornment: (
+                                                    <LocalPhoneOutlinedIcon sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
+                                                ),
+                                            }}
+                                        />
+                                        <br />
+                                        {phoneFlag && <Alert severity="error">phone contains just numbers!</Alert>}
+                                        {phoneFlag2 && <Alert severity="warning">Invalid phone number!</Alert>}
 
-                <TextField
-                    id="input-with-sx"
-                    label="Address"
-                    variant="standard"
-                    value={client.Address}
-                    InputProps={{
-                        endAdornment: (
-                            <HomeWorkOutlinedIcon sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
-                        ),
-                    }}
-                />
+                                        <TextField
+                                            id="input-with-sx"
+                                            label="City"
+                                            variant="standard"
+                                            defaultValue={client.City}
+                                            onChange={handleChangeCity}
+                                            InputProps={{
+                                                endAdornment: (
+                                                    <LocationCityOutlinedIcon sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
+                                                ),
+                                            }}
+                                        />
+                                        <br />
 
-                <TextField
-                    id="input-with-sx"
-                    label="HouseNumber"
-                    variant="standard"
-                    value={client.HouseNumber}
-                    onChange={handleChangeHouseNumber}
-                    InputProps={{
-                        endAdornment: (
-                            <HouseOutlinedIcon sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
-                        ),
-                    }}
-                />
-        
-        <DialogActions    sx={{width:'500px'}}>
-          <Button autoFocus onClick={handleClose}>
-            Save changes
-          </Button>
-        </DialogActions>
-      </BootstrapDialog>
-    </React.Fragment>
+                                        <TextField
+                                            id="input-with-sx"
+                                            label="Address"
+                                            variant="standard"
+                                            defaultValue={client.Address}
+                                            InputProps={{
+                                                endAdornment: (
+                                                    <HomeWorkOutlinedIcon sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
+                                                ),
+                                            }}
+                                        />
+                                        <br />
+                                        <TextField
+                                            id="input-with-sx"
+                                            label="HouseNumber"
+                                            variant="standard"
+                                            defaultValue={client.HouseNumber}
+                                            onChange={handleChangeHouseNumber}
+                                            InputProps={{
+                                                endAdornment: (
+                                                    <HouseOutlinedIcon sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
+                                                ),
+                                            }}
+                                        />
+                                        {houseNumber && <Alert severity="error">you type uncorrect tav</Alert>}
+                                        <br />
+                                    </DialogContentText>
+                                </DialogContent>
+
+
+
+                                <DialogActions sx={{ width: '150px' }}>
+                                    <Button autoFocus onClick={handleCloseWithSave}>
+                                        Save changes
+                                    </Button>
+                                </DialogActions>
+                            </BootstrapDialog>
+                        </div>
+                    </div>
+                </React.Fragment>
 
                 <ExpandMore
                     expand={expanded}

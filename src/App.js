@@ -26,8 +26,8 @@ const allCleaningLadies = [{ Id: 22, FirstName: 'Alona', LastName: 'Yev', Phone:
      <ClientList allClients={allClienst}></ClientList>
      {/* <CleaningLady cleaningLady={cleaningLady}></CleaningLady> */}
      {/* <CleaningLadyList allCleaningLadies={allCleaningLadies}></CleaningLadyList> */}
-     <CleaningLady cleaningLady={cleaningLady}></CleaningLady>
-     <Home/>
+     {/* <CleaningLady cleaningLady={cleaningLady}></CleaningLady> */}
+  
     </div>
   );
 }
