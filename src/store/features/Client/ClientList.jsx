@@ -1,9 +1,8 @@
-
 import Client from "./Client";
 import List from '@mui/material/List';
 import './ClientStyle.scss'
 import TextField from '@mui/material/TextField';
-import PersonIcon  from '@mui/icons-material/Person';
+import PersonIcon from '@mui/icons-material/Person';
 import LocationCityOutlinedIcon from '@mui/icons-material/LocationCityOutlined';
 import HomeWorkOutlinedIcon from '@mui/icons-material/HomeWorkOutlined';
 import HouseOutlinedIcon from '@mui/icons-material/HouseOutlined';
@@ -36,6 +35,7 @@ const ClientList = ({ allClients }) => {
     const [phoneFlag, setPhoneFlag] = useState(false);
     const [phoneFlag2, setPhoneFlag2] = useState(false);
     const [houseNumber, setHouseNumber] = useState(false);
+    let newClient = {}
 
     const handleClickShowPassword = () => setShowPassword((show) => !show);
     const handleClickOpen = () => {
@@ -90,12 +90,10 @@ const ClientList = ({ allClients }) => {
     };
     const handleCloseWithSave = () => {
         setOpen(false)
+
         alert('save data')
     }
 
-    const addClient = () => {
-
-    }
     const BootstrapDialog = styled(Dialog)(({ theme }) => ({
         '& .MuiDialogContent-root': {
             padding: theme.spacing(2),
@@ -119,7 +117,7 @@ const ClientList = ({ allClients }) => {
 
                 <React.Fragment>
                     <Button variant="none" onClick={handleClickOpen}>
-                        <Avatar onClick={addClient} sx={{ bgcolor: blue[500], fontFamily: 'Century', height: '80px', width: '80px', boxShadow: 'gray 3px 4px 8px 1px' }} title="add client" aria-label="recipe">
+                        <Avatar sx={{ bgcolor: blue[500], fontFamily: 'Century', height: '80px', width: '80px', boxShadow: 'gray 3px 4px 8px 1px' }} title="add client" aria-label="recipe">
                             <AddIcon sx={{ fontSize: 'xxx-large' }} />
                         </Avatar>
                     </Button>
@@ -150,7 +148,17 @@ const ClientList = ({ allClients }) => {
                                 <DialogContent >
                                     <DialogContentText id="alert-dialog-slide-description" sx={{ display: 'block' }}>
                                         <br />
-
+                                        <TextField
+                                            id="input-with-sx"
+                                            label="UserId"
+                                            variant="standard"
+                                            onChange={handleChangeCity}
+                                            InputProps={{
+                                                endAdornment: (
+                                                    <PersonIcon sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
+                                                ),
+                                            }}
+                                        />
                                         <TextField
                                             id="input-with-sx"
                                             label="Username"

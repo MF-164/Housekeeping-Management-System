@@ -74,7 +74,6 @@ const Client = ({ client }) => {
     };
     const handleCloseWithSave =()=>{
         setOpen(false)
-        alert('save data')
     }
 
     const handleExpandClick = () => {
