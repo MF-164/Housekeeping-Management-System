@@ -93,7 +93,16 @@ const ClientList = ({ allClients }) => {
 
         alert('save data')
     }
+    const handleChangeID = (event) => {
+        const id = event.target.value;
 
+        if (id.charAt(id.length - 1) > '9' || id.charAt(id.length - 1) < '0') {
+            event.target.value = id.slice(0, id.length - 1);
+        }
+        if (id.length > 9) {
+            event.target.value = id.slice(0, 9);
+        }
+    };
     const BootstrapDialog = styled(Dialog)(({ theme }) => ({
         '& .MuiDialogContent-root': {
             padding: theme.spacing(2),
@@ -150,15 +159,16 @@ const ClientList = ({ allClients }) => {
                                         <br />
                                         <TextField
                                             id="input-with-sx"
-                                            label="UserId"
+                                            label="UserID"
                                             variant="standard"
-                                            onChange={handleChangeCity}
+                                            onChange={handleChangeID}
                                             InputProps={{
                                                 endAdornment: (
-                                                    <PersonIcon sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
+                                                    <FingerprintOutlinedIcon sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
                                                 ),
                                             }}
                                         />
+
                                         <TextField
                                             id="input-with-sx"
                                             label="Username"
