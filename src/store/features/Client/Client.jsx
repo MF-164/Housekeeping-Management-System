@@ -1,3 +1,21 @@
+import { useState } from 'react';
+import TextField from '@mui/material/TextField';
+import PersonIcon from '@mui/icons-material/Person';
+import LocationCityOutlinedIcon from '@mui/icons-material/LocationCityOutlined';
+import HomeWorkOutlinedIcon from '@mui/icons-material/HomeWorkOutlined';
+import HouseOutlinedIcon from '@mui/icons-material/HouseOutlined';
+import LocalPhoneOutlinedIcon from '@mui/icons-material/LocalPhoneOutlined';
+import FingerprintOutlinedIcon from '@mui/icons-material/FingerprintOutlined';
+
+import Input from '@mui/material/Input';
+import InputLabel from '@mui/material/InputLabel';
+import InputAdornment from '@mui/material/InputAdornment';
+import FormControl from '@mui/material/FormControl';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
+
+import Alert from '@mui/material/Alert';
+
 import * as React from 'react';
 import { styled } from '@mui/material/styles';
 import Card from '@mui/material/Card';
@@ -157,9 +175,10 @@ const Client = ({ client }) => {
         onClose={handleClose}
         aria-labelledby="customized-dialog-title"
         open={open}
+
       >
         <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
-         {client.className}
+        Edit
         </DialogTitle>
         <IconButton
           aria-label="close"
@@ -173,19 +192,11 @@ const Client = ({ client }) => {
         >
           <CloseIcon />
         </IconButton>
-        <DialogContent dividers>
-          {/* <Typography gutterBottom>
-            Praesent commodo cursus magna, vel scelerisque nisl consectetur et.
-            Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.
-          </Typography>
-          <Typography gutterBottom>
-            Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus
-            magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec
-            ullamcorper nulla non metus auctor fringilla.
-          </Typography> */}
+       
           <TextField
                     id="input-with-sx"
                     label="UserID"
+                    value={client.Id}
                     variant="standard"
                     onChange={handleChangeID}
                     InputProps={{
@@ -199,6 +210,7 @@ const Client = ({ client }) => {
                     id="input-with-sx"
                     label="Username"
                     variant="standard"
+                    value={client.Name}
                     onChange={handleChangeCity}
                     InputProps={{
                         endAdornment: (
@@ -212,6 +224,7 @@ const Client = ({ client }) => {
                     <Input
                         id="standard-adornment-password"
                         type={showPassword ? 'text' : 'password'}
+                        value={client.Password}
                         endAdornment={
                             <InputAdornment position="end">
                                 <IconButton
@@ -230,6 +243,7 @@ const Client = ({ client }) => {
                     id="input-with-sx"
                     label="Phone"
                     variant="standard"
+                    value={client.Phone}
                     onChange={handleChangePhone}
                     onBlur={handleBlurPhone}
                     InputProps={{
@@ -245,6 +259,7 @@ const Client = ({ client }) => {
                     id="input-with-sx"
                     label="City"
                     variant="standard"
+                    value={client.City}
                     onChange={handleChangeCity}
                     InputProps={{
                         endAdornment: (
@@ -257,6 +272,7 @@ const Client = ({ client }) => {
                     id="input-with-sx"
                     label="Address"
                     variant="standard"
+                    value={client.Address}
                     InputProps={{
                         endAdornment: (
                             <HomeWorkOutlinedIcon sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
@@ -268,6 +284,7 @@ const Client = ({ client }) => {
                     id="input-with-sx"
                     label="HouseNumber"
                     variant="standard"
+                    value={client.HouseNumber}
                     onChange={handleChangeHouseNumber}
                     InputProps={{
                         endAdornment: (
@@ -275,8 +292,8 @@ const Client = ({ client }) => {
                         ),
                     }}
                 />
-        </DialogContent>
-        <DialogActions>
+        
+        <DialogActions    sx={{width:'500px'}}>
           <Button autoFocus onClick={handleClose}>
             Save changes
           </Button>
