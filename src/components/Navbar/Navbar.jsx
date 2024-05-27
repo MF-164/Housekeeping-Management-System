@@ -18,9 +18,8 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import LogoutIcon from '@mui/icons-material/Logout';
 import LoginIcon from '@mui/icons-material/Login';
-import InputIcon from '@mui/icons-material/Input';
 import PersonIcon from '@mui/icons-material/Person';
-
+import './Navbar.scss'
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
     borderRadius: theme.shape.borderRadius,
@@ -61,18 +60,18 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     },
 }));
 
-const StyledSelect = { 
+const StyledSelect = {
     m: 1,
-     minWidth: 120,
-     backgroundColor:'rgba(255, 255, 255, 0.176)',
-     borderRadius:'10px',
-     border:'solid none',
-     '&:hover': {
+    minWidth: 120,
+    backgroundColor: 'rgba(255, 255, 255, 0.176)',
+    borderRadius: '10px',
+    border: 'solid none',
+    '&:hover': {
         backgroundColor: 'rgba(255, 255, 255, 0.286)',
     },
-    }
+}
 
-const Navbar = (props) => {
+const Navbar = ({ currentClient, list }) => {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
@@ -115,13 +114,13 @@ const Navbar = (props) => {
         >
             <Link to='/Login' className='connect'>
                 <MenuItem onClick={handleMenuClose}>
-                    <LogoutIcon sx={{fontSize:'medium'}}/>
+                    <LogoutIcon sx={{ fontSize: 'medium' }} />
                     &nbsp;Log Out
                 </MenuItem>
             </Link>
             <Link to='/SignUp' className='connect'>
                 <MenuItem onClick={handleMenuClose}>
-                    <LoginIcon sx={{fontSize:'medium'}}/>
+                    <LoginIcon sx={{ fontSize: 'medium' }} />
                     &nbsp;Sing Up
                 </MenuItem>
             </Link>
@@ -162,51 +161,101 @@ const Navbar = (props) => {
         </Menu>
     );
 
-    const [filter, setFilter] = React.useState('');
+    // menu
 
+    const [anchorEl1, setAnchorEl1] = React.useState(null);
+    const open = Boolean(anchorEl1);
+    const handleClick = (event) => {
+        setAnchorEl1(event.currentTarget);
+    };
+    const handleClose = () => {
+        setAnchorEl1(null);
+    };
+
+    //search 
+
+    const [filter, setFilter] = React.useState('');
     const handleChange = (event) => {
         setFilter(event.target.value);
     };
 
+
+
+    const handleChangeSearch = (e) => {
+        let temp = list
+        if (filter === 'name')
+            temp = list.filter(lady => (lady?.FirstName + ' ' + lady?.LastName).includes(e.value))
+        else if (filter === 'city')
+            temp = list.filter(lady => lady?.City.includes(e.value))
+        // TODO:send 'temp' to update list!
+    }
+
     return (
-        <Box sx={{ flexGrow: 1 }}>
-            <AppBar position="static">
-                <Toolbar>
-                    <IconButton
-                        size="large"
-                        edge="start"
-                        color="inherit"
-                        aria-label="open drawer"
-                        onClick={handleMobileMenuOpen}
-                        sx={{ mr: 2 }}
-                    >
-                        <MenuIcon />
-                    </IconButton>
-                    <Typography
-                        variant="h6"
-                        noWrap
-                        component="div"
-                        sx={{ display: { xs: 'none', sm: 'block' } }}
-                    >
-                        {props.title}
-                    </Typography>
-                    <Search>
-                        <SearchIconWrapper>
-                            <SearchIcon />
-                        </SearchIconWrapper>
-                        <StyledInputBase
-                            placeholder="Search…"
-                            inputProps={{ 'aria-label': 'search' }}
-                        />
-                    </Search>
-                    <FormControl sx={StyledSelect} size="small">
-                        <InputLabel id="demo-select-small-label" sx={{color:"white"}}>Filter By</InputLabel>
+        <div className='navbar'>
+            <Box sx={{ flexGrow: 1 }}>
+                <AppBar position="static">
+                    <Toolbar>
+                        <div>
+                            <IconButton
+                                size="large"
+                                edge="start"
+                                color="inherit"
+                                aria-label="open drawer"
+                                onClick={handleClick}
+                                sx={{ mr: 2 }}
+                            >
+                                <MenuIcon />
+                            </IconButton>
+                            <Menu
+                                id="basic-menu"
+                                anchorEl={anchorEl1}
+                                open={open}
+                                onClose={handleClose}
+                                MenuListProps={{
+                                    'aria-labelledby': 'basic-button',
+                                }}
+                            >
+                                <Link className='connect' /*to='קומפוננטה של פרטי משתמש'*/>
+                                    <MenuItem onClick={handleClose}>
+                                        <PersonIcon sx={{ fontSize: 'medium' }} />
+                                        <p>&nbsp; My account</p>
+                                    </MenuItem>
+                                </Link>
+                            </Menu>
+                        </div>
+                        <Typography
+                            variant="h6"
+                            noWrap
+                            component="div"
+                            sx={{ display: { xs: 'none', sm: 'block' } }}
+                        >
+                            <Link className='contain'/*to='CleaningLadyList'*/>
+                                Cleaning Ladies
+                            </Link>
+
+                            {currentClient.role === 'manager' &&
+                                <Link style={{ marginLeft: '0.5cm' }} className='contain'/*to='ClientList'*/>
+                                    Clients
+                                </Link>}
+                        </Typography>
+                        <Search>
+                            <SearchIconWrapper>
+                                <SearchIcon />
+                            </SearchIconWrapper>
+                            <StyledInputBase
+                                placeholder="Search…"
+                                inputProps={{ 'aria-label': 'search' }}
+                                onChange={handleChangeSearch}
+                            />
+                        </Search>
+                        <FormControl sx={StyledSelect} size="small">
+                            <InputLabel id="demo-select-small-label" sx={{ color: "white" }}>Filter By</InputLabel>
                             <Select
                                 labelId="demo-select-small-label"
-                                id="demo-select-small"
+                                id="filterBy"
                                 value={filter}
                                 label="Filter By"
-                                sx={{color:"white"}}
+                                sx={{ color: "white" }}
                                 onChange={handleChange}
                             >
                                 <MenuItem value="">
@@ -215,38 +264,39 @@ const Navbar = (props) => {
                                 <MenuItem value="city">city</MenuItem>
                                 <MenuItem value="name">name</MenuItem>
                             </Select>
-                    </FormControl>
-                    <Box sx={{ flexGrow: 1 }} />
-                    <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-                        <IconButton
-                            size="large"
-                            edge="end"
-                            aria-label="account of current user"
-                            aria-controls={menuId}
-                            aria-haspopup="true"
-                            onClick={handleProfileMenuOpen}
-                            color="inherit"
-                        >
-                            <AccountCircle />
-                        </IconButton>
-                    </Box>
-                    <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
-                        <IconButton
-                            size="large"
-                            aria-label="show more"
-                            aria-controls={mobileMenuId}
-                            aria-haspopup="true"
-                            onClick={handleMobileMenuOpen}
-                            color="inherit"
-                        >
-                            <MoreIcon />
-                        </IconButton>
-                    </Box>
-                </Toolbar>
-            </AppBar>
-            {renderMobileMenu}
-            {renderMenu}
-        </Box>
+                        </FormControl>
+                        <Box sx={{ flexGrow: 1 }} />
+                        <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+                            <IconButton
+                                size="large"
+                                edge="end"
+                                aria-label="account of current user"
+                                aria-controls={menuId}
+                                aria-haspopup="true"
+                                onClick={handleProfileMenuOpen}
+                                color="inherit"
+                            >
+                                <AccountCircle />
+                            </IconButton>
+                        </Box>
+                        <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
+                            <IconButton
+                                size="large"
+                                aria-label="show more"
+                                aria-controls={mobileMenuId}
+                                aria-haspopup="true"
+                                onClick={handleMobileMenuOpen}
+                                color="inherit"
+                            >
+                                <MoreIcon />
+                            </IconButton>
+                        </Box>
+                    </Toolbar>
+                </AppBar>
+                {renderMobileMenu}
+                {renderMenu}
+            </Box>
+        </div>
     )
 }
 

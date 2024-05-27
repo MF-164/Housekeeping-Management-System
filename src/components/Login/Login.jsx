@@ -85,10 +85,13 @@ const Login = () => {
     }
 
     const handleClickLogin = () => {
-        if (user.name !== undefined && user.password !== undefined)
+        if (user.name !== undefined && user.password !== undefined) {
             // TODO:check if in store...
             // TODO:axios... dispath to current user
             navigate('/home')
+        }
+        else
+            navigate('')
     }
     return (
         <div className='Login'>

@@ -11,7 +11,7 @@ function App() {
     <div className="App">
      <BrowserRouter>
      <Routes>
-      <Route path='' element={<Navbar title="Cleaning Lady"/>}/>
+      <Route path='' element={<Navbar currentClient={{role:'manager'}} list={[{name:'baba', city:'koko'}]}/>}/>
       <Route path='Login' element={<Login/>}/>
       <Route path='home' element={<Home/>}/>
       <Route path='SignUp' element={<SignUp/>}/>
