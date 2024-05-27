@@ -1,10 +1,11 @@
 import './App.css';
+import Home from './Home';
 import CleaningLady from './store/features/CleaningLady/CleaningLady';
 import Client from './store/features/Client/Client';
 import ClientList from './store/features/Client/ClientList';
 import CleaningLadyList from './store/features/CleaningLady/CleaningLadyList';
 function App() {
-  const client ={Id:0,Name:'Brayndy',Password:1234,Phone:'0534122757',City:'Elad',Address:'Ben zakay',HouseNumber:9}
+ 
   const cleaningLady={Id:22,FirstName:'Alona',LastName:'Yev',Phone:'0534122757',OriginCountry:'Tailand',City:'Ramat Gan',Address:'yona',HouseNumber:20,Status:'married',HourlyPrice:120}
   const allClienst=[{Id:0,Name:'Brayndy',Password:1234,Phone:'0534122757',City:'Elad',Address:'Ben zakay',HouseNumber:9},
 {Id:1,Name:'Maly',Password:36633,Phone:'052763998',City:'Bnei Brak',Address:'Amiel',HouseNumber:12},
@@ -25,6 +26,8 @@ const allCleaningLadies = [{ Id: 22, FirstName: 'Alona', LastName: 'Yev', Phone:
      <ClientList allClients={allClienst}></ClientList>
      {/* <CleaningLady cleaningLady={cleaningLady}></CleaningLady> */}
      {/* <CleaningLadyList allCleaningLadies={allCleaningLadies}></CleaningLadyList> */}
+     <CleaningLady cleaningLady={cleaningLady}></CleaningLady>
+     <Home/>
     </div>
   );
 }
