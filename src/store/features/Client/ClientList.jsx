@@ -1,17 +1,30 @@
 import React from "react";
 import Client from "./Client";
+import List from '@mui/material/List';
+import Avatar from '@mui/material/Avatar';
+import AddIcon from '@mui/icons-material/Add';
+import { blue } from '@mui/material/colors';
+import './ClientStyle.scss'
+const ClientList = ({ allClients }) => {
+    //const allClients=useSelector(store.)
 
-const ClientList=()=>{
-//const allClients=useSelector(store.)
-const allClienst=[{Id:0,Name:'Brayndy',Password:1234,Phone:'0534122757',City:'Elad',Address:'Ben zakay',HouseNumber:9},
-{Id:1,Name:'Maly',Password:36633,Phone:'052763998',City:'Bnei Brak',Address:'Amiel',HouseNumber:12},
-{Id:2,Name:'Shoshi',Password:5333,Phone:'0545454542',City:'Raanana',Address:'Hasade',HouseNumber:52},
-{Id:3,Name:'Jon',Password:825852,Phone:'0522156664',City:'Ramat Gan',Address:'Jabotinsky',HouseNumber:69}]
 
-return(
-    <>
-    {allClienst.map(client=><Client client={client}></Client>)}
-    </>
-)
+    return (
+        <>
+        <div className="all">
+            <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
+                {allClients.map(
+                    client => <div key={client.Id} className="card"><Client client={client}></Client></div>
+                )}
+            </List>
+            </div>
+            <div className="inputAdd" >
+                <Avatar sx={{ bgcolor: blue[500], fontFamily: 'Century', height:'80px',width:'80px' , boxShadow:'gray 3px 4px 8px 1px' }}title="add client" aria-label="recipe">
+                    <AddIcon sx={{ fontSize:'xxx-large'}}/>
+                </Avatar>
+            </div>
+          
+        </>
+    )
 }
 export default ClientList
