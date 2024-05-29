@@ -23,7 +23,7 @@ export const fetchByIdFromServer = createAsyncThunk("client-getOne", async (thun
 // export const fetchByIdFromServer=createAsyncThunk("client-getClientById", async (id) => {
 //     return await GetOne()
 // })
-export const fetch3=createAsyncThunk("client-insert", async (thunkAPI,client) => {
+export const fetch3=createAsyncThunk("client-insert", async (client) => {
     const response = await Insert(client)
     return response
 })

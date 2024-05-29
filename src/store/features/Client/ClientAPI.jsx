@@ -1,28 +1,28 @@
 import axios from "axios"
 
-export const GetAll = () => {
-    const { data } = axios.get('https://localhost:7218/api/Client/getAll')
+export const GetAll = async () => {
+    const { data } = await axios.get('https://localhost:7218/api/Client/getAll')
     return data
 }
 
-export const GetOne = (id) => {
+export const GetOne = async (id) => {
     let url = 'https://localhost:7218/api/Client/getById/' + id
-    const { data } = axios.get(url)
+    const { data } = await axios.get(url)
     return data
 }
 
-export const Insert = (client) => {
-    const { data } = axios.post('https://localhost:7218/api/Client/insert', { client })
+export const Insert = async (client) => {
+    const { data } = await axios.post('https://localhost:7218/api/Client/insert', client )
     return data
 }
 
-// export const Update = (id, client) => {
+// export const Update =async (id, client) => {
 //     let url = 'https://localhost:7218/api/Client/update/' + id
-//     return { data } = axios.put(url, { client })
+//     return { data } =await axios.put(url, { client })
 // }
 
-// export const Delete = (id) => {
+// export const Delete =async (id) => {
 //     let url = 'https://localhost:7218/api/Client/delete/' + id
-//     return { data } = axios.delete(url)
+//     return { data } =await axios.delete(url)
 // }
 
