@@ -1,7 +1,7 @@
 import axios from "axios"
 
 export const GetAll =async()=> {
-    const {data} =await axios.get('https://localhost:7218/api/Hours/all')
+    const {data} =await axios.get('https://localhost:7218/api/Hours/getAll')
     return data
 }
 

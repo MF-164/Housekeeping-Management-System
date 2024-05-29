@@ -6,7 +6,7 @@ const hourState = {
     allHours: { hours: [] },
     status: "idle"
 }
-const fetchAllFromServer = createAsyncThunk('Hours-getAll', async (thunkAPI) => {
+export const fetchAllHours = createAsyncThunk('Hours-getAll', async (thunkAPI) => {
     const response =  await GetAll()
     return response
 })
@@ -39,12 +39,12 @@ export const hourSlice = createSlice({
             state.allHours.hours.splice(index, 1, action.payload)
         },
         extraReducers: (builder) => {
-            builder.addCase(fetchAllFromServer.fulfilled, (state, action) => {
+            builder.addCase(fetchAllHours.fulfilled, (state, action) => {
                 state.allHours.hours = action.payload
                 state.status = "success"
-            }).addCase(fetchAllFromServer.rejected, (state, action) => {
+            }).addCase(fetchAllHours.rejected, (state, action) => {
                 state.status = "failed"
-            }).addCase(fetchAllFromServer.pending, (state, action) => {
+            }).addCase(fetchAllHours.pending, (state, action) => {
                 state.status = "pending"
             })
 

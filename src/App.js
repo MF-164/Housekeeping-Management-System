@@ -11,6 +11,7 @@ import { fetchAllFromServer } from './store/features/CleaningLady/cleaningLadySl
 import CleaningLadyList from './store/features/CleaningLady/CleaningLadyList'
 import { fetchAllClient } from './store/features/Client/clientSlice'
 import ClientList from './store/features/Client/ClientList'
+import { fetchAllHours } from './store/features/Hour/hourSlice';
 function App() {
   let dispatch = useDispatch()
   useEffect(() => {
@@ -19,9 +20,11 @@ function App() {
   const fetchData = () => {
     dispatch(fetchAllClient())
     dispatch(fetchAllFromServer())
+    dispatch(fetchAllHours())
   }
   let ladies = useSelector(s => s.cleaningLady.allCleaningLadies.ladies)
   let clients = useSelector(s => s.client.allClients.clients)
+  let hours = useSelector(s => s.hour.allHours.hours)
   return (
     <div className="App">
      
