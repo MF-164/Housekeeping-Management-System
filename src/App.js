@@ -11,20 +11,26 @@ import { fetchAllFromServer } from './store/features/CleaningLady/cleaningLadySl
 import CleaningLadyList from './store/features/CleaningLady/CleaningLadyList'
 import { fetchAllClient } from './store/features/Client/clientSlice'
 import ClientList from './store/features/Client/ClientList'
+import HourList from './store/features/Hour/HourList';
 function App() {
+
   let dispatch = useDispatch()
-  useEffect(() => {
-    fetchData()
-  }, [])
+
+  // useEffect(() => {
+  //   fetchData()
+  // }, [])
+
   const fetchData = () => {
     dispatch(fetchAllClient())
     dispatch(fetchAllFromServer())
   }
+
   let ladies = useSelector(s => s.cleaningLady.allCleaningLadies.ladies)
   let clients = useSelector(s => s.client.allClients.clients)
+  
   return (
     <div className="App">
-     
+{/* 
       <BrowserRouter>
         <Routes>
           <Route path='' element={<Navbar currentClient={{ role: 'manager' }} list={[{ name: 'baba', city: 'koko' }]} />} />
@@ -34,7 +40,8 @@ function App() {
         </Routes>
       </BrowserRouter>
       <CleaningLadyList allCleaningLadies={ladies} />
-      <ClientList allClients={clients} />
+      <ClientList allClients={clients} /> */}
+    <HourList dayId = {1}/>
     </div>
   );
 }

@@ -5,7 +5,6 @@ import LocationCityOutlinedIcon from '@mui/icons-material/LocationCityOutlined';
 import HomeWorkOutlinedIcon from '@mui/icons-material/HomeWorkOutlined';
 import HouseOutlinedIcon from '@mui/icons-material/HouseOutlined';
 import LocalPhoneOutlinedIcon from '@mui/icons-material/LocalPhoneOutlined';
-import FingerprintOutlinedIcon from '@mui/icons-material/FingerprintOutlined';
 import React from 'react';
 import Input from '@mui/material/Input';
 import InputLabel from '@mui/material/InputLabel';
