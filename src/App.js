@@ -12,6 +12,7 @@ import CleaningLadyList from './store/features/CleaningLady/CleaningLadyList'
 import { fetchAllClient } from './store/features/Client/clientSlice'
 import ClientList from './store/features/Client/ClientList'
 import HourList from './store/features/Hour/HourList';
+import Try from './store/features/Hour/Try';
 function App() {
 
   let dispatch = useDispatch()
@@ -25,8 +26,8 @@ function App() {
     dispatch(fetchAllFromServer())
   }
 
-  let ladies = useSelector(s => s.cleaningLady.allCleaningLadies.ladies)
-  let clients = useSelector(s => s.client.allClients.clients)
+  // let ladies = useSelector(s => s.cleaningLady.allCleaningLadies.ladies)
+  // let clients = useSelector(s => s.client.allClients.clients)
   
   return (
     <div className="App">
@@ -42,6 +43,7 @@ function App() {
       <CleaningLadyList allCleaningLadies={ladies} />
       <ClientList allClients={clients} /> */}
     <HourList dayId = {1}/>
+    <Try></Try>
     </div>
   );
 }

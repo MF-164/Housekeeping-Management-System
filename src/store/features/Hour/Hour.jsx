@@ -14,7 +14,7 @@ import { Button } from '@mui/material';
 const Hour = ({ hour }) => {
     const [choose, setChoose] = useState(false)
     const [errorChoose, setErrorChoose] = useState(false)
-    const [choises, setChoises] = useState([])
+    const [choises, setChoises] = useState([{for:1,to:2,dayId:1}])
     React.useEffect(() => {
         const interval = setInterval(() => {
             setErrorChoose(false)
