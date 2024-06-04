@@ -16,10 +16,11 @@ export const Insert = async (client) => {
     return data
 }
 
-// export const Update =async (id, client) => {
-//     let url = 'https://localhost:7218/api/Client/update/' + id
-//     return { data } =await axios.put(url, { client })
-// }
+export const Update =async (id, client) => {
+    let url = 'https://localhost:7218/api/Client/update/:' + id
+    const { data } =await axios.put(url, { client })
+    return data
+}
 
 // export const Delete =async (id) => {
 //     let url = 'https://localhost:7218/api/Client/delete/' + id

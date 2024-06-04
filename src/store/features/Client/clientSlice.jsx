@@ -1,19 +1,19 @@
-import { GetAll, GetOne, Insert} from './ClientAPI'
+import { GetAll, GetOne, Insert, Update } from './ClientAPI'
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
 
 const clientState = {
     allClients: { clients: [] },
     currentClient: undefined,
-    status:"idle"
+    status: "idle"
 }
 
 export const fetchAllClient = createAsyncThunk("client-getAll", async (thunkAPI) => {
-    const response =  await GetAll()
+    const response = await GetAll()
     return response
 })
 
 export const fetchByIdFromServer = createAsyncThunk("client-getOne", async (thunkAPI, id) => {
-    const response =  await GetOne(id)
+    const response = await GetOne(id)
     return response
 })
 
@@ -23,12 +23,14 @@ export const fetchByIdFromServer = createAsyncThunk("client-getOne", async (thun
 // export const fetchByIdFromServer=createAsyncThunk("client-getClientById", async (id) => {
 //     return await GetOne()
 // })
-export const fetch3=createAsyncThunk("client-insert", async (client) => {
+export const fetch3 = createAsyncThunk("client-insert", async (client) => {
     const response = await Insert(client)
     return response
 })
-// const fetch4=createAsyncThunk("client-updateClient", async (id, client) => {
-// })
+export const fetch4 = createAsyncThunk("client-updateClient", async (id, client) => {
+    const response = await Update(id, client)
+    return response
+})
 // const fetch5=createAsyncThunk("client-deleteClient", async (id) => {
 // })
 
@@ -66,23 +68,34 @@ export const clientSlice = createSlice({
             state.status = "pending"
         })
 
-        .addCase(fetchByIdFromServer.fulfilled, (state, action) => {
-            state.currentClient = action.payload
-            state.status = "success"
-        }).addCase(fetchByIdFromServer.rejected, (state, action) => {
-            state.status = "failed"
-        }).addCase(fetchByIdFromServer.pending, (state, action) => {
-            state.status = "pending"
-        })
+            .addCase(fetchByIdFromServer.fulfilled, (state, action) => {
+                state.currentClient = action.payload
+                state.status = "success"
+            }).addCase(fetchByIdFromServer.rejected, (state, action) => {
+                state.status = "failed"
+            }).addCase(fetchByIdFromServer.pending, (state, action) => {
+                state.status = "pending"
+            })
 
-        .addCase(fetch3.fulfilled, (state, action) => {
-            state.allClients.clients = [...state.allClients.clients, action.payload]
-            state.status = "success"
-        }).addCase(fetch3.rejected, (state, action) => {
-            state.status = "failed"
-        }).addCase(fetch3.pending, (state, action) => {
-            state.status = "pending"
-        })
+            .addCase(fetch3.fulfilled, (state, action) => {
+                state.allClients.clients = [...state.allClients.clients, action.payload]
+                state.status = "success"
+            }).addCase(fetch3.rejected, (state, action) => {
+                state.status = "failed"
+            }).addCase(fetch3.pending, (state, action) => {
+                state.status = "pending"
+            })
+
+            .addCase(fetch4.fulfilled, (state, action) => {
+                let index = state.allClients.clients
+                    .findIndex(client => client.id === action.payload.id)
+                state.allClients.clients.splice(index, 1, action.payload)
+                state.status = "success"
+            }).addCase(fetch4.rejected, (state, action) => {
+                state.status = "failed"
+            }).addCase(fetch4.pending, (state, action) => {
+                state.status = "pending"
+            })
     }
 })
 

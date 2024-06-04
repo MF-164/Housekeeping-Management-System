@@ -36,7 +36,7 @@ function App() {
           <Route path='SignUp' element={<SignUp />} />
         </Routes>
       </BrowserRouter>
-      <CleaningLadyList allCleaningLadies={ladies} />
+      {/* <CleaningLadyList allCleaningLadies={ladies} /> */}
       <ClientList allClients={clients} />
     </div>
   );

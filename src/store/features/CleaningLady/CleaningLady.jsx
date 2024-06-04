@@ -42,7 +42,7 @@ const CleaningLady = ({ cleaningLady }) => {
                 <CardHeader sx={{width:200}}
                     avatar={
                         <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-                            {cleaningLady.firstName?.charAt(0) + cleaningLady.lastName?.charAt(0)}
+                            {cleaningLady.firstName?.charAt(0).toUpperCase() + cleaningLady.lastName?.charAt(0).toUpperCase()}
                         </Avatar>
                     }
                     title={cleaningLady?.firstName + "  " + cleaningLady?.lastName}
