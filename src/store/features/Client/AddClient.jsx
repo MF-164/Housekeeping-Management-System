@@ -85,6 +85,11 @@ const AddClient=()=>{
     }
     const handleCloseWithSave =  () => {
         setOpen(false)
+        newClient.username="jjj"
+        newClient.id=0
+        newClient.role="client"
+        newClient.phone="2313"
+        console.log({newClient});
         dis(insertClientForServer(newClient))
     }
     const [open, setOpen] = React.useState(false);
