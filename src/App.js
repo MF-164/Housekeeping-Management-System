@@ -26,12 +26,13 @@ function App() {
    // dispatch(fetchAllFromServer())
     // dispatch(fetchAllHours())
   }
-  // let ladies = useSelector(s => s.cleaningLady.allCleaningLadies.ladies)
+
+  let ladies = useSelector(s => s.cleaningLady.allCleaningLadies.ladies)
   let clients = useSelector(s => s.client.allClients.clients)
-  // let hours = useSelector(s => s.hour.allHours.hours)
+  
   return (
     <div className="App">
-{/* 
+
       <BrowserRouter>
         <Routes>
           <Route path='' element={<Navbar currentClient={{ role: 'manager' }} list={[{ name: 'baba', city: 'koko' }]} />} />
@@ -40,9 +41,8 @@ function App() {
           <Route path='SignUp' element={<SignUp />} />
         </Routes>
       </BrowserRouter>
-      <CleaningLadyList allCleaningLadies={ladies} />*/}
-      <ClientList allClients={clients} /> 
-    {/* <Hour/> */}
+      <CleaningLadyList allCleaningLadies={ladies} />
+      <ClientList allClients={clients} />
     </div>
   );
 }
