@@ -37,7 +37,7 @@ import EditNoteIcon from '@mui/icons-material/EditNote';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { useDispatch } from 'react-redux';
-import { fetch4 } from './clientSlice';
+import { updateClientOnServer } from './clientSlice';
 
 
 
@@ -60,22 +60,7 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
         padding: theme.spacing(1),
     },
 }));
-// const Client = ({ client }) => {
-//     const [expanded, setExpanded] = React.useState(false);
-//     const [open, setOpen] = React.useState(false);
 
-//     const handleClickOpen = () => {
-//       setOpen(true);
-//     };
-//     const handleClose = () => {
-//       setOpen(false);
-//     };
-//         padding: theme.spacing(2),
-//     },
-//     '& .MuiDialogActions-root': {
-//         padding: theme.spacing(1),
-//     },
-// }));
 const Client = ({ client }) => {
     const [expanded, setExpanded] = React.useState(false);
     const [open, setOpen] = React.useState(false);
@@ -94,7 +79,7 @@ const Client = ({ client }) => {
     const handleCloseWithSave =  () => {
         setOpen(false)
         let id = client.id
-        dis(fetch4(id, { ...editClient, id }))
+        dis(updateClientOnServer(id, { ...editClient, id }))
     }
 
     const dis = useDispatch()
@@ -127,7 +112,6 @@ const Client = ({ client }) => {
     }
     const handleChangePhone = (e) => {
         const tel = e.target.value
-
         if (tel.charAt(tel.length - 1) > '9' || tel.charAt(tel.length - 1) < '0' || tel.length > 10) {
             e.target.value = tel.slice(0, tel.length - 1)
             phoneFlag = true

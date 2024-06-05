@@ -1,4 +1,5 @@
-import { GetAll, GetOne} from './CleaningLadyAPI'
+import { setCurrentClient } from '../Client/clientSlice'
+import { GetAll, GetOneById, Delete, Insert, Update } from './CleaningLadyAPI'
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
 
 const cleaningLadyState = {
@@ -7,19 +8,31 @@ const cleaningLadyState = {
     status: "idle"
 }
 
-export const fetchAllFromServer = createAsyncThunk('cleaningLady-getAll', async (thunkAPI) => {
-    const response =  await GetAll()
+export const fetchAllCleningLadysFromServer = createAsyncThunk('cleaningLady-getAll', async (thunkAPI) => {
+    const response = await GetAll()
     return response
 })
 
-export const fetchByIdFromServer = createAsyncThunk('cleaningLady-getOne', async (id) => {
-    const response =  await GetOne(id)
+export const fetchCleaningLadyByIdFromServer = createAsyncThunk('cleaningLady-getOne', async (id) => {
+    const response = await GetOneById(id)
     return response
 })
 
-// export const InsertForServer = createAsyncThunk('cleaningLady-insert',async(cleaningLady)=>{
-//     return await Insert(cleaningLady)
-// })
+export const insertCleaningLadyForServer = createAsyncThunk('cleaningLady-insert', async (cleaningLady) => {
+    const response = await Insert(cleaningLady)
+    return response
+})
+
+export const deleteCleaningLadyFromServer = createAsyncThunk('cleaningLady-delete', async (id) => {
+    const response = await Delete(id)
+    return response
+})
+
+export const UpdateCleaningLadyOnServer = createAsyncThunk('cleaningLady-update', async (id, cleaningLady) => {
+    const response = await Update(id, cleaningLady)
+    return response
+})
+
 
 export const cleaningLadySlice = createSlice({
     name: 'cleaningLadySlice',
@@ -40,50 +53,50 @@ export const cleaningLadySlice = createSlice({
         }
     },
     extraReducers: (builder) => {
-        builder.addCase(fetchAllFromServer.fulfilled, (state, action) => {
+        builder.addCase(fetchAllCleningLadysFromServer.fulfilled, (state, action) => {
             state.allCleaningLadies.ladies = action.payload
             state.status = "success"
-        }).addCase(fetchAllFromServer.rejected, (state, action) => {
+        }).addCase(fetchAllCleningLadysFromServer.rejected, (state, action) => {
             state.status = "failed"
-        }).addCase(fetchAllFromServer.pending, (state, action) => {
+        }).addCase(fetchAllCleningLadysFromServer.pending, (state, action) => {
             state.status = "pending"
         })
 
-            // .addCase(fetchByIdFromServer.fulfilled, (state, action) => {
-            //     state.currentLady = action.payload
-            //     state.status = "success"
-            // }).addCase(fetchByIdFromServer.rejected, (state, action) => {
-            //     state.status = "failed"
-            // }).addCase(fetchByIdFromServer.pending, (state, action) => {
-            //     state.status = "pending"
-            // })
+            .addCase(fetchCleaningLadyByIdFromServer.fulfilled, (state, action) => {
+                setCurrentClient(action)
+                state.status = "success"
+            }).addCase(fetchCleaningLadyByIdFromServer.rejected, (state, action) => {
+                state.status = "failed"
+            }).addCase(fetchCleaningLadyByIdFromServer.pending, (state, action) => {
+                state.status = "pending"
+            })
 
-        // .addCase(Insert.fulfilled, (state, action) => {
-        //     state.allCleaningLadies.ladies = action
-        //     state.status = "success"
-        // }).addCase(Insert.rejected, (state, action) => {
-        //     state.status = "failed"
-        // }).addCase(Insert.pending, (state, action) => {
-        //     state.status = "pending"
-        // })
+            .addCase(insertCleaningLadyForServer.fulfilled, (state, action) => {
+                addCleaningLady(action)
+                state.status = "success"
+            }).addCase(insertCleaningLadyForServer.rejected, (state, action) => {
+                state.status = "failed"
+            }).addCase(insertCleaningLadyForServer.pending, (state, action) => {
+                state.status = "pending"
+            })
 
-        // .addCase(Update.fulfilled, (state, action) => {
-        //     state.allCleaningLadies.ladies = action
-        //     state.status = "success"
-        // }).addCase(Update.rejected, (state, action) => {
-        //     state.status = "failed"
-        // }).addCase(Update.pending, (state, action) => {
-        //     state.status = "pending"
-        // })
+            .addCase(UpdateCleaningLadyOnServer.fulfilled, (state, action) => {
+                updateCleaningLady(action)
+                state.status = "success"
+            }).addCase(UpdateCleaningLadyOnServer.rejected, (state, action) => {
+                state.status = "failed"
+            }).addCase(UpdateCleaningLadyOnServer.pending, (state, action) => {
+                state.status = "pending"
+            })
 
-        // .addCase(Delete.fulfilled, (state, action) => {
-        //     state.allCleaningLadies.ladies = action
-        //     state.status = "success"
-        // }).addCase(Delete.rejected, (state, action) => {
-        //     state.status = "failed"
-        // }).addCase(Delete.pending, (state, action) => {
-        //     state.status = "pending"
-        // })
+            .addCase(deleteCleaningLadyFromServer.fulfilled, (state, action) => {
+                delCleaningLady(action)
+                state.status = "success"
+            }).addCase(deleteCleaningLadyFromServer.rejected, (state, action) => {
+                state.status = "failed"
+            }).addCase(deleteCleaningLadyFromServer.pending, (state, action) => {
+                state.status = "pending"
+            })
     }
 })
 

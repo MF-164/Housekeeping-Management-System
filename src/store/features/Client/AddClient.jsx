@@ -27,7 +27,7 @@ import { useState } from "react";
 import { styled } from '@mui/material/styles';
 import { useDispatch } from 'react-redux'
 import { blue } from '@mui/material/colors';
-import { fetch3 } from './clientSlice'
+import { insertClientForServer } from './clientSlice'
 
 
 const AddClient=()=>{
@@ -85,7 +85,7 @@ const AddClient=()=>{
     }
     const handleCloseWithSave =  () => {
         setOpen(false)
-        dis(fetch3(newClient))
+        dis(insertClientForServer(newClient))
     }
     const [open, setOpen] = React.useState(false);
     const [showPassword, setShowPassword] = useState(false);

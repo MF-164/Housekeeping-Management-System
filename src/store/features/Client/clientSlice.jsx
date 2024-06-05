@@ -1,4 +1,4 @@
-import { GetAll, GetOne, Insert, Update } from './ClientAPI'
+import { GetAll, GetOneById, GetOneByUserName, Insert, Update, Delete } from './ClientAPI'
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
 
 const clientState = {
@@ -7,32 +7,36 @@ const clientState = {
     status: "idle"
 }
 
-export const fetchAllClient = createAsyncThunk("client-getAll", async (thunkAPI) => {
+export const fetchAllClientFromServer = createAsyncThunk("client-getAll", async (thunkAPI) => {
     const response = await GetAll()
     return response
 })
 
-export const fetchByIdFromServer = createAsyncThunk("client-getOne", async (thunkAPI, id) => {
-    const response = await GetOne(id)
+export const fetchClientByIdFromServer = createAsyncThunk("client-getOneById", async (id) => {
+    const response = await GetOneById(id)
     return response
 })
 
-// export const fetchAllFromServer=createAsyncThunk("client-getAllClient", async (thunkAPI) => {
-//     return await GetAll()
-// })
-// export const fetchByIdFromServer=createAsyncThunk("client-getClientById", async (id) => {
-//     return await GetOne()
-// })
-export const fetch3 = createAsyncThunk("client-insert", async (client) => {
+export const fetchByUserNameFromServer = createAsyncThunk("client-getOneByUserName", async (name) => {
+    const response = await GetOneByUserName(name)
+    return response
+})
+
+export const insertClientForServer = createAsyncThunk("client-insert", async (client) => {
     const response = await Insert(client)
     return response
 })
-export const fetch4 = createAsyncThunk("client-updateClient", async (id, client) => {
+
+export const updateClientOnServer = createAsyncThunk("client-updateClient", async (id, client) => {
     const response = await Update(id, client)
     return response
 })
-// const fetch5=createAsyncThunk("client-deleteClient", async (id) => {
-// })
+
+export const deleteClientFromServer = createAsyncThunk("client-delete", async (id) => {
+    const response = await Delete(id)
+    return response
+})
+
 
 export const clientSlice = createSlice({
     name: 'client',
@@ -59,41 +63,57 @@ export const clientSlice = createSlice({
         }
     },
     extraReducers: (builder) => {
-        builder.addCase(fetchAllClient.fulfilled, (state, action) => {
+        builder.addCase(fetchAllClientFromServer.fulfilled, (state, action) => {
             state.allClients.clients = action.payload
             state.status = "success"
-        }).addCase(fetchAllClient.rejected, (state, action) => {
+        }).addCase(fetchAllClientFromServer.rejected, (state, action) => {
             state.status = "failed"
-        }).addCase(fetchAllClient.pending, (state, action) => {
+        }).addCase(fetchAllClientFromServer.pending, (state, action) => {
             state.status = "pending"
         })
 
-            .addCase(fetchByIdFromServer.fulfilled, (state, action) => {
-                state.currentClient = action.payload
+            .addCase(fetchClientByIdFromServer.fulfilled, (state, action) => {
+                setCurrentClient(action)
                 state.status = "success"
-            }).addCase(fetchByIdFromServer.rejected, (state, action) => {
+            }).addCase(fetchClientByIdFromServer.rejected, (state, action) => {
                 state.status = "failed"
-            }).addCase(fetchByIdFromServer.pending, (state, action) => {
+            }).addCase(fetchClientByIdFromServer.pending, (state, action) => {
                 state.status = "pending"
             })
 
-            .addCase(fetch3.fulfilled, (state, action) => {
-                state.allClients.clients = [...state.allClients.clients, action.payload]
+            .addCase(insertClientForServer.fulfilled, (state, action) => {
+                addClient(action)
                 state.status = "success"
-            }).addCase(fetch3.rejected, (state, action) => {
+            }).addCase(insertClientForServer.rejected, (state, action) => {
                 state.status = "failed"
-            }).addCase(fetch3.pending, (state, action) => {
+            }).addCase(insertClientForServer.pending, (state, action) => {
                 state.status = "pending"
             })
 
-            .addCase(fetch4.fulfilled, (state, action) => {
-                let index = state.allClients.clients
-                    .findIndex(client => client.id === action.payload.id)
-                state.allClients.clients.splice(index, 1, action.payload)
+            .addCase(updateClientOnServer.fulfilled, (state, action) => {
+                updateClient(action)
                 state.status = "success"
-            }).addCase(fetch4.rejected, (state, action) => {
+            }).addCase(updateClientOnServer.rejected, (state, action) => {
                 state.status = "failed"
-            }).addCase(fetch4.pending, (state, action) => {
+            }).addCase(updateClientOnServer.pending, (state, action) => {
+                state.status = "pending"
+            })
+
+            .addCase(fetchByUserNameFromServer.fulfilled, (state, action) => {
+                setCurrentClient(action)
+                state.status = "success"
+            }).addCase(fetchByUserNameFromServer.rejected, (state, action) => {
+                state.status = "failed"
+            }).addCase(fetchByUserNameFromServer.pending, (state, action) => {
+                state.status = "pending"
+            })
+
+            .addCase(deleteClientFromServer.fulfilled, (state, action) => {
+               delClient(action)
+                state.status = "success"
+            }).addCase(deleteClientFromServer.rejected, (state, action) => {
+                state.status = "failed"
+            }).addCase(deleteClientFromServer.pending, (state, action) => {
                 state.status = "pending"
             })
     }

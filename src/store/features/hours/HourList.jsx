@@ -1,6 +1,7 @@
 import { useSelector } from "react-redux";
 import Hour from "./Hour"
 import List from '@mui/material/List';
+import CleaningLady from "../CleaningLady/CleaningLady";
 let hours =
 [
   { from: 12, to: 15, dayId: 1 },
@@ -26,7 +27,7 @@ const HourList = ({ dayId }) => {
         <div className="all">
             <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
                 {ladyHours?.map(
-                    (hour,index) => <div key={index} className="card"><Hour hour={hour}/></div>
+                    (hour,index) => <CleaningLady hour={hour}/>
                 )}
             </List>
         </div>

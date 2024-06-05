@@ -5,25 +5,34 @@ export const GetAll = async () => {
     return data
 }
 
-export const GetOne = async (id) => {
+export const GetOneById = async (id) => {
     let url = 'https://localhost:7218/api/Client/getById/' + id
     const { data } = await axios.get(url)
     return data
 }
+export const GetOneByUserName = async (userName) => {
+    let url = 'https://localhost:7218/api/Client/getByUserName/' + userName
+    const response = await axios.get(url)
+    if (response.status === 200)
+        return response.data
+    else
+        return null
+}
 
 export const Insert = async (client) => {
-    const { data } = await axios.post('https://localhost:7218/api/Client/insert', client )
+    const { data } = await axios.post('https://localhost:7218/api/Client/insert', client)
     return data
 }
 
-export const Update =async (id, client) => {
-    let url = 'https://localhost:7218/api/Client/update/:' + id
-    const { data } =await axios.put(url, { client })
+export const Update = async (id, client) => {
+    let url = 'https://localhost:7218/api/Client/update/' + id
+    const { data } = await axios.put(url,  client )
     return data
 }
 
-// export const Delete =async (id) => {
-//     let url = 'https://localhost:7218/api/Client/delete/' + id
-//     return { data } =await axios.delete(url)
-// }
+export const Delete = async (id) => {
+    let url = 'https://localhost:7218/api/Client/delete/' + id
+    const { data } = await axios.delete(url)
+    return data
+}
 
