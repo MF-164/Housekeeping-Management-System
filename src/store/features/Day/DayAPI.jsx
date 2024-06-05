@@ -1,32 +1,28 @@
-import axios from "axios"
 
-export const GetAll = ()=>{
-    const { data } = axios.get('https://localhost:7218/api/Day/getAll')
+export const GetAll =async ()=>{
+    const { data } =await axios.get('https://localhost:7218/api/Day/getAll')
     return data
 }
     
 
-export const GetOne = (id) =>{
+export const GetOne =async (id) =>{
     let url = 'https://localhost:7218/api/Day/getById/' + id
-    const { data } = axios.get(url)
+    const { data } =await axios.get(url)
     return data
 }
     
+export const Insert = async (day) => {
+    const { data } =await axios.post('https://localhost:7218/api/Day/insert', { day })
 
+}
 
-// export const Insert = createAsyncThunk("day-getDayById", async (day) => {
-//     return { data } = axios.post('https://localhost:7218/api/Day/insert', { day })
+export const Update = async (id, day) => {
+    let url = 'https://localhost:7218/api/Day/update/' + id
+    const { data } =await axios.put(url, { day })
+}
 
-// })
+export const Delete = async (id) => {
+    let url = 'https://localhost:7218/api/Day/delete/' + id
+    const { data } =await axios.delete(url)
 
-// export const Update = createAsyncThunk("day-updateDay", async (id, day) => {
-//     let url = 'https://localhost:7218/api/Day/update/' + id
-//     return { data } = axios.put(url, { day })
-// })
-
-// export const Delete = createAsyncThunk("day-deleteDay", async (id) => {
-//     let url = 'https://localhost:7218/api/Day/delete/' + id
-//     return { data } = axios.delete(url)
-
-// })
-
+}
