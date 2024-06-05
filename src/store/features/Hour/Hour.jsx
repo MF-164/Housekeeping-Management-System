@@ -1,4 +1,4 @@
-import React,{ useState } from 'react';
+import React, { useState } from 'react';
 import AccessTimeSharpIcon from '@mui/icons-material/AccessTimeSharp';
 
 import Card from '@mui/material/Card';
@@ -11,40 +11,29 @@ import DoNotDisturbOnTotalSilenceIcon from '@mui/icons-material/DoNotDisturbOnTo
 import './Hour.scss'
 import { Button } from '@mui/material';
 
-const Hour = ({ hour }) => {
-    const [choose, setChoose] = useState(false)
-    const [errorChoose, setErrorChoose] = useState(false)
-    const [choises, setChoises] = useState([{for:1,to:2,dayId:1}])
+const Hour = ({ hour, errorChoose, choose }) => {
+
+    let { errorChoises, index, setErrorChoises } = errorChoose
+
     React.useEffect(() => {
         const interval = setInterval(() => {
-            setErrorChoose(false)
+            let copy = errorChoises.map((choose, i) => {
+                if (i === index)
+                    return false
+                else
+                    return choose
+            })
+            setErrorChoises(copy)
         }, 1000);
 
         return () => clearInterval(interval);
-    }, [errorChoose]);
+    }, [errorChoises[index]]);
 
-    const handleClick = (time) => {
-        console.log(typeof time);
-        let times = time.split('-')
-        let from = parseInt(times[0])
-        let to = parseInt(times[1])
-        if (choises.length === 0 || choises[choises.length - 1].to === from) {
-            let copy = [...choises, { from, to, dayId: hour.dayId }]
-            console.log({copy});
-            setChoises([...copy])
-            console.log({choises});
-            setChoose(true)
-        }
-        else {
-            console.log('from:' + from + ' to:' + to + ' id:' + hour.dayId)
-            setErrorChoose(true)
-        }
-    }
-
+    
     return (<>
 
-        {!errorChoose && !choose &&
-            <Button onClick={(e) => handleClick(e.target.innerText)}>
+        {!errorChoises[index] && !choose &&
+            <Button>
                 <Card sx={{ width: 500 }} >
                     <CardContent>
 
@@ -57,7 +46,7 @@ const Hour = ({ hour }) => {
                     </CardContent>
                 </Card>
             </Button>}
-        {choose && <Card sx={{ width: 500 }} onClick={() => setChoose(false)}>
+        { choose && <Card sx={{ width: 500 }} >
             <CardContent>
 
                 <Typography variant="body2" color="text.secondary" >
@@ -67,7 +56,7 @@ const Hour = ({ hour }) => {
                 </Typography>
             </CardContent>
         </Card>}
-        {errorChoose && <Card sx={{ width: 500 }} onClick={() => setChoose(!choose)}>
+        {!choose&& errorChoises[index] && <Card sx={{ width: 500 }} >
             <CardContent>
 
                 <Typography variant="body2" color="text.secondary" >
