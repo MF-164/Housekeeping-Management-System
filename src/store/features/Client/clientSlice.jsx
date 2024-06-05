@@ -77,7 +77,7 @@ export const clientSlice = createSlice({
             })
 
             .addCase(insertClientForServer.fulfilled, (state, action) => {
-                state.allClients.clients = [...state.allClients.clients, action.payload]
+                state.allClients.clients .push(action.payload)
             })
 
             .addCase(updateClientOnServer.fulfilled, (state, action) => {

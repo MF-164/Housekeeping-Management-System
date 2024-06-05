@@ -49,7 +49,7 @@ export const commentSlice = createSlice({
             })
 
             .addCase(insertCommenForServer.fulfilled, (state, action) => {
-                state.allComments.comments = [...state.allComments.comments, action.payload]
+                state.allComments.comments .push(action.payload)
             })
 
             .addCase(deleteCommentFromServer.fulfilled, (state, action) => {

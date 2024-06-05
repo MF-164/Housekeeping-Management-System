@@ -53,7 +53,7 @@ export const cleaningLadySlice = createSlice({
             })
 
             .addCase(insertCleaningLadyForServer.fulfilled, (state, action) => {
-                state.allCleaningLadies.ladies = [...state.allCleaningLadies.ladies, action.payload]
+                state.allCleaningLadies.ladies .push(action.payload)
             })
 
             .addCase(updateCleaningLadyOnServer.fulfilled, (state, action) => {
