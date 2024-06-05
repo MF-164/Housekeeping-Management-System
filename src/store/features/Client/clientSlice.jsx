@@ -73,52 +73,33 @@ export const clientSlice = createSlice({
         })
 
             .addCase(fetchClientByIdFromServer.fulfilled, (state, action) => {
-                setCurrentClient(action)
-                state.status = "success"
-            }).addCase(fetchClientByIdFromServer.rejected, (state, action) => {
-                state.status = "failed"
-            }).addCase(fetchClientByIdFromServer.pending, (state, action) => {
-                state.status = "pending"
+                state.currentClient = action.payload
             })
 
             .addCase(insertClientForServer.fulfilled, (state, action) => {
-                addClient(action)
-                state.status = "success"
-            }).addCase(insertClientForServer.rejected, (state, action) => {
-                state.status = "failed"
-            }).addCase(insertClientForServer.pending, (state, action) => {
-                state.status = "pending"
+                state.allClients.clients = [...state.allClients.clients, action.payload]
             })
 
             .addCase(updateClientOnServer.fulfilled, (state, action) => {
-                updateClient(action)
-                state.status = "success"
-            }).addCase(updateClientOnServer.rejected, (state, action) => {
-                state.status = "failed"
-            }).addCase(updateClientOnServer.pending, (state, action) => {
-                state.status = "pending"
+                let index = state.allClients.clients
+                    .findIndex(client => client.id === action.payload.id)
+                state.allClients.clients.splice(index, 1, action.payload)
             })
 
             .addCase(fetchByUserNameFromServer.fulfilled, (state, action) => {
-                setCurrentClient(action)
-                state.status = "success"
-            }).addCase(fetchByUserNameFromServer.rejected, (state, action) => {
-                state.status = "failed"
-            }).addCase(fetchByUserNameFromServer.pending, (state, action) => {
-                state.status = "pending"
+                state.currentClient = action.payload
             })
 
             .addCase(deleteClientFromServer.fulfilled, (state, action) => {
-               delClient(action)
-                state.status = "success"
-            }).addCase(deleteClientFromServer.rejected, (state, action) => {
-                state.status = "failed"
-            }).addCase(deleteClientFromServer.pending, (state, action) => {
-                state.status = "pending"
+                let index = state.allClients.clients
+                    .findIndex(client => client.id === action.payload)
+                state.allClients.clients.splice(index, 1)
+                if (state.currentClient?.id === action.payload)
+                    state.currentClient = undefined
             })
     }
 })
 
-export const { addClient, updateClient, setCurrentClient, delClient } = clientSlice.actions
+
 
 export default clientSlice.reducer
