@@ -6,23 +6,24 @@ export const GetAll = () => {
     return data
 }
 
-export const GetOne = (id) => {
+export const GetOneById = (id) => {
     let url = 'https://localhost:7218/api/Comment/getById/' + id
     const { data } = axios.get(url)
     return data
 }
 
-// export const Insert = (comment) => {
-//     return { data } = axios.post('https://localhost:7218/api/Comment/insert', { comment })
-// }
+export const Insert = (comment) => {
+   const{ data } = axios.post('https://localhost:7218/api/Comment/insert', { comment })
+   return data
+}
 
 
-// export const Update = (id, comment) => {
-//     let url = 'https://localhost:7218/api/Comment/update/' + id
-//     return { data } = axios.put(url, { comment })
-// }
+export const Update = (id, comment) => {
+    let url = 'https://localhost:7218/api/Comment/update/' + id
+    return { data } = axios.put(url, { comment })
+}
 
-// export const Delete = (id) => {
-//     let url = 'https://localhost:7218/api/Comment/delete/' + id
-//     return { data } = axios.delete(url)
-// }
+export const Delete = (id) => {
+    let url = 'https://localhost:7218/api/Comment/delete/' + id
+    return { data } = axios.delete(url)
+}
