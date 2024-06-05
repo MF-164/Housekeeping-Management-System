@@ -47,8 +47,7 @@ export const daySlice = createSlice({
         })
 
         .addCase(insertDayForServer.fulfilled, (state, action) => {
-           // state.allDays.days.push(action.payload)
-        state.allDays.days=[...state.allDays.days,action.payload]
+           state.allDays.days.push(action.payload)
         })
 
         .addCase(updateDayForServer.fulfilled, (state, action) => {
