@@ -34,20 +34,6 @@ export const deleteHourForServer = createAsyncThunk('Hours-delete', async (id) =
 export const hourSlice = createSlice({
     name: 'hourSlice',
     initialState: hourState,
-    // reducers: {
-        // addHour: (state, action) => {//NOTE:addHour => payload:hour
-        //     state.allHours.hours.push(action.payload)
-        // },
-        // delHour: (state, action) => {//NOTE:delHour => payload:id
-        //     let index = state.allHours.hours
-        //         .findIndex(hour => hour.id === action.payload)
-        //     state.allHours.hours.splice(index, 1)
-        // },
-        // updateHour: (state, action) => {//NOTE:updatehour => payload:hour{same id}
-        //     let index = state.allHours.hours
-        //         .findIndex(hour => hour.id === action.payload.id)
-        //     state.allHours.hours.splice(index, 1, action.payload)
-        // },
         extraReducers: (builder) => {
             builder.addCase(fetchAllHoursFromServer.fulfilled, (state, action) => {
                 state.allHours.hours = action.payload
@@ -63,7 +49,7 @@ export const hourSlice = createSlice({
             })
 
             .addCase(insertHourForServer.fulfilled, (state, action) => {
-                state.allHours.hours.push(action.payload)
+               state.allHours.hours.push(action.payload)
             })
 
             .addCase(updateHourForServer.fulfilled, (state, action) => {
@@ -80,6 +66,5 @@ export const hourSlice = createSlice({
         }
     })
 
-// export const { addHour, updateHour, delHour } = hourSlice.actions
 
 export default hourSlice.reducer

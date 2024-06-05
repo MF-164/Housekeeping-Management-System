@@ -32,21 +32,6 @@ const deleteDayForServer = createAsyncThunk("day-deleteDay", async (id) => {
 export const daySlice = createSlice({
     name: 'daySlice',
     initialState: dayState,
-    // reducers: {
-    //     addDay: (state, action) => {//NOTE:addDay => payload:day
-    //         state.allDays.days.push(action.payload)
-    //     },
-    //     delDay: (state, action) => {//NOTE:delDay => payload:id
-    //         let index = state.allDays.days
-    //             .findIndex(day => day.id === action.payload)
-    //         state.allDays.days.splice(index, 1)
-    //     },
-    //     updateDay: (state, action) => {//NOTE:updateDay => payload:Day{same id}
-    //         let index = state.allDays.days
-    //             .findIndex(day => day.id === action.payload.id)
-    //         state.allDays.days.splice(index, 1, action.payload)
-    //     }
-    // },
     extraReducers: (builder) => {
         builder.addCase(fetchAllDayFromServer.fulfilled, (state, action) => {
             state.allDays.days = action.payload
@@ -61,24 +46,23 @@ export const daySlice = createSlice({
             state.currentDay = action.payload
         })
 
-        .addCase(insertDayForServer.rejected, (state, action) => {
-            state.allDays.days.push(action.payload)
+        .addCase(insertDayForServer.fulfilled, (state, action) => {
+           // state.allDays.days.push(action.payload)
+        state.allDays.days=[...state.allDays.days,action.payload]
         })
 
-        .addCase(updateDayForServer.pending, (state, action) => {
+        .addCase(updateDayForServer.fulfilled, (state, action) => {
             let index = state.allDays.days
                 .findIndex(day => day.id === action.payload.id)
             state.allDays.days.splice(index, 1, action.payload)
         })
 
-        .addCase(deleteDayForServer.pending, (state, action) => {
+        .addCase(deleteDayForServer.fulfilled, (state, action) => {
             let index = state.allDays.days
                 .findIndex(day => day.id === action.payload)
             state.allDays.days.splice(index, 1)
         })
     }
 })
-
-// export const { addDay, updateDay, delDay } = daySlice.actions
 
 export default daySlice.reducer

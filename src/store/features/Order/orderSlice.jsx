@@ -47,7 +47,6 @@ export const orderSlice = createSlice({
         updateCurrentOrder: (state, action) => {//NOTE:updateOrder => payload:order
             state.currentOrder = action.payload 
         }
-        //TODO:do current order?
     },
     extraReducers: (builder) => {
 
