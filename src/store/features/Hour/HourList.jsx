@@ -3,9 +3,10 @@ import Hour from "./Hour"
 import List from '@mui/material/List';
 import { useState } from "react";
 
-let hours = useSelector(s=>s.hour.allHours.hours)
 
 const HourList = ({ dayId }) => {
+
+    let hours = useSelector(s=>s.hour.allHours.hours)
 
     let filterHours = hours.filter(hour => hour.dayId === dayId)
     let ladyHours = []

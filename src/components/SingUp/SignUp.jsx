@@ -8,7 +8,6 @@ import LocationCityOutlinedIcon from '@mui/icons-material/LocationCityOutlined';
 import HomeWorkOutlinedIcon from '@mui/icons-material/HomeWorkOutlined';
 import HouseOutlinedIcon from '@mui/icons-material/HouseOutlined';
 import LocalPhoneOutlinedIcon from '@mui/icons-material/LocalPhoneOutlined';
-import FingerprintOutlinedIcon from '@mui/icons-material/FingerprintOutlined';
 import IconButton from '@mui/material/IconButton';
 import Input from '@mui/material/Input';
 import InputLabel from '@mui/material/InputLabel';
@@ -17,7 +16,11 @@ import FormControl from '@mui/material/FormControl';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Button from '@mui/material/Button';
+import Person4Icon from '@mui/icons-material/Person4';
 import { styled } from '@mui/material/styles';
+import { useDispatch } from 'react-redux';
+import { insertClientForServer } from '../../store/features/Client/clientSlice';
+
 
 const BootstrapButton = styled(Button)({
     boxShadow: 'none',
@@ -56,42 +59,47 @@ const BootstrapButton = styled(Button)({
 
 const SignUp = () => {
     const [showPassword, setShowPassword] = useState(false);
-    const [value, setValue] = useState()
+    // const [value, setValue] = useState()
     const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+    let newClient = {}
+
+    const dis = useDispatch();
 
 
     const handleMouseDownPassword = (event) => {
         event.preventDefault();
     };
+
+    const handleChangePassword = (e) => {
+        if (e.target.value.length > 8) {
+            e.target.value = e.target.value.slice(0, 8)
+        }
+    }
+
     const handleBlurPhone = (e) => {
         const tel = e.target.value
-        if (tel.length === 10 || tel.length === 9)
-            setValue(tel)
-        else
-            setValue("")
-
+        if (tel.length === 10 || tel.length === 9) {
+            e.target.value = tel
+            newClient.phone = tel
+        }
     }
     const handleChangePhone = (e) => {
         const tel = e.target.value
-        if (tel.charAt(tel.length - 1) > '9' || tel.charAt(tel.length - 1) < '0' || tel.length > 10)
-            setValue(tel.slice(0, tel.length - 1))
-        else
-            setValue(tel)
-    }
-    const handleChangeID = (event) => {
-        const id = event.target.value;
 
-        if (id.charAt(id.length - 1) > '9' || id.charAt(id.length - 1) < '0') {
-            event.target.value = id.slice(0, id.length - 1);
+        if (tel.charAt(tel.length - 1) > '9' || tel.charAt(tel.length - 1) < '0' || tel.length > 10) {
+            e.target.value = tel.slice(0, tel.length - 1)
         }
-        if (id.length > 9) {
-            event.target.value = id.slice(0, 9);
+        else {
+            e.target.value = tel
         }
-    };
+    }
     const handleChangeHouseNumber = (e) => {
         const num = e.target.value
-        if (num.charAt(num.length - 1) > '9' || num.charAt(num.length - 1) < '0' || num.length > 2)
+        if (num.charAt(num.length - 1) > '9' || num.charAt(num.length - 1) < '0' || num.length > 2) {
             e.target.value = num.slice(0, num.length - 1)
+        }
+
     }
     const handleChangeCity = (e) => {
         const city = e.target.value;
@@ -102,6 +110,13 @@ const SignUp = () => {
 
     }
 
+    const handleSave = () => {
+        newClient.id = 0
+        newClient.role = "client"
+        console.log({ newClient });
+        dis(insertClientForServer(newClient))
+    }
+
     return (
         <div className='SignUp'>
             <form className='SignUpform'>
@@ -110,33 +125,36 @@ const SignUp = () => {
                     <span>Sing in to continue.</span>
                 </div>
                 <TextField
-                    id="input-with-sx"
-                    label="UserID"
-                    variant="standard"
-                    onChange={handleChangeID}
-                    InputProps={{
-                        endAdornment: (
-                            <FingerprintOutlinedIcon sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
-                        ),
-                    }}
-                />
-
-                <TextField
-                    id="input-with-sx"
+                    id="username"
                     label="Username"
                     variant="standard"
                     onChange={handleChangeCity}
+                    onBlur={(e) => newClient.username = e.target.value}
                     InputProps={{
                         endAdornment: (
                             <PersonIcon sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
                         ),
                     }}
                 />
+                <br />
 
+                <TextField
+                    id="name"
+                    label="Name"
+                    variant="standard"
+                    onChange={handleChangeCity}
+                    onBlur={(e) => newClient.name = e.target.value}
+                    InputProps={{
+                        endAdornment: (
+                            <Person4Icon sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
+                        ),
+                    }}
+                />
+                <br />
                 <FormControl sx={{ m: 1, width: '25ch' }} variant="standard">
                     <InputLabel htmlFor="standard-adornment-password">Password</InputLabel>
                     <Input
-                        id="standard-adornment-password"
+                        id="password"
                         type={showPassword ? 'text' : 'password'}
                         endAdornment={
                             <InputAdornment position="end">
@@ -149,59 +167,68 @@ const SignUp = () => {
                                 </IconButton>
                             </InputAdornment>
                         }
+                        onBlur={(e) => newClient.password = e.target.value}
                     />
                 </FormControl>
-
+                <br />
                 <TextField
-                    id="input-with-sx"
+                    id="phon"
                     label="Phone"
                     variant="standard"
-                    value={value}
                     onChange={handleChangePhone}
-                    onBlur={handleBlurPhone}
+                    onBlur={(e) => handleBlurPhone(e)}
+
                     InputProps={{
                         endAdornment: (
                             <LocalPhoneOutlinedIcon sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
                         ),
                     }}
                 />
+                <br />
+                {/* {phoneFlag && <Alert severity="error">phone contains just numbers!</Alert>}
+                                {phoneFlag2 && <Alert severity="warning">Invalid phone number!</Alert>} */}
 
                 <TextField
-                    id="input-with-sx"
+                    id="city"
                     label="City"
                     variant="standard"
                     onChange={handleChangeCity}
+                    onBlur={(e) => newClient.city = e.target.value}
                     InputProps={{
                         endAdornment: (
                             <LocationCityOutlinedIcon sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
                         ),
                     }}
                 />
+                <br />
 
                 <TextField
-                    id="input-with-sx"
+                    id="address"
                     label="Address"
                     variant="standard"
+                    onBlur={(e) => newClient.address = e.target.value}
                     InputProps={{
                         endAdornment: (
                             <HomeWorkOutlinedIcon sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
                         ),
                     }}
                 />
-
+                <br />
                 <TextField
-                    id="input-with-sx"
+                    id="HouseNumber"
                     label="HouseNumber"
                     variant="standard"
                     onChange={handleChangeHouseNumber}
+                    onBlur={(e) => newClient.houseNumber = e.target.value}
                     InputProps={{
                         endAdornment: (
                             <HouseOutlinedIcon sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
                         ),
                     }}
                 />
+                <br />
                 <div className='btnSubmit'>
-                    <BootstrapButton variant="contained">Log in</BootstrapButton>
+                    <BootstrapButton variant="contained" onClick={handleSave}>Log in</BootstrapButton>
                 </div>
             </form>
         </div>

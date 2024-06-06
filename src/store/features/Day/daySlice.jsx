@@ -1,5 +1,5 @@
 
-import { Delete, GetAll, GetOne, Insert, Update } from './DayAPI'
+import { Delete, GetAll, GetOneById, Insert, Update } from './DayAPI'
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
 
 const dayState = {
@@ -12,7 +12,7 @@ const fetchAllDayFromServer = createAsyncThunk("day-getAllDay", async (thunkAPI)
     return response
 })
 const fetchDayByIdFromServer = createAsyncThunk("Day-getDayById", async (id) => {
-    const response = await GetOne(id)
+    const response = await GetOneById(id)
     return response
 })
 

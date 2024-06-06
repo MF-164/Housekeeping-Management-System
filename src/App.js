@@ -22,18 +22,18 @@ function App() {
   }, [])
 
   const fetchData = () => {
-    dispatch(fetchAllClientFromServer())
+    // dispatch(fetchAllClientFromServer())
    // dispatch(fetchAllFromServer())
     // dispatch(fetchAllHours())
   }
 
-  let ladies = useSelector(s => s.cleaningLady.allCleaningLadies.ladies)
-  let clients = useSelector(s => s.client.allClients.clients)
+  // let ladies = useSelector(s => s.cleaningLady.allCleaningLadies.ladies)
+  // let clients = useSelector(s => s.client.allClients.clients)
   
   return (
     <div className="App">
 
-      <BrowserRouter>
+      {/* <BrowserRouter>
         <Routes>
           <Route path='' element={<Navbar currentClient={{ role: 'manager' }} list={[{ name: 'baba', city: 'koko' }]} />} />
           <Route path='Login' element={<Login />} />
@@ -42,7 +42,9 @@ function App() {
         </Routes>
       </BrowserRouter>
       <CleaningLadyList allCleaningLadies={ladies} />
-      <ClientList allClients={clients} />
+      <ClientList allClients={clients} /> */}
+
+      <SignUp/>
     </div>
   );
 }
