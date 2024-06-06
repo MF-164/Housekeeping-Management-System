@@ -12,9 +12,10 @@ import FormControl from '@mui/material/FormControl';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Button from '@mui/material/Button';
-
+import { fetchByUserNameFromServer } from '../../store/features/Client/clientSlice'
 import { styled } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux';
 
 const BootstrapButton = styled(Button)({
     boxShadow: 'none',
@@ -56,6 +57,9 @@ const Login = () => {
         name: undefined,
         password: undefined
     }
+    let dis = useDispatch()
+
+    let currentClient = useSelector(s => s.client.currentClient)
     let navigate = useNavigate()
     const [showPassword, setShowPassword] = React.useState(false);
 
@@ -68,7 +72,7 @@ const Login = () => {
     const handleChangeName = (e) => {
         const name = e.target.value;
 
-        if ((name.length > 25) || !((name.charAt(name.length - 1) >= 'a' && name.charAt(name.length - 1) <= 'z') ||
+        if ((name.length > 15) || !((name.charAt(name.length - 1) >= 'a' && name.charAt(name.length - 1) <= 'z') ||
             (name.charAt(name.length - 1) >= 'A' && name.charAt(name.length - 1) <= 'Z') || (name.charAt(name.length - 1) === ' ')))
             e.target.value = name.slice(0, name.length - 1)
         else
@@ -76,7 +80,7 @@ const Login = () => {
     }
 
     const handleChangePassword = (e) => {
-        const password = e.target.value;
+        const password = e.target.value
 
         if (password.length > 8)
             e.target.value = password.slice(0, password.length - 1)
@@ -85,13 +89,18 @@ const Login = () => {
     }
 
     const handleClickLogin = () => {
+        console.log("before if",{user})
         if (user.name !== undefined && user.password !== undefined) {
-            // TODO:check if in store...
-            // TODO:axios... dispath to current user
-            navigate('/home')
+            console.log("after if",{user});
+             dis(fetchByUserNameFromServer(user.name)).then( console.log({currentClient}))
+             console.log("after if",{user});
+            
+            if (currentClient != null){
+                console.log("null");
+                navigate('/home')}
         }
         else
-            navigate('')
+            navigate('SignUp')
     }
     return (
         <div className='Login'>

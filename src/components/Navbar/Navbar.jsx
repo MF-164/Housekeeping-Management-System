@@ -112,7 +112,7 @@ const Navbar = ({ currentClient, list }) => {
             open={isMenuOpen}
             onClose={handleMenuClose}
         >
-            <Link to='/Login' className='connect'>
+            <Link to='/' className='connect'>
                 <MenuItem onClick={handleMenuClose}>
                     <LogoutIcon sx={{ fontSize: 'medium' }} />
                     &nbsp;Log Out
@@ -233,10 +233,11 @@ const Navbar = ({ currentClient, list }) => {
                                 Cleaning Ladies
                             </Link>
 
-                            {currentClient.role === 'manager' &&
+                            {/* {currentClient.role === 'manager' && */}
                                 <Link style={{ marginLeft: '0.5cm' }} className='contain'/*to='ClientList'*/>
                                     Clients
-                                </Link>}
+                                </Link>
+                                {/* } */}
                         </Typography>
                         <Search>
                             <SearchIconWrapper>

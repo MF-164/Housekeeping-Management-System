@@ -27,22 +27,23 @@ function App() {
     // dispatch(fetchAllHours())
   }
 
-  let ladies = useSelector(s => s.cleaningLady.allCleaningLadies.ladies)
-  let clients = useSelector(s => s.client.allClients.clients)
+  // let ladies = useSelector(s => s.cleaningLady.allCleaningLadies.ladies)
+  // let clients = useSelector(s => s.client.allClients.clients)
   
   return (
     <div className="App">
 
       <BrowserRouter>
+      {/* <Login /> */}
         <Routes>
-          <Route path='' element={<Navbar currentClient={{ role: 'manager' }} list={[{ name: 'baba', city: 'koko' }]} />} />
-          <Route path='Login' element={<Login />} />
+          {/* <Route path='' element={<Navbar currentClient={{ role: 'manager' }} list={[{ name: 'baba', city: 'koko' }]} />} /> */}
+          <Route path='' element={<Login />} />
           <Route path='home' element={<Home />} />
           <Route path='SignUp' element={<SignUp />} />
         </Routes>
       </BrowserRouter>
-      <CleaningLadyList allCleaningLadies={ladies} />
-      <ClientList allClients={clients} />
+      {/* <CleaningLadyList allCleaningLadies={ladies} /> */}
+      {/* <ClientList allClients={clients} /> */}
     </div>
   );
 }
