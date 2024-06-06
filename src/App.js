@@ -22,7 +22,7 @@ function App() {
   }, [])
 
   const fetchData = () => {
-    dispatch(fetchAllClientFromServer())
+    // dispatch(fetchAllClientFromServer())
    // dispatch(fetchAllFromServer())
     // dispatch(fetchAllHours())
   }
