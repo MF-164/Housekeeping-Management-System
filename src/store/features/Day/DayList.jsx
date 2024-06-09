@@ -3,22 +3,19 @@ import List from '@mui/material/List';
 import Day from "./Day";
 import { useNavigate } from "react-router-dom";
 import { updateCurrentOrder } from "../Order/orderSlice";
+import { store } from "../../app/store";
 
-let filterDays = [
-    {date:new Date('2/3/2020')},
-    {date:new Date('3/3/2020')},
-    {date:new Date('4/3/2020')},
-    {date:new Date('5/3/2020')},
-]
+
 const DayList = () => {
 
-    let currentOrder = useSelector(s => s.order.currentOrder)
+    let currentOrder = store.getState().order.currentOrder
     let days = useSelector(s => s.day.allDays.days)
 
     let navigate = useNavigate()
     let dispatch = useDispatch()
 
-    // let filterDays = days.filter(day => day.cleaningLadyId === currentOrder.cleaningLadyId)
+
+    let filterDays = days.filter(day => day.cleaningLadyId === currentOrder.cleaningLadyId)
 
     const handleClick = (dayId) => {
         let nn = { ...currentOrder, dayId }

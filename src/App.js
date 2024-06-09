@@ -5,6 +5,7 @@ import Login from './components/Login/Login';
 import SignUp from './components/SingUp/SignUp'
 import Home from './components/Home/Home'
 import DayList from './store/features/Day/DayList'
+import HourList from './store/features/Hour/HourList';
 function App() {
 
   
@@ -12,11 +13,12 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route path='' element={<Home/>} />
-          <Route path='uu' element={<Login />} />
+          {/* <Route path='home' element={<Home/>} /> */}
+          <Route path='' element={<Login />} />
           <Route path='home' element={<Home />}/>
           <Route path='home/day' element={<DayList/>}/>
-          <Route path='SingUp' element={<SignUp />} />
+          <Route path='home/day/hour' element={<HourList/>}/>
+          <Route path='SignUp' element={<SignUp />} />
         </Routes>
       </BrowserRouter>
     </div>

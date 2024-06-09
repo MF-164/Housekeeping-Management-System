@@ -16,6 +16,7 @@ import { fetchByUserNameFromServer } from '../../store/features/Client/clientSli
 import { styled } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux';
+import { store } from '../../store/app/store'
 
 const BootstrapButton = styled(Button)({
     boxShadow: 'none',
@@ -62,7 +63,7 @@ const Login = () => {
     let currentClient = useSelector(s => s.client.currentClient.client)
 
     let navigate = useNavigate()
-    
+
     const [showPassword, setShowPassword] = React.useState(false);
 
     const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -91,19 +92,17 @@ const Login = () => {
     }
 
     const handleClickLogin = () => {
-        console.log("before if",{user})
         if (user.name !== undefined && user.password !== undefined) {
-            console.log("after if",{user});
-             dis(fetchByUserNameFromServer(user.name))
-             console.log("after if",{user});
-            
-            if (currentClient != null){
-                console.log("null");
-                navigate('/home')
+            dis(fetchByUserNameFromServer(user.name)).then(() => {
+                let currentClient = store.getState().client.currentClient.client
+                console.log({currentClient});
+                if (currentClient != null) {
+                    navigate('/home')
+                } else
+                    navigate('SignUp')
             }
+            )
         }
-        else
-            navigate('SignUp')
     }
     return (
         <div className='Login'>
@@ -112,7 +111,7 @@ const Login = () => {
                     <u><h2>Login</h2></u>
                     <span>Sing in to continue.</span>
                 </div>
-                <TextField
+                <TextField 
                     id="userName"
                     label="Username"
                     variant="standard"

@@ -14,6 +14,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateCurrentOrder } from '../Order/orderSlice';
 import { useNavigate } from 'react-router-dom';
+import { store } from '../../app/store';
 
 
 
@@ -32,7 +33,6 @@ const CleaningLady = ({ cleaningLady }) => {
     const [hasComment, setHasComment] = React.useState(false);
     const [expanded, setExpanded] = React.useState(false);
     const [writeComment, setWriteComment] = React.useState(false)
-    let currentOrder = useSelector(s => s.order.currentOrder)
     let dis = useDispatch();
     let navigate = useNavigate()
 
@@ -40,13 +40,15 @@ const CleaningLady = ({ cleaningLady }) => {
         setExpanded(!expanded);
     };
     const handleWriteComment = () => {
+
         setWriteComment(!writeComment)
         setHasComment(true)
     }
     const openOrder = () => {
-        dis(updateCurrentOrder({ ...currentOrder, cleaningLadyId: cleaningLady.id }))
-        navigate('daylist')
-
+        let copyOrder = {}
+        copyOrder.cleaningLadyId = cleaningLady.id
+        dis(updateCurrentOrder(copyOrder))
+        navigate('day')
     }
     return (
         <>

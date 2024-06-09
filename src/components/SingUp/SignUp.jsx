@@ -120,6 +120,7 @@ const SignUp = () => {
         newClient.role = "client"
         console.log({newClient});
         let client = dis(fetchByUserNameFromServer(newClient.username))
+        console.log("before  null if",{client});
         if (client === null) {
              dis(insertClientForServer(newClient))
             if (status === "success") {
