@@ -1,12 +1,15 @@
 import './Home.scss'
-import {createContext} from 'react'
+import CleaningLadyList from '../../store/features/CleaningLady/CleaningLadyList'
 import { useSelector } from 'react-redux'
 import Navbar from '../Navbar/Navbar'
 
 const Home = () => {
+  let user = useSelector(s=> s.client)
+  console.log({user});
   return (
     <div className='home'>
-      <Navbar/>
+      <Navbar currentClient={{ role: 'manager' }} list={[{ name: 'baba', city: 'koko' }]} />
+      <CleaningLadyList></CleaningLadyList>
     </div>
   )
 }

@@ -59,8 +59,10 @@ const Login = () => {
     }
     let dis = useDispatch()
 
-    let currentClient = useSelector(s => s.client.currentClient)
+    let currentClient = useSelector(s => s.client.currentClient.client)
+
     let navigate = useNavigate()
+    
     const [showPassword, setShowPassword] = React.useState(false);
 
     const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -92,12 +94,13 @@ const Login = () => {
         console.log("before if",{user})
         if (user.name !== undefined && user.password !== undefined) {
             console.log("after if",{user});
-             dis(fetchByUserNameFromServer(user.name)).then( console.log({currentClient}))
+             dis(fetchByUserNameFromServer(user.name))
              console.log("after if",{user});
             
             if (currentClient != null){
                 console.log("null");
-                navigate('/home')}
+                navigate('/home')
+            }
         }
         else
             navigate('SignUp')

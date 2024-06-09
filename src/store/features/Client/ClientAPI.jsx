@@ -11,22 +11,25 @@ export const GetOneById = async (id) => {
     return data
 }
 export const GetOneByUserName = async (userName) => {
+
     let url = 'https://localhost:7218/api/Client/getByUserName/' + userName
-    const response = await axios.get(url)
-    if (response.status === 200)
-        return response.data
-    else
+    const {data} = await axios.get(url)
+    console.log({ data });
+    if (data === "")
         return null
+    else
+        return data
 }
 
 export const Insert = async (client) => {
+    console.log("api", { client });
     const { data } = await axios.post('https://localhost:7218/api/Client/insert', client)
     return data
 }
 
 export const Update = async (id, client) => {
     let url = 'https://localhost:7218/api/Client/update/' + id
-    const { data } = await axios.put(url,  client )
+    const { data } = await axios.put(url, client)
     return data
 }
 

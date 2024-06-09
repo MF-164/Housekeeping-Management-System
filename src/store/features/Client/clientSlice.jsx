@@ -2,9 +2,15 @@ import { GetAll, GetOneById, GetOneByUserName, Insert, Update, Delete } from './
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
 
 const clientState = {
-    allClients: { clients: [] },
-    currentClient: undefined,
-    status: "idle"
+    allClients: {
+        clients: [],
+        status: 'idle'
+    },
+    currentClient: {
+        status: "idle",
+        client:undefined
+    },
+    
 }
 
 export const fetchAllClientFromServer = createAsyncThunk("client-getAll", async (thunkAPI) => {
@@ -50,10 +56,10 @@ export const clientSlice = createSlice({
                 .findIndex(client => client.id === action.payload)
             state.allClients.clients.splice(index, 1)
             if (state.currentClient?.id === action.payload)
-                state.currentClient = undefined
+                state.currentClient.client = undefined
         },
         setCurrentClient: (state, action) => {//NOTE:setCurrentClient => payload:id//TODO: בדיקת תקינות
-            state.currentClient = state.allClients.clients
+            state.currentClient.client = state.allClients.clients
                 .find(client => client.id === action.payload)
         },
         updateClient: (state, action) => {//NOTE:updateClient => payload:user{same id}
@@ -65,38 +71,47 @@ export const clientSlice = createSlice({
     extraReducers: (builder) => {
         builder.addCase(fetchAllClientFromServer.fulfilled, (state, action) => {
             state.allClients.clients = action.payload
-            state.status = "success"
+            state.allClients.status = "success"
         }).addCase(fetchAllClientFromServer.rejected, (state, action) => {
-            state.status = "failed"
+            state.allClients.status = "failed"
         }).addCase(fetchAllClientFromServer.pending, (state, action) => {
+            state.allClients.status = "pending"
+        })
+
+        .addCase(fetchClientByIdFromServer.fulfilled, (state, action) => {
+            state.currentClient.client = action.payload
+        })
+
+        .addCase(fetchByUserNameFromServer.fulfilled, (state, action) => {
+            state.currentClient.client = action.payload
+            state.status = "success"
+        })
+        .addCase(fetchByUserNameFromServer.rejected, (state, action) => {
+            state.currentClient.client = action.payload
+            state.status = "faild"
+        })
+        .addCase(fetchByUserNameFromServer.pending, (state, action) => {
+            state.currentClient.client = action.payload
             state.status = "pending"
         })
 
-            .addCase(fetchClientByIdFromServer.fulfilled, (state, action) => {
-                state.currentClient = action.payload
-            })
+        .addCase(insertClientForServer.fulfilled, (state, action) => {
+            state.allClients.clients.push(action.payload)
+        })
 
-            .addCase(insertClientForServer.fulfilled, (state, action) => {
-                state.allClients.clients .push(action.payload)
-            })
+        .addCase(updateClientOnServer.fulfilled, (state, action) => {
+            let index = state.allClients.clients
+                .findIndex(client => client.id === action.payload.id)
+            state.allClients.clients.splice(index, 1, action.payload)
+        })
 
-            .addCase(updateClientOnServer.fulfilled, (state, action) => {
-                let index = state.allClients.clients
-                    .findIndex(client => client.id === action.payload.id)
-                state.allClients.clients.splice(index, 1, action.payload)
-            })
-
-            .addCase(fetchByUserNameFromServer.fulfilled, (state, action) => {
-                state.currentClient = action.payload
-            })
-
-            .addCase(deleteClientFromServer.fulfilled, (state, action) => {
-                let index = state.allClients.clients
-                    .findIndex(client => client.id === action.payload)
-                state.allClients.clients.splice(index, 1)
-                if (state.currentClient?.id === action.payload)
-                    state.currentClient = undefined
-            })
+        .addCase(deleteClientFromServer.fulfilled, (state, action) => {
+            let index = state.allClients.clients
+                .findIndex(client => client.id === action.payload)
+            state.allClients.clients.splice(index, 1)
+            if ( state.currentClient.client?.id === action.payload)
+                state.currentClient.client = undefined
+        })
     }
 })
 

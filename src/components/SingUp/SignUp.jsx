@@ -18,8 +18,9 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Button from '@mui/material/Button';
 import Person4Icon from '@mui/icons-material/Person4';
 import { styled } from '@mui/material/styles';
-import { useDispatch } from 'react-redux';
-import { insertClientForServer } from '../../store/features/Client/clientSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchByUserNameFromServer, insertClientForServer } from '../../store/features/Client/clientSlice';
+import { useNavigate } from 'react-router-dom';
 
 
 const BootstrapButton = styled(Button)({
@@ -66,6 +67,10 @@ const SignUp = () => {
 
     const dis = useDispatch();
 
+    let navigate = useNavigate()
+
+    let status = useSelector(s => s.client.currentClient.status)
+    let currentClient = useSelector(s => s.client.currentClient.client)
 
     const handleMouseDownPassword = (event) => {
         event.preventDefault();
@@ -113,8 +118,19 @@ const SignUp = () => {
     const handleSave = () => {
         newClient.id = 0
         newClient.role = "client"
-        console.log({ newClient });
-        dis(insertClientForServer(newClient))
+        console.log({newClient});
+        let client = dis(fetchByUserNameFromServer(newClient.username))
+        if (client === null) {
+             dis(insertClientForServer(newClient))
+            if (status === "success") {
+                console.log({ currentClient });
+                navigate('/home')
+            }
+        }
+        else{
+            console.log({client});
+            console.log("error");
+        }
     }
 
     return (
@@ -156,6 +172,7 @@ const SignUp = () => {
                     <Input
                         id="password"
                         type={showPassword ? 'text' : 'password'}
+                        onChange={handleChangePassword}
                         endAdornment={
                             <InputAdornment position="end">
                                 <IconButton

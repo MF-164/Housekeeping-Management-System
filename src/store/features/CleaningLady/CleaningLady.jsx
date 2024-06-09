@@ -11,6 +11,9 @@ import Typography from '@mui/material/Typography';
 import { red } from '@mui/material/colors';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { useDispatch, useSelector } from 'react-redux';
+import { updateCurrentOrder } from '../Order/orderSlice';
+import { useNavigate } from 'react-router-dom';
 
 
 
@@ -26,9 +29,13 @@ const ExpandMore = styled((props) => {
 }));
 
 const CleaningLady = ({ cleaningLady }) => {
-    const [hasComment,setHasComment]= React.useState(false);
+    const [hasComment, setHasComment] = React.useState(false);
     const [expanded, setExpanded] = React.useState(false);
     const [writeComment, setWriteComment] = React.useState(false)
+    let currentOrder = useSelector(s => s.order.currentOrder)
+    let dis = useDispatch();
+    let navigate = useNavigate()
+
     const handleExpandClick = () => {
         setExpanded(!expanded);
     };
@@ -36,10 +43,15 @@ const CleaningLady = ({ cleaningLady }) => {
         setWriteComment(!writeComment)
         setHasComment(true)
     }
+    const openOrder = () => {
+        dis(updateCurrentOrder({ ...currentOrder, cleaningLadyId: cleaningLady.id }))
+        navigate('daylist')
+
+    }
     return (
         <>
-            <Card sx={{width:1000}} >
-                <CardHeader sx={{width:200}}
+            <Card sx={{ width: 1000 }} onClick={openOrder}>
+                <CardHeader sx={{ width: 200 }}
                     avatar={
                         <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
                             {cleaningLady.firstName?.charAt(0).toUpperCase() + cleaningLady.lastName?.charAt(0).toUpperCase()}
@@ -57,8 +69,8 @@ const CleaningLady = ({ cleaningLady }) => {
                 <CardActions disableSpacing>
                     <IconButton aria-label="add to favorites" color='red'
                     >
-                        {hasComment ? <FavoriteIcon onClick={handleWriteComment} sx={{color:red[500]}} />
-                        :<FavoriteIcon onClick={handleWriteComment}/>}
+                        {hasComment ? <FavoriteIcon onClick={handleWriteComment} sx={{ color: red[500] }} />
+                            : <FavoriteIcon onClick={handleWriteComment} />}
                     </IconButton>
 
                     <ExpandMore
@@ -76,16 +88,16 @@ const CleaningLady = ({ cleaningLady }) => {
                         <Typography paragraph><b><u>More Details:</u></b></Typography>
                         <Typography paragraph>
                             <div className='moreDetails'>
-                            HourlyPrice:{cleaningLady?.HourlyPrice}
-                            <br />
-                            Address: {cleaningLady?.Address}
-                            <br />
-                            HouseNumber: {cleaningLady?.HouseNumber}
-                            <br />
-                            OriginCountry: {cleaningLady?.OriginCountry}
-                            <br />
-                            Status: {cleaningLady?.Status}
-                            <br />
+                                HourlyPrice:{cleaningLady?.HourlyPrice}
+                                <br />
+                                Address: {cleaningLady?.Address}
+                                <br />
+                                HouseNumber: {cleaningLady?.HouseNumber}
+                                <br />
+                                OriginCountry: {cleaningLady?.OriginCountry}
+                                <br />
+                                Status: {cleaningLady?.Status}
+                                <br />
                             </div>
                         </Typography>
 
