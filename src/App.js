@@ -13,6 +13,8 @@ import { fetchAllClientFromServer} from './store/features/Client/clientSlice'
 import ClientList from './store/features/Client/ClientList'
 // import { fetchAllHours } from './store/features/Hour/hourSlice';
 import Hour from './store/features/Hour/Hour'
+import DayList from './store/features/Day/DayList';
+// import HourList from './store/features/Hour/HourList';
 function App() {
 
   let dispatch = useDispatch()
@@ -32,18 +34,16 @@ function App() {
   
   return (
     <div className="App">
-
       <BrowserRouter>
-      {/* <Login /> */}
+      <Login />
         <Routes>
-          {/* <Route path='' element={<Navbar currentClient={{ role: 'manager' }} list={[{ name: 'baba', city: 'koko' }]} />} /> */}
+          <Route path='' element={<Navbar currentClient={{ role: 'manager' }} list={[{ name: 'baba', city: 'koko' }]} />} />
           <Route path='' element={<Login />} />
-          <Route path='home' element={<Home />} />
+          <Route path='home/day' element={<DayList />} />
+          <Route path='home/day/hour' element={<Hour />} />
           <Route path='SignUp' element={<SignUp />} />
         </Routes>
       </BrowserRouter>
-      {/* <CleaningLadyList allCleaningLadies={ladies} /> */}
-      {/* <ClientList allClients={clients} /> */}
     </div>
   );
 }

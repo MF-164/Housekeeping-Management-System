@@ -92,7 +92,7 @@ const Login = () => {
         console.log("before if",{user})
         if (user.name !== undefined && user.password !== undefined) {
             console.log("after if",{user});
-             dis(fetchByUserNameFromServer(user.name)).then( console.log({currentClient}))
+             dis(fetchByUserNameFromServer(user.name))
              console.log("after if",{user});
             
             if (currentClient != null){
