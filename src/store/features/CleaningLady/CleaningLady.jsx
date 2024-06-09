@@ -45,9 +45,7 @@ const CleaningLady = ({ cleaningLady }) => {
         setHasComment(true)
     }
     const openOrder = () => {
-        let copyOrder = {}
-        copyOrder.cleaningLadyId = cleaningLady.id
-        dis(updateCurrentOrder(copyOrder))
+        dis(updateCurrentOrder({ cleaningLadyId: cleaningLady.id }))
         navigate('day')
     }
     return (

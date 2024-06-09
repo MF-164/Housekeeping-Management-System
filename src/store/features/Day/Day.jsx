@@ -19,7 +19,7 @@ const Day = ({ day}) => {
 
                         <Typography variant="body2" color="text.secondary" >
                             <p >
-                                <span > {day.date.toLocaleDateString()}</span>
+                                <span > {day.date}</span>
                             </p>
                         </Typography>
                     </CardContent>

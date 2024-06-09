@@ -7,24 +7,24 @@ const dayState = {
     status: "idle"
 }
 
-const fetchAllDayFromServer = createAsyncThunk("day-getAllDay", async (thunkAPI) => {
+export const fetchAllDayFromServer = createAsyncThunk("day-getAllDay", async (thunkAPI) => {
     const response = await GetAll()
     return response
 })
-const fetchDayByIdFromServer = createAsyncThunk("Day-getDayById", async (id) => {
+export const fetchDayByIdFromServer = createAsyncThunk("Day-getDayById", async (id) => {
     const response = await GetOneById(id)
     return response
 })
 
-const insertDayForServer = createAsyncThunk("day-insertDay", async (day) => {
+export const insertDayForServer = createAsyncThunk("day-insertDay", async (day) => {
     const response = await Insert(day)
     return response
 })
-const updateDayForServer = createAsyncThunk("day-updateDay", async (id, day) => {
+export const updateDayForServer = createAsyncThunk("day-updateDay", async (id, day) => {
     const response = await Update(id, day)
     return response
 })
-const deleteDayForServer = createAsyncThunk("day-deleteDay", async (id) => {
+export const deleteDayForServer = createAsyncThunk("day-deleteDay", async (id) => {
     const response = await Delete(id)
     return response
 })
