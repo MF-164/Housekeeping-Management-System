@@ -39,7 +39,9 @@ export const cleaningLadySlice = createSlice({
     reducers: {
         updateCurrentCleaningLady: (state, action) => {
             state.currentLady = action.payload
-        }
+        },updateAllLadiesState: (state ,action)=>{
+            state.allClients.clients=action.payload.clients
+          }
     },
     extraReducers: (builder) => {
         builder.addCase(fetchAllCleningLadysFromServer.fulfilled, (state, action) => {
