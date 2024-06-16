@@ -6,6 +6,7 @@ import { fetchAllHoursFromServer } from "./hourSlice";
 import { store } from "../../app/store";
 import { useParams } from "react-router-dom";
 import { insertOrderForServer, updateCurrentOrder } from "../Order/orderSlice";
+import ButtomBack from "../../../components/ButtonBack/ButtonBack";
 
 const HourList = () => {
     let { dayId } = useParams()
@@ -107,10 +108,11 @@ const HourList = () => {
         order.payment = (order.to-order.from) * currentCleaningLady.hourlyPrice
         order.date = currentDay.date
         order.dateOrder = new Date()
-       
+ 
         dispatch(insertOrderForServer(order))
         order.dateOrder = order.dateOrder.toLocaleDateString()
         dispatch(updateCurrentOrder(order))
+        console.log({order});
     }
 
     return (
@@ -124,6 +126,7 @@ const HourList = () => {
                     )}
                 </List>
                 <input type="button" defaultValue="save order" onClick={saveOrder}></input>
+                <ButtomBack navigate={"/home/day"}></ButtomBack>
             </div>
         </>
     )

@@ -6,6 +6,7 @@ import { store } from "../../app/store";
 import { useEffect } from "react";
 import { fetchAllDayFromServer, updateCurrentDay } from "./daySlice";
 import { fetchAllHoursFromServer } from "../Hour/hourSlice";
+import ButtomBack from "../../../components/ButtonBack/ButtonBack";
 
 
 const DayList = () => {
@@ -39,6 +40,7 @@ const DayList = () => {
                         (day, index) => <div key={index} className="card" ><Day day={day} /></div>
                     )}
                 </List>
+                <ButtomBack navigate={"/home"}></ButtomBack>
             </div>
         </>
     )
