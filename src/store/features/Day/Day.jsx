@@ -14,28 +14,33 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { updateCurrentDay } from './daySlice';
 
-const Day = ({ day}) => {
+const Day = ({ day }) => {
     let navigate = useNavigate()
     let dispatch = useDispatch()
 
+    let dayDate = day.date.slice(0, 10)
+    let array = dayDate.split('-')
+    array.reverse()
+    dayDate = array.join('.')
+
     const handleClick = () => {
         dispatch(updateCurrentDay(day))
-        navigate('hour/'+day.id)
+        navigate('hour/' + day.id)
     }
 
     return (<>
-            <Button>
-                <Card sx={{ width: 500 }} onClick = {handleClick}>
-                    <CardContent>
+        <Button>
+            <Card sx={{ width: 500 }} onClick={handleClick}>
+                <CardContent>
 
-                        <Typography variant="body2" color="text.secondary" >
-                            <p >
-                                <span > {day.date}</span>
-                            </p>
-                        </Typography>
-                    </CardContent>
-                </Card>
-            </Button>
+                    <Typography variant="body2" color="text.secondary" >
+                        <p >
+                            <span > {dayDate}</span>
+                        </p>
+                    </Typography>
+                </CardContent>
+            </Card>
+        </Button>
     </>)
 }
 
