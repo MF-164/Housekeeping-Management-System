@@ -6,6 +6,7 @@ import SignUp from './components/SingUp/SignUp'
 import Home from './components/Home/Home'
 import DayList from './store/features/Day/DayList'
 import HourList from './store/features/Hour/HourList';
+import FinalOrder from './components/FinalOrder/FinalOrder';
 function App() {
 
   
@@ -13,15 +14,15 @@ function App() {
     <div className="App">
       {/* <BrowserRouter>
         <Routes>
-          {/* <Route path='home' element={<Home/>} /> */}
+         <Route path='home' element={<Home/>} /> 
           <Route path='' element={<Login />} />
           <Route path='home' element={<Home />}/>
           <Route path='home/day' element={<DayList/>}/>
           <Route path='home/day/hour/:dayId' element={<HourList/>}/>
           <Route path='SignUp' element={<SignUp />} />
         </Routes>
-      </BrowserRouter> */}
-      <HourList dayId={1}/>
+      </BrowserRouter>  */}
+      <FinalOrder/>
     </div>
   );
 }
