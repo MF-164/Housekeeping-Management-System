@@ -3,10 +3,12 @@ import Hour from "./Hour"
 import List from '@mui/material/List';
 import { useState } from "react";
 
-
+let hours = [
+    {from:10,to:14,dayId:1}
+]
 const HourList = ({ dayId }) => {
 
-    let hours = useSelector(s=>s.hour.allHours.hours)
+    // let hours = useSelector(s=>s.hour.allHours.hours)
 
     let filterHours = hours.filter(hour => hour.dayId === dayId)
     let ladyHours = []
@@ -36,7 +38,6 @@ const HourList = ({ dayId }) => {
                     return choose
             })
             setDoneChoises(copy)
-            console.log('insert of end', { choises });
         } 
         
         
@@ -49,7 +50,6 @@ const HourList = ({ dayId }) => {
                     return choose
             })
             setDoneChoises(copy)
-            console.log('insert of start', { choises });
         }
         
         
@@ -62,7 +62,6 @@ const HourList = ({ dayId }) => {
             })
             setDoneChoises(copy)
             setChoises(choises.filter((__,index) => index != 0))
-            console.log('slice of start', { choises });
         } 
         
         
@@ -76,7 +75,6 @@ const HourList = ({ dayId }) => {
             })
             setDoneChoises(copy)
             setChoises(choises.filter((__,index) => index != choises.length - 1))
-            console.log('slice of end', { choises });
         }
 
 
@@ -98,7 +96,8 @@ const HourList = ({ dayId }) => {
             <div className="all">
                 <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
                     {ladyHours?.map(
-                        (hour, index) => <div key={index} className="card" onClick={() => handleClick(hour, index)}><Hour hour={hour}
+                        (hour, index) => <div key={index} className="card" onClick={() => handleClick(hour, index)}>
+                            <Hour hour={hour}
                             errorChoose={{ errorChoises, index, setErrorChoises }}
                             choose={doneChoises[index]} /></div>
                     )}
