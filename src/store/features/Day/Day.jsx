@@ -13,15 +13,18 @@ import { Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { updateCurrentDay } from './daySlice';
+export   const displayDate=(date)=>{
+   let dayDate = date.slice(0, 10)
+    let array = dayDate.split('-')
+    array.reverse()
+    dayDate = array.join('/')
+    return dayDate
+}
 
 const Day = ({ day }) => {
     let navigate = useNavigate()
     let dispatch = useDispatch()
-
-    let dayDate = day.date.slice(0, 10)
-    let array = dayDate.split('-')
-    array.reverse()
-    dayDate = array.join('.')
+    
 
     const handleClick = () => {
         dispatch(updateCurrentDay(day))
@@ -35,7 +38,7 @@ const Day = ({ day }) => {
 
                     <Typography variant="body2" color="text.secondary" >
                         <p >
-                            <span > {dayDate}</span>
+                            <span > {displayDate(day.date)}</span>
                         </p>
                     </Typography>
                 </CardContent>

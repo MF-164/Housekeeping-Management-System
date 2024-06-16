@@ -12,7 +12,7 @@ function App() {
   
   return (
     <div className="App">
-      {/* <BrowserRouter>
+      <BrowserRouter>
         <Routes>
          <Route path='home' element={<Home/>} /> 
           <Route path='' element={<Login />} />
@@ -20,9 +20,10 @@ function App() {
           <Route path='home/day' element={<DayList/>}/>
           <Route path='home/day/hour/:dayId' element={<HourList/>}/>
           <Route path='SignUp' element={<SignUp />} />
+          <Route path='Final' element={<FinalOrder />} />
         </Routes>
-      </BrowserRouter>  */}
-      <FinalOrder/>
+      </BrowserRouter> 
+      
     </div>
   );
 }

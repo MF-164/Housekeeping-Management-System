@@ -4,7 +4,7 @@ import List from '@mui/material/List';
 import { useEffect, useState } from "react";
 import { fetchAllHoursFromServer } from "./hourSlice";
 import { store } from "../../app/store";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { insertOrderForServer, updateCurrentOrder } from "../Order/orderSlice";
 import ButtomBack from "../../../components/ButtonBack/ButtonBack";
 
@@ -12,6 +12,7 @@ const HourList = () => {
     let { dayId } = useParams()
     dayId = parseInt(dayId) 
     let ladyHours = []
+    let navigate=useNavigate()
 
     let hours = store.getState().hour.allHours.hours
     let filterHours = hours.filter(hour => hour.dayId === dayId)
@@ -113,6 +114,7 @@ const HourList = () => {
         order.dateOrder = order.dateOrder.toLocaleDateString()
         dispatch(updateCurrentOrder(order))
         console.log({order});
+        navigate("/Final")
     }
 
     return (
