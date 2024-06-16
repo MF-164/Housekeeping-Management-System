@@ -15,6 +15,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { updateCurrentOrder } from '../Order/orderSlice';
 import { useNavigate } from 'react-router-dom';
 import { store } from '../../app/store';
+import { updateCurrentCleaningLady } from './cleaningLadySlice';
 
 
 
@@ -46,6 +47,7 @@ const CleaningLady = ({ cleaningLady }) => {
     }
     const openOrder = () => {
         dis(updateCurrentOrder({ cleaningLadyId: cleaningLady.id }))
+        dis(updateCurrentCleaningLady(cleaningLady))
         navigate('day')
     }
     return (

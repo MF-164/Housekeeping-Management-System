@@ -36,7 +36,11 @@ export const updateCleaningLadyOnServer = createAsyncThunk('cleaningLady-update'
 export const cleaningLadySlice = createSlice({
     name: 'cleaningLadySlice',
     initialState: cleaningLadyState,
-
+    reducers: {
+        updateCurrentCleaningLady: (state, action) => {
+            state.currentLady = action.payload
+        }
+    },
     extraReducers: (builder) => {
         builder.addCase(fetchAllCleningLadysFromServer.fulfilled, (state, action) => {
             state.allCleaningLadies.ladies = action.payload
@@ -72,6 +76,6 @@ export const cleaningLadySlice = createSlice({
     }
 })
 
-
+export const { updateCurrentCleaningLady } = cleaningLadySlice.actions
 
 export default cleaningLadySlice.reducer

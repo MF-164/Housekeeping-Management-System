@@ -95,7 +95,6 @@ const Login = () => {
         if (user.name !== undefined && user.password !== undefined) {
             dis(fetchByUserNameFromServer(user.name)).then(() => {
                 let currentClient = store.getState().client.currentClient.client
-                console.log({currentClient});
                 if (currentClient != null) {
                     navigate('/home')
                 } else

@@ -8,26 +8,26 @@ const orderState = {
     status: "idle"
 }
 
-const fetchAllOrderFromServer = createAsyncThunk('Order-getAll', async (thunkAPI) => {
+export const fetchAllOrderFromServer = createAsyncThunk('Order-getAll', async (thunkAPI) => {
     const response = await GetAll()
     return response
 })
-const fetchOrderByIdFromServer = createAsyncThunk('Order-getOne', async (id) => {
+export const fetchOrderByIdFromServer = createAsyncThunk('Order-getOne', async (id) => {
     const response = await GetOne(id)
     return response
 })
 
-const insertOrderForServer = createAsyncThunk('Order-insert', async (order) => {
+export const insertOrderForServer = createAsyncThunk('Order-insert', async (order) => {
     const response = await Insert(order)
     return response
 })
 
-const updateOrderOnServer = createAsyncThunk('Order-update', async (id, order) => {
+export const updateOrderOnServer = createAsyncThunk('Order-update', async (id, order) => {
     const response = await Update(id, order)
     return response
 })
 
-const deleteOrderFromServer = createAsyncThunk('Order-delete', async (id) => {
+export const deleteOrderFromServer = createAsyncThunk('Order-delete', async (id) => {
     const response = await Delete(id)
     return response
 })

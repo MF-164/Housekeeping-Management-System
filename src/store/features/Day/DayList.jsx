@@ -1,16 +1,15 @@
 import { useDispatch, useSelector } from "react-redux";
 import List from '@mui/material/List';
 import Day from "./Day";
-import { useNavigate } from "react-router-dom";
 import { updateCurrentOrder } from "../Order/orderSlice";
 import { store } from "../../app/store";
 import { useEffect } from "react";
-import { fetchAllDayFromServer } from "./daySlice";
+import { fetchAllDayFromServer, updateCurrentDay } from "./daySlice";
+import { fetchAllHoursFromServer } from "../Hour/hourSlice";
 
 
 const DayList = () => {
 
-    let navigate = useNavigate()
     let dispatch = useDispatch()
 
     useEffect(() => {
@@ -19,6 +18,7 @@ const DayList = () => {
 
     const getData = () => {
         dispatch(fetchAllDayFromServer())
+        dispatch(fetchAllHoursFromServer())
     }
 
     let currentOrder = store.getState().order.currentOrder
@@ -29,18 +29,14 @@ const DayList = () => {
 
     let filterDays = days.filter(day => day.cleaningLadyId === currentOrder.cleaningLadyId)
 
-    const handleClick = (dayId) => {
-        let currentOrder = store.getState().order.currentOrder
-        dispatch(updateCurrentOrder({ ...currentOrder, dayId }))
-        navigate('hour')
-    }
+  
 
     return (
         <>
             <div className="all">
                 <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
                     {filterDays?.map(
-                        (day, index) => <div key={index} className="card" onClick={() => handleClick(day.id)}><Day day={day} /></div>
+                        (day, index) => <div key={index} className="card" ><Day day={day} /></div>
                     )}
                 </List>
             </div>

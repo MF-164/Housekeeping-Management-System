@@ -17,7 +17,7 @@ function App() {
           <Route path='' element={<Login />} />
           <Route path='home' element={<Home />}/>
           <Route path='home/day' element={<DayList/>}/>
-          <Route path='home/day/hour' element={<HourList/>}/>
+          <Route path='home/day/hour/:dayId' element={<HourList/>}/>
           <Route path='SignUp' element={<SignUp />} />
         </Routes>
       </BrowserRouter>
