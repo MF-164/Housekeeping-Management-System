@@ -19,7 +19,11 @@ import Select from '@mui/material/Select';
 import LogoutIcon from '@mui/icons-material/Logout';
 import LoginIcon from '@mui/icons-material/Login';
 import PersonIcon from '@mui/icons-material/Person';
+import updateAllClientState from "../../store/features/Client/clientSlice"
+import updateAllLadiesState from "../../store/features/CleaningLady/cleaningLadySlice"
+import { store } from "../../store/app/store";
 import './Navbar.scss'
+import { useDispatch } from 'react-redux';
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
     borderRadius: theme.shape.borderRadius,
@@ -71,7 +75,12 @@ const StyledSelect = {
     },
 }
 
-const Navbar = ({ currentClient, list }) => {
+const Navbar = ({ list }) => {
+    let dispatch = useDispatch()
+    // let currentClient = store.getState().client.currentClient.client
+    let clients = store.getState().client.allClients.clients
+    let cleaningLadies = store.getState().allCleaningLadies.ladies
+    let currentClient = { role: 'manager' }
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
@@ -177,17 +186,72 @@ const Navbar = ({ currentClient, list }) => {
     const [filter, setFilter] = React.useState('');
     const handleChange = (event) => {
         setFilter(event.target.value);
+        if (list === "clients") {
+            if (event.target.value == "city")
+                sortByCityClient(clients)
+            if (event.target.value == "name")
+                sortByNameClient(clients)
+        } else {
+            if (event.target.value == "city")
+                sortByCityLadies(cleaningLadies)
+            if (event.target.value == "name")
+                sortByNameLadies(cleaningLadies)
+        }
+
     };
 
+    const sortByCityClient = (array) => {
+        array.sort((a, b) => {
+            if (a.city < b.city)
+                return -1
+            if (a.city > b.city)
+                return 1
+            return 0
+        })
+        dispatch(updateAllClientState(array))
+    }
+
+    const sortByNameClient = (array) => {
+        array.sort((a, b) => {
+            if (a.name < b.name)
+                return -1
+            if (a.name > b.name)
+                return 1
+            return 0
+        })
+        dispatch(updateAllClientState(array))
+    }
+    
+    const sortByCityLadies = (array) => {
+        array.sort((a, b) => {
+            if (a.city < b.city)
+                return -1
+            if (a.city > b.city)
+                return 1
+            return 0
+        })
+        dispatch(updateAllLadiesState(array))
+    }
+
+    const sortByNameLadies = (array) => {
+        array.sort((a, b) => {
+            if (a.firstName < b.firstName)
+                return -1
+            if (a.firstName > b.firstName)
+                return 1
+            return 0
+        })
+        dispatch(updateAllLadiesState(array))
+    }
 
 
     const handleChangeSearch = (e) => {
-        let temp = list
-        if (filter === 'name')
-            temp = list.filter(lady => (lady?.FirstName + ' ' + lady?.LastName).includes(e.value))
-        else if (filter === 'city')
-            temp = list.filter(lady => lady?.City.includes(e.value))
-        // TODO:send 'temp' to update list!
+        // let temp = list
+        // if (filter === 'name')
+        //     temp = list.filter(lady => (lady?.FirstName + ' ' + lady?.LastName).includes(e.value))
+        // else if (filter === 'city')
+        //     temp = list.filter(lady => lady?.City.includes(e.value))
+        // // TODO:send 'temp' to update list!
     }
 
     return (
@@ -229,15 +293,15 @@ const Navbar = ({ currentClient, list }) => {
                             component="div"
                             sx={{ display: { xs: 'none', sm: 'block' } }}
                         >
-                            <Link className='contain'/*to='CleaningLadyList'*/>
+                            <Link className='contain' to='/home'>
                                 Cleaning Ladies
                             </Link>
 
-                            {/* {currentClient.role === 'manager' && */}
-                                <Link style={{ marginLeft: '0.5cm' }} className='contain'/*to='ClientList'*/>
+                            {currentClient.role === 'manager' &&
+                                <Link style={{ marginLeft: '0.5cm' }} className='contain' to='/HomeAdmin'>
                                     Clients
                                 </Link>
-                                {/* } */}
+                            }
                         </Typography>
                         <Search>
                             <SearchIconWrapper>
@@ -250,12 +314,12 @@ const Navbar = ({ currentClient, list }) => {
                             />
                         </Search>
                         <FormControl sx={StyledSelect} size="small">
-                            <InputLabel id="demo-select-small-label" sx={{ color: "white" }}>Filter By</InputLabel>
+                            <InputLabel id="demo-select-small-label" sx={{ color: "white" }}>Sort By</InputLabel>
                             <Select
                                 labelId="demo-select-small-label"
                                 id="filterBy"
                                 value={filter}
-                                label="Filter By"
+                                label="Sort By"
                                 sx={{ color: "white" }}
                                 onChange={handleChange}
                             >

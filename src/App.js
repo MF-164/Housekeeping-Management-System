@@ -7,6 +7,8 @@ import Home from './components/Home/Home'
 import DayList from './store/features/Day/DayList'
 import HourList from './store/features/Hour/HourList';
 import FinalOrder from './components/FinalOrder/FinalOrder';
+import ClientList from './store/features/Client/ClientList'
+import HomeAdmin from './components/HomeAdmin/HomeAdmin';
 function App() {
 
   
@@ -20,6 +22,7 @@ function App() {
           <Route path='home/day' element={<DayList/>}/>
           <Route path='home/day/hour/:dayId' element={<HourList/>}/>
           <Route path='SignUp' element={<SignUp />} />
+          <Route path='homeAdmin' element={<HomeAdmin />} />
           <Route path='Final' element={<FinalOrder />} />
         </Routes>
       </BrowserRouter> 

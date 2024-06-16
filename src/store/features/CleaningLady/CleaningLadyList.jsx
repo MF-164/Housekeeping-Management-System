@@ -25,7 +25,7 @@ function GradientCircularProgress() {
 }
 
 
-const CleaningLadyList = () => {
+const CleaningLadyList = (list) => {
 
     let dispatch = useDispatch()
 

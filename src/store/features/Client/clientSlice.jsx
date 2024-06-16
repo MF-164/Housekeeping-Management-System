@@ -44,6 +44,7 @@ export const deleteClientFromServer = createAsyncThunk("client-delete", async (i
 })
 
 
+
 export const clientSlice = createSlice({
     name: 'client',
     initialState: clientState,
@@ -66,6 +67,8 @@ export const clientSlice = createSlice({
             let index = state.allClients.clients
                 .findIndex(client => client.id === action.payload.id)
             state.allClients.clients.splice(index, 1, action.payload)
+        },updateAllClientState: (state ,action)=>{
+          state.allClients.clients=action.payload.clients
         }
     },
     extraReducers: (builder) => {
