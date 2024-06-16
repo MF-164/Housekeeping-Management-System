@@ -12,9 +12,7 @@ import './Hour.scss'
 import { Button } from '@mui/material';
 
 const Hour = ({ hour, errorChoose, choose }) => {
-
     let { errorChoises, index, setErrorChoises } = errorChoose
-
     React.useEffect(() => {
         const interval = setInterval(() => {
             let copy = errorChoises.map((choose, i) => {

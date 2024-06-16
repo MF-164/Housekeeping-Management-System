@@ -14,7 +14,6 @@ export const GetOneByUserName = async (userName) => {
 
     let url = 'https://localhost:7218/api/Client/getByUserName/' + userName
     const {data} = await axios.get(url)
-    console.log({ data });
     if (data === "")
         return null
     else

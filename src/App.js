@@ -13,11 +13,12 @@ function App() {
     <div className="App">
       {/* <BrowserRouter>
         <Routes>
-          <Route path='' element={<Home/>} />
-          <Route path='uu' element={<Login />} />
+          {/* <Route path='home' element={<Home/>} /> */}
+          <Route path='' element={<Login />} />
           <Route path='home' element={<Home />}/>
           <Route path='home/day' element={<DayList/>}/>
-          <Route path='SingUp' element={<SignUp />} />
+          <Route path='home/day/hour/:dayId' element={<HourList/>}/>
+          <Route path='SignUp' element={<SignUp />} />
         </Routes>
       </BrowserRouter> */}
       <HourList dayId={1}/>
