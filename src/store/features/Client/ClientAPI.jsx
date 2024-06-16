@@ -38,3 +38,12 @@ export const Delete = async (id) => {
     return data
 }
 
+export const Login = async (client) =>{
+    const {data} = await axios.post('https://localhost:7218/api/Client/login',client)
+    return data
+}
+
+export const SignUp = async (client) =>{
+    const {data} = await axios.post('https://localhost:7218/api/Client/signup',client)
+    return data
+}

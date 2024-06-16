@@ -19,9 +19,10 @@ import Button from '@mui/material/Button';
 import Person4Icon from '@mui/icons-material/Person4';
 import { styled } from '@mui/material/styles';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchByUserNameFromServer, insertClientForServer } from '../../store/features/Client/clientSlice';
+import { signupToWebSite } from '../../store/features/Client/clientSlice';
 import { useNavigate } from 'react-router-dom';
-
+import { useForm } from 'react-hook-form'
+import Alert from '@mui/material/Alert';
 
 const BootstrapButton = styled(Button)({
     boxShadow: 'none',
@@ -66,114 +67,61 @@ const SignUp = () => {
     let newClient = {}
 
     const dis = useDispatch();
-
     let navigate = useNavigate()
-
-    let status = useSelector(s => s.client.currentClient.status)
-    let currentClient = useSelector(s => s.client.currentClient.client)
+    const { register, handleSubmit, getValues, formState: { errors, dirtyFields, isDirty, isValid } } = useForm({
+        mode: 'onBlur'
+    })
 
     const handleMouseDownPassword = (event) => {
         event.preventDefault();
     };
 
-    const handleChangePassword = (e) => {
-        if (e.target.value.length > 8) {
-            e.target.value = e.target.value.slice(0, 8)
-        }
-    }
-
-    const handleBlurPhone = (e) => {
-        const tel = e.target.value
-        if (tel.length === 10 || tel.length === 9) {
-            e.target.value = tel
-            newClient.phone = tel
-        }
-    }
-    const handleChangePhone = (e) => {
-        const tel = e.target.value
-
-        if (tel.charAt(tel.length - 1) > '9' || tel.charAt(tel.length - 1) < '0' || tel.length > 10) {
-            e.target.value = tel.slice(0, tel.length - 1)
-        }
-        else {
-            e.target.value = tel
-        }
-    }
-    const handleChangeHouseNumber = (e) => {
-        const num = e.target.value
-        if (num.charAt(num.length - 1) > '9' || num.charAt(num.length - 1) < '0' || num.length > 2) {
-            e.target.value = num.slice(0, num.length - 1)
-        }
-
-    }
-    const handleChangeCity = (e) => {
-        const city = e.target.value;
-
-        if (!((city.charAt(city.length - 1) >= 'a' && city.charAt(city.length - 1) <= 'z') ||
-            (city.charAt(city.length - 1) >= 'A' && city.charAt(city.length - 1) <= 'Z') || (city.charAt(city.length - 1) === ' ')))
-            e.target.value = city.slice(0, city.length - 1)
-
-    }
-
-    const handleSave = () => {
+    const handleSave = (newClient) => {
         newClient.id = 0
-        newClient.role = "client"
-        console.log({newClient});
-        let client = dis(fetchByUserNameFromServer(newClient.username))
-        console.log("before  null if",{client});
-        if (client === null) {
-             dis(insertClientForServer(newClient))
-            if (status === "success") {
-                console.log({ currentClient });
-                navigate('/home')
-            }
-        }
-        else{
-            console.log({client});
-            console.log("error");
-        }
+        newClient.role = ""
+        console.log({ newClient });
+        dis(signupToWebSite(newClient)).then(() => navigate('/home'))
     }
 
     return (
         <div className='SignUp'>
-            <form className='SignUpform'>
+            <form className='SignUpform' onSubmit={handleSubmit(handleSave)}>
                 <div className='header'>
                     <u><h2>SignUp</h2></u>
                     <span>Sing in to continue.</span>
                 </div>
-                <TextField
-                    id="username"
-                    label="Username"
-                    variant="standard"
-                    onChange={handleChangeCity}
-                    onBlur={(e) => newClient.username = e.target.value}
+                <TextField id="username" label={`UserName ${errors.username?.type == "required" ? '*' : '*'}`} variant="standard"
+                    {...register("username", { pattern: /^[ A-Za-z]+$/i, required:true, maxLength: 15 })}
                     InputProps={{
                         endAdornment: (
                             <PersonIcon sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
                         ),
                     }}
                 />
+                {errors.username?.type === 'pattern' && <Alert severity="warning">please enter only english letters.</Alert>}
+                {errors.username?.type === 'maxLength' && <Alert severity="warning">please enter a valid user name that is at least 25 letters.</Alert>}
                 <br />
 
                 <TextField
                     id="name"
                     label="Name"
                     variant="standard"
-                    onChange={handleChangeCity}
-                    onBlur={(e) => newClient.name = e.target.value}
+                    {...register("name", { pattern: /^[ A-Za-z]+$/i, maxLength: 25 })}
                     InputProps={{
                         endAdornment: (
                             <Person4Icon sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
                         ),
                     }}
                 />
+                {errors.name?.type === 'pattern' && <Alert severity="warning">please enter only english letters.</Alert>}
+                {errors.name?.type === 'maxLength' && <Alert severity="warning">please enter a valid user name that is at least 25 letters.</Alert>}
+
                 <br />
+
                 <FormControl sx={{ m: 1, width: '25ch' }} variant="standard">
-                    <InputLabel htmlFor="standard-adornment-password">Password</InputLabel>
-                    <Input
-                        id="password"
-                        type={showPassword ? 'text' : 'password'}
-                        onChange={handleChangePassword}
+                    <InputLabel htmlFor="standard-adornment-password">Password {errors.password?.type == "required" ? '*' : '*'}</InputLabel>
+                    <Input id="password" type={showPassword ? 'text' : 'password'}
+                        {...register("password", { minLength: 4, maxLength: 8, required: true })}
                         endAdornment={
                             <InputAdornment position="end">
                                 <IconButton
@@ -185,68 +133,75 @@ const SignUp = () => {
                                 </IconButton>
                             </InputAdornment>
                         }
-                        onBlur={(e) => newClient.password = e.target.value}
                     />
+                    {errors.password?.type === 'minLength' && <Alert severity="error">Please enter a valid password that is at more 3 characters.</Alert>}
+                    {errors.password?.type === 'maxLength' && <Alert severity="warning">please enter a valid user name that is at least 9 characters.</Alert>}
+
                 </FormControl>
+
                 <br />
                 <TextField
-                    id="phon"
+                    id="phone"
                     label="Phone"
                     variant="standard"
-                    onChange={handleChangePhone}
-                    onBlur={(e) => handleBlurPhone(e)}
-
+                    {...register("phone", { pattern: /^[0-9]+$/i, minLength: 10, maxLength: 10 })}
                     InputProps={{
                         endAdornment: (
                             <LocalPhoneOutlinedIcon sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
                         ),
                     }}
                 />
+                {errors.phone?.type === 'pattern' && <Alert severity="error">Please enter only numbers.</Alert>}
+                {errors.phone?.type === 'minLength' && <Alert severity="error">Please enter a valid password that is at more 3 numbers.</Alert>}
+                {errors.phone?.type === 'maxLength' && <Alert severity="warning">Please enter a valid user name that is at least 9 numbers.</Alert>}
                 <br />
-                {/* {phoneFlag && <Alert severity="error">phone contains just numbers!</Alert>}
-                                {phoneFlag2 && <Alert severity="warning">Invalid phone number!</Alert>} */}
 
                 <TextField
                     id="city"
                     label="City"
                     variant="standard"
-                    onChange={handleChangeCity}
-                    onBlur={(e) => newClient.city = e.target.value}
+                    {...register("city", { pattern: /^[ A-Za-z]+$/i, maxLength: 15 })}
                     InputProps={{
                         endAdornment: (
                             <LocationCityOutlinedIcon sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
                         ),
                     }}
                 />
+                {errors.city?.type === 'pattern' && <Alert severity="warning">please enter only english letters.</Alert>}
+                {errors.city?.type === 'maxLength' && <Alert severity="warning">Please enter a valid user name that is at least 15 numbers.</Alert>}
                 <br />
 
                 <TextField
                     id="address"
                     label="Address"
                     variant="standard"
-                    onBlur={(e) => newClient.address = e.target.value}
+                    {...register("address", { pattern: /^[ A-Za-z]+$/i, maxLength: 15 })}
                     InputProps={{
                         endAdornment: (
                             <HomeWorkOutlinedIcon sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
                         ),
                     }}
                 />
+                {errors.address?.type === 'pattern' && <Alert severity="warning">please enter only english letters.</Alert>}
+                {errors.address?.type === 'maxLength' && <Alert severity="warning">Please enter a valid user name that is at least 15 numbers.</Alert>}
                 <br />
                 <TextField
-                    id="HouseNumber"
+                    id="housenumber"
                     label="HouseNumber"
                     variant="standard"
-                    onChange={handleChangeHouseNumber}
-                    onBlur={(e) => newClient.houseNumber = e.target.value}
+                    {...register("housenumber", { pattern: /^[0-9]+$/i, minLength: 1, maxLength: 3 })}
                     InputProps={{
                         endAdornment: (
                             <HouseOutlinedIcon sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
                         ),
                     }}
                 />
+                {errors.housenumber?.type === 'pattern' && <Alert severity="error">Please enter only numbers.</Alert>}
+                {errors.housenumber?.type === 'minLength' && <Alert severity="warning">Please enter a valid password that is at more 0 numbers.</Alert>}
+                {errors.housenumber?.type === 'maxLength' && <Alert severity="warning">Please enter a valid user name that is at least 3 numbers.</Alert>}
                 <br />
                 <div className='btnSubmit'>
-                    <BootstrapButton variant="contained" onClick={handleSave}>Log in</BootstrapButton>
+                    <BootstrapButton variant="contained" disabled={!isValid} type='Submit'>Log in</BootstrapButton>
                 </div>
             </form>
         </div>

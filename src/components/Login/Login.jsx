@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom'
 import './Login.scss'
-
+import { useForm } from 'react-hook-form'
 import TextField from '@mui/material/TextField';
 import PersonIcon from '@mui/icons-material/Person';
 import IconButton from '@mui/material/IconButton';
@@ -12,11 +12,13 @@ import FormControl from '@mui/material/FormControl';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Button from '@mui/material/Button';
-import { fetchByUserNameFromServer } from '../../store/features/Client/clientSlice'
+import { loginToWebSite } from '../../store/features/Client/clientSlice'
 import { styled } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux';
 import { store } from '../../store/app/store'
+import Alert from '@mui/material/Alert';
+
 
 const BootstrapButton = styled(Button)({
     boxShadow: 'none',
@@ -54,15 +56,12 @@ const BootstrapButton = styled(Button)({
 
 
 const Login = () => {
-    let user = {
-        name: undefined,
-        password: undefined
-    }
+
     let dis = useDispatch()
-
-    let currentClient = useSelector(s => s.client.currentClient.client)
-
     let navigate = useNavigate()
+    const { register, handleSubmit, getValues, formState: { errors, dirtyFields, isDirty, isValid } } = useForm({
+        mode: 'onBlur'
+    })
 
     const [showPassword, setShowPassword] = React.useState(false);
 
@@ -72,62 +71,40 @@ const Login = () => {
         event.preventDefault();
     };
 
-    const handleChangeName = (e) => {
-        const name = e.target.value;
-
-        if ((name.length > 15) || !((name.charAt(name.length - 1) >= 'a' && name.charAt(name.length - 1) <= 'z') ||
-            (name.charAt(name.length - 1) >= 'A' && name.charAt(name.length - 1) <= 'Z') || (name.charAt(name.length - 1) === ' ')))
-            e.target.value = name.slice(0, name.length - 1)
-        else
-            user.name = name
-    }
-
-    const handleChangePassword = (e) => {
-        const password = e.target.value
-
-        if (password.length > 8)
-            e.target.value = password.slice(0, password.length - 1)
-        else
-            user.password = password
-    }
-
-    const handleClickLogin = () => {
-        if (user.name !== undefined && user.password !== undefined) {
-            dis(fetchByUserNameFromServer(user.name)).then(() => {
-                let currentClient = store.getState().client.currentClient.client
-                if (currentClient != null) {
-                    navigate('/home')
-                } else
-                    navigate('SignUp')
-            }
-            )
+    const handleClickLogin = (user) => {
+        user.role = ''
+        dis(loginToWebSite(user)).then(() => {
+            let currentClient = store.getState().client.currentClient.client
+            if (currentClient != null) {
+                navigate('/home')
+            } else
+                navigate('SignUp')
         }
+        )
+
     }
     return (
         <div className='Login'>
-            <form className='Loginform'>
+            <form className='Loginform' onSubmit={handleSubmit(handleClickLogin)}>
                 <div className='header'>
                     <u><h2>Login</h2></u>
                     <span>Sing in to continue.</span>
                 </div>
-                <TextField 
-                    id="userName"
-                    label="Username"
-                    variant="standard"
-                    onChange={handleChangeName}
+                <TextField id="username" label={`UserName ${errors.username?.type == "required" ? '*' : '*'}`} variant="standard"
+                    {...register("username", { pattern: /^[ A-Za-z]+$/i, required:true, maxLength: 15 })}
                     InputProps={{
                         endAdornment: (
                             <PersonIcon sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
                         ),
                     }}
                 />
+                {errors.username?.type === 'pattern' && <Alert severity="warning">please enter only english letters.</Alert>}
+                {errors.username?.type === 'maxLength' && <Alert severity="warning">please enter a valid user name that is at least 25 letters.</Alert>}
 
                 <FormControl sx={{ m: 1, width: '25ch' }} variant="standard">
-                    <InputLabel htmlFor="standard-adornment-password">Password</InputLabel>
-                    <Input
-                        id="password"
-                        type={showPassword ? 'text' : 'password'}
-                        onChange={handleChangePassword}
+                    <InputLabel htmlFor="standard-adornment-password">Password {errors.password?.type == "required" ? '*' : '*'}</InputLabel>
+                    <Input id="password" type={showPassword ? 'text' : 'password'}
+                        {...register("password", { minLength: 4, maxLength: 8, required: true })}
                         endAdornment={
                             <InputAdornment position="end">
                                 <IconButton
@@ -140,10 +117,13 @@ const Login = () => {
                             </InputAdornment>
                         }
                     />
+                    {errors.password?.type === 'minLength' && <Alert severity="error">Please enter a valid password that is at more 3 characters.</Alert>}
+                    {errors.password?.type === 'maxLength' && <Alert severity="warning">please enter a valid user name that is at least 9 characters.</Alert>}
+
                 </FormControl>
 
                 <div className='btnSubmit'>
-                    <BootstrapButton variant="contained" onClick={handleClickLogin}>Log in</BootstrapButton>
+                    <BootstrapButton variant="contained" type='Submit'>Log in</BootstrapButton>
                     <div>
                         <span>Don't have an account? &nbsp;</span>
                         <Link to='/SignUp'>Sign Up</Link>

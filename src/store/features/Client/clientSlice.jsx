@@ -1,4 +1,4 @@
-import { GetAll, GetOneById, GetOneByUserName, Insert, Update, Delete } from './ClientAPI'
+import { GetAll, GetOneById, GetOneByUserName, Insert, Update, Delete, Login, SignUp } from './ClientAPI'
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
 
 const clientState = {
@@ -12,6 +12,17 @@ const clientState = {
     },
     
 }
+
+export const loginToWebSite = createAsyncThunk("client-login", async (client) => {
+    const response = await Login(client)
+    return response
+})
+
+
+export const signupToWebSite = createAsyncThunk("client-signup", async (client) => {
+    const response = await SignUp(client)
+    return response
+})
 
 export const fetchAllClientFromServer = createAsyncThunk("client-getAll", async (thunkAPI) => {
     const response = await GetAll()
@@ -78,6 +89,10 @@ export const clientSlice = createSlice({
             state.allClients.status = "pending"
         })
 
+        .addCase(loginToWebSite.fulfilled, (state, action) => {
+            state.currentClient.client = action.payload
+        })
+
         .addCase(fetchClientByIdFromServer.fulfilled, (state, action) => {
             state.currentClient.client = action.payload
         })
@@ -97,6 +112,11 @@ export const clientSlice = createSlice({
 
         .addCase(insertClientForServer.fulfilled, (state, action) => {
             state.allClients.clients.push(action.payload)
+        })
+
+        .addCase(signupToWebSite.fulfilled, (state, action) => {
+            state.allClients.clients.push(action.payload)
+            state.currentClient.client = action.payload
         })
 
         .addCase(updateClientOnServer.fulfilled, (state, action) => {
