@@ -41,9 +41,8 @@ const CleaningLady = ({ cleaningLady }) => {
         setExpanded(!expanded);
     };
     const handleWriteComment = () => {
-
-        setWriteComment(!writeComment)
-        setHasComment(true)
+        dis(updateCurrentCleaningLady(cleaningLady))
+        navigate('comment')
     }
     const openOrder = () => {
         dis(updateCurrentOrder({ cleaningLadyId: cleaningLady.id }))
@@ -116,7 +115,6 @@ const CleaningLady = ({ cleaningLady }) => {
                     </CardContent>
                 </Collapse>
             </Card>
-            {writeComment && <label>write a comment......</label>}
         </>
     );
 }
