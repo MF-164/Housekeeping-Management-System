@@ -37,7 +37,7 @@ import EditNoteIcon from '@mui/icons-material/EditNote';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { useDispatch } from 'react-redux';
-import { updateClientOnServer } from './clientSlice';
+import { deleteClientFromServer, updateClientOnServer } from './clientSlice';
 
 
 
@@ -76,10 +76,10 @@ const Client = ({ client }) => {
     const handleClose = () => {
         setOpen(false);
     };
-    const handleCloseWithSave =  () => {
+    const handleCloseWithSave = () => {
         setOpen(false)
         let id = client.id
-        dis(updateClientOnServer(id, { ...editClient, id }))
+        dis(updateClientOnServer({ ...editClient, id }))
     }
 
     const dis = useDispatch()
@@ -87,11 +87,19 @@ const Client = ({ client }) => {
     const handleExpandClick = () => {
         setExpanded(!expanded);
     };
-    const handleDeleteClient = (id) => {
-        //dis(id)//מחיקה מהרידקס ומהsql
+    const handleDeleteClient = () => {
+        dis(deleteClientFromServer(client.id))
     }
     //const [idFlag, setIdFlag] = useState(false);
-    let editClient = {}
+    let editClient = {
+        name: client?.name,
+        password: client?.password,
+        phone: client?.phone,
+        city: client?.city,
+        address: client?.address,
+        houseNumber: client?.houseNumber
+
+    }
 
     const handleMouseDownPassword = (event) => {
         event.preventDefault();

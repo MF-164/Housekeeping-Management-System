@@ -50,10 +50,20 @@ const CleaningLady = ({ cleaningLady }) => {
         dis(updateCurrentCleaningLady(cleaningLady))
         navigate('day')
     }
+    const getStatus=(status)=>{
+        switch(status){
+            case 0:return 'single'
+            case 1:return 'married'
+            case 2:return 'divorced'
+            case 3:return 'widowed'
+            default : return 'none'
+        }
+    }
     return (
         <>
-            <Card sx={{ width: 1000 }} onClick={openOrder}>
+            <Card sx={{ width: 1000 }} >
                 <CardHeader sx={{ width: 200 }}
+                    onClick={openOrder}
                     avatar={
                         <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
                             {cleaningLady.firstName?.charAt(0).toUpperCase() + cleaningLady.lastName?.charAt(0).toUpperCase()}
@@ -63,7 +73,7 @@ const CleaningLady = ({ cleaningLady }) => {
                     subheader={cleaningLady?.phone}
 
                 />
-                <CardContent>
+                <CardContent onClick={openOrder}>
                     <Typography variant="body2" color="text.secondary">
                         {cleaningLady?.city}
                     </Typography>
@@ -90,15 +100,15 @@ const CleaningLady = ({ cleaningLady }) => {
                         <Typography paragraph><b><u>More Details:</u></b></Typography>
                         <Typography paragraph>
                             <div className='moreDetails'>
-                                HourlyPrice:{cleaningLady?.HourlyPrice}
+                                HourlyPrice:{cleaningLady?.hourlyPrice}
                                 <br />
-                                Address: {cleaningLady?.Address}
+                                Address: {cleaningLady?.address}
                                 <br />
-                                HouseNumber: {cleaningLady?.HouseNumber}
+                                HouseNumber: {cleaningLady?.houseNumber}
                                 <br />
-                                OriginCountry: {cleaningLady?.OriginCountry}
+                                OriginCountry: {cleaningLady?.originCountry}
                                 <br />
-                                Status: {cleaningLady?.Status}
+                                Status: {getStatus(cleaningLady?.status)}
                                 <br />
                             </div>
                         </Typography>

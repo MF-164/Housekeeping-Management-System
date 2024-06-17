@@ -8,7 +8,8 @@ const clientState = {
     },
     currentClient: {
         status: "idle",
-        client:undefined
+        client:undefined,
+        token:undefined
     },
     
 }
@@ -24,7 +25,7 @@ export const signupToWebSite = createAsyncThunk("client-signup", async (client) 
     return response
 })
 
-export const fetchAllClientFromServer = createAsyncThunk("client-getAll", async (thunkAPI) => {
+export const fetchAllClientFromServer = createAsyncThunk("client-getAll", async () => {
     const response = await GetAll()
     return response
 })
@@ -44,8 +45,8 @@ export const insertClientForServer = createAsyncThunk("client-insert", async (cl
     return response
 })
 
-export const updateClientOnServer = createAsyncThunk("client-updateClient", async (id, client) => {
-    const response = await Update(id, client)
+export const updateClientOnServer = createAsyncThunk("client-updateClient", async (client) => {
+    const response = await Update(client)
     return response
 })
 
@@ -79,7 +80,7 @@ export const clientSlice = createSlice({
                 .findIndex(client => client.id === action.payload.id)
             state.allClients.clients.splice(index, 1, action.payload)
         },updateAllClientState: (state ,action)=>{
-          state.allClients.clients=action.payload.clients
+          state.allClients.clients=action.payload
         }
     },
     extraReducers: (builder) => {
@@ -93,7 +94,8 @@ export const clientSlice = createSlice({
         })
 
         .addCase(loginToWebSite.fulfilled, (state, action) => {
-            state.currentClient.client = action.payload
+            state.currentClient.client = action.payload.client
+            state.currentClient.token = action.payload.token
         })
 
         .addCase(fetchClientByIdFromServer.fulfilled, (state, action) => {
@@ -139,5 +141,5 @@ export const clientSlice = createSlice({
 })
 
 
-
+export const { updateAllClientState } = clientSlice.actions
 export default clientSlice.reducer

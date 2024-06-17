@@ -124,17 +124,17 @@ const HourList = () => {
         let periodTo
         for (let i = 0; i < filterHours.length; i++) {
             if (filterHours[i].to < fromSelected) {
-                filterHours.splice(i, 1, { ...filterHours[i] })
+                filterHours.splice(i, 1, { ...filterHours[i], id: 0 })
                 continue
             }
             if (filterHours[i].from < fromSelected) {
                 if (filterHours[i].to > toSelected) {
                     periodTo = filterHours[i].to
-                    filterHours.splice(i, 1, { ...filterHours[i], to: fromSelected })
-                    filterHours.push({ id: 0, from: toSelected, to: periodTo, dayId })
+                    filterHours.splice(i, 1, { ...filterHours[i], to: fromSelected, id: 0 })
+                    filterHours.push({ id: 0, from: toSelected, to: periodTo, dayId})
                     break
                 } if (filterHours[i].to === toSelected) {
-                    filterHours.splice(i, 1, { ...filterHours[i], to: fromSelected })
+                    filterHours.splice(i, 1, { ...filterHours[i], to: fromSelected, id: 0 })
                     break
                 }
             }
@@ -143,29 +143,42 @@ const HourList = () => {
                     filterHours.splice(i, 1)
                     break
                 } else {
-                    filterHours.splice(i, 1, { ...filterHours[i], from: toSelected })
+                    filterHours.splice(i, 1, { ...filterHours[i], from: toSelected, id: 0 })
                     break
                 }
 
             }
         }
-        filterHours.map(h=>{return{...h,id:0}})
-        console.log({filterHours})
+        filterHours.map(h => { return { ...h, id: 0 } })
+        console.log({ filterHours })
         hours.forEach(h => {
-            if (h.dayId == dayId)
-                dispatch(deleteHourForServer(h.id))
+            if (h.dayId === dayId){
+                console.log("i delete it ;(",{h});
+                dispatch(deleteHourForServer(h.id))}
         })
-        if (filterHours.length === 0)
+        console.log({ filterHours })
+        if (filterHours.length === 0){
+            console.log("i deleted the day by id",dayId);
             dispatch(deleteDayForServer(dayId))
+        }
         filterHours.forEach(h => {
+            console.log("insert  ;) ", {h});
             dispatch(insertHourForServer(h))
         })
     }
 
     const saveOrder = () => {
-        insertOrder()
-        sliceHourInDatabase()
-        navigate("/Final")
+
+        if(choises.length!==0)
+        {
+            insertOrder()
+            sliceHourInDatabase()
+            navigate("/Final")
+        }
+        else{
+            alert('you must choose any hour or come back!')
+        }
+       
     }
 
     return (

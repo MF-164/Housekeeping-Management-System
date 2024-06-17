@@ -21,14 +21,15 @@ export const GetOneByUserName = async (userName) => {
 }
 
 export const Insert = async (client) => {
-    console.log("api", { client });
     const { data } = await axios.post('https://localhost:7218/api/Client/insert', client)
     return data
 }
 
-export const Update = async (id, client) => {
-    let url = 'https://localhost:7218/api/Client/update/' + id
+export const Update = async (client) => {
+    console.log({client});
+    let url = 'https://localhost:7218/api/Client/update/' + client.id
     const { data } = await axios.put(url, client)
+    console.log({data});
     return data
 }
 

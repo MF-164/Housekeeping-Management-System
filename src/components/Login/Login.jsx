@@ -90,7 +90,7 @@ const Login = () => {
                     <u><h2>Login</h2></u>
                     <span>Sing in to continue.</span>
                 </div>
-                <TextField id="username" label={`UserName ${errors.username?.type == "required" ? '*' : '*'}`} variant="standard"
+                <TextField id="username" label={`UserName ${errors.username?.type == "required" ? '*' : ''}`} variant="standard"
                     {...register("username", { pattern: /^[ A-Za-z]+$/i, required:true, maxLength: 15 })}
                     InputProps={{
                         endAdornment: (
@@ -102,7 +102,7 @@ const Login = () => {
                 {errors.username?.type === 'maxLength' && <Alert severity="warning">please enter a valid user name that is at least 25 letters.</Alert>}
 
                 <FormControl sx={{ m: 1, width: '25ch' }} variant="standard">
-                    <InputLabel htmlFor="standard-adornment-password">Password {errors.password?.type == "required" ? '*' : '*'}</InputLabel>
+                    <InputLabel htmlFor="standard-adornment-password">Password {errors.password?.type == "required" ? '*' : ''}</InputLabel>
                     <Input id="password" type={showPassword ? 'text' : 'password'}
                         {...register("password", { minLength: 4, maxLength: 8, required: true })}
                         endAdornment={

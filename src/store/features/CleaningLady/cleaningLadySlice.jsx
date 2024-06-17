@@ -40,7 +40,7 @@ export const cleaningLadySlice = createSlice({
         updateCurrentCleaningLady: (state, action) => {
             state.currentLady = action.payload
         },updateAllLadiesState: (state ,action)=>{
-            state.allClients.clients=action.payload.clients
+            state.allCleaningLadies.ladies=action.payload
           }
     },
     extraReducers: (builder) => {
@@ -78,6 +78,6 @@ export const cleaningLadySlice = createSlice({
     }
 })
 
-export const { updateCurrentCleaningLady } = cleaningLadySlice.actions
+export const { updateCurrentCleaningLady, updateAllLadiesState } = cleaningLadySlice.actions
 
 export default cleaningLadySlice.reducer
