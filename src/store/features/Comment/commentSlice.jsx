@@ -7,23 +7,23 @@ const commentState = {
     status: "idle"
 }
 
-const fetchAllCommentsFromServer = createAsyncThunk("comment-getAllComment", async (thunkAPI) => {
+export const fetchAllCommentsFromServer = createAsyncThunk("comment-getAllComment", async () => {
     const response = await GetAll()
     return response
 })
 
-const fetchCommenByIdFromServer = createAsyncThunk("comment-getCommentById", async (id) => {
+export const fetchCommenByIdFromServer = createAsyncThunk("comment-getCommentById", async (id) => {
     const response = await GetOneById(id)
     return response
 })
 
 
-const deleteCommentFromServer = createAsyncThunk("comment-delete", async (id) => {
+export const deleteCommentFromServer = createAsyncThunk("comment-delete", async (id) => {
     const response = await Delete(id)
     return response
 })
 
-const insertCommenForServer = createAsyncThunk("comment-insert", async (comment) => {
+export const insertCommenForServer = createAsyncThunk("comment-insert", async (comment) => {
     const response = await Insert(comment)
     return response
 })
