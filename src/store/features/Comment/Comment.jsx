@@ -72,7 +72,7 @@ const Comment = ({ comment, cleaningLady }) => {
     dispatch(fetchAllClientFromServer())
   }
 
-  let clients = useSelector(s => s.client.allClients.clients)
+  let clients = [{id:5,name:'moomo'}]//useSelector(s => s.client.allClients.clients)
   const getNameById = (id) => {
     return clients.find(client => client.id === id)
   }
@@ -125,9 +125,7 @@ const Comment = ({ comment, cleaningLady }) => {
         <Typography sx={{ fontSize: 20, fontWeight: 'bold' }} color="text.secondary" gutterBottom>
           {`${cleaningLady?.firstName} ${cleaningLady?.lastName}`}
         </Typography>
-        {/* <Typography variant="h5" component="div">
-          be{bull}nev{bull}o{bull}lent
-        </Typography> */}
+
         <Typography sx={{ mb: 1.5 }} color="text.secondary">
           <StyledRating
             name="highlight-selected-only"
