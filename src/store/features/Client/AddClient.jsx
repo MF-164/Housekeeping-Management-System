@@ -115,7 +115,7 @@ const AddClient=()=>{
 
         <React.Fragment>
             <Button variant="none" onClick={handleClickOpen}>
-                <Avatar sx={{ bgcolor: blue[500], fontFamily: 'Century', height: '80px', width: '80px', boxShadow: 'gray 3px 4px 8px 1px' }} title="add client" aria-label="recipe">
+                <Avatar sx={{ bgcolor: blue[500], fontFamily: 'Century', height: '80px', width: '80px' }} title="add client" aria-label="recipe">
                     <AddIcon sx={{ fontSize: 'xxx-large' }} />
                 </Avatar>
             </Button>

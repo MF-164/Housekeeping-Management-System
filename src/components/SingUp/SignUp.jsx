@@ -19,10 +19,11 @@ import Button from '@mui/material/Button';
 import Person4Icon from '@mui/icons-material/Person4';
 import { styled } from '@mui/material/styles';
 import { useDispatch, useSelector } from 'react-redux';
-import { signupToWebSite } from '../../store/features/Client/clientSlice';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form'
 import Alert from '@mui/material/Alert';
+
+import { signupToWebSite } from '../../store/features/Client/clientSlice';
 
 const BootstrapButton = styled(Button)({
     boxShadow: 'none',
@@ -64,10 +65,9 @@ const SignUp = () => {
     // const [value, setValue] = useState()
     const handleClickShowPassword = () => setShowPassword((show) => !show);
 
-    let newClient = {}
-
     const dis = useDispatch();
     let navigate = useNavigate()
+    
     const { register, handleSubmit, getValues, formState: { errors, dirtyFields, isDirty, isValid } } = useForm({
         mode: 'onBlur'
     })

@@ -10,6 +10,7 @@ import FinalOrder from './components/FinalOrder/FinalOrder';
 import ClientList from './store/features/Client/ClientList'
 import HomeAdmin from './components/HomeAdmin/HomeAdmin';
 import CommentList from './store/features/Comment/CommentList';
+import Client from './store/features/Client/Client';
 function App() {
 
   

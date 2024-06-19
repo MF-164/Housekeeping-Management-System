@@ -26,7 +26,7 @@ export const Insert = async (client) => {
 }
 
 export const Update = async (client) => {
-    console.log({client});
+    console.log("update",{client});
     let url = 'https://localhost:7218/api/Client/update/' + client.id
     const { data } = await axios.put(url, client)
     console.log({data});
@@ -40,6 +40,7 @@ export const Delete = async (id) => {
 }
 
 export const Login = async (client) =>{
+    console.log({client});
     const {data} = await axios.post('https://localhost:7218/api/Client/login',client)
     return data
 }

@@ -94,7 +94,8 @@ export const clientSlice = createSlice({
         })
 
         .addCase(loginToWebSite.fulfilled, (state, action) => {
-            state.currentClient.client = action.payload.client
+            console.log(action.payload);
+            state.currentClient.client = action.payload.client2
             state.currentClient.token = action.payload.token
         })
 

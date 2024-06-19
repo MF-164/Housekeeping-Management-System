@@ -45,13 +45,14 @@ import { deleteClientFromServer, updateClientOnServer } from './clientSlice';
 const ExpandMore = styled((props) => {
     const { expand, ...other } = props;
     return <IconButton {...other} />;
-})(({ theme, expand }) => ({
-    transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
-    marginLeft: 'auto',
-    transition: theme.transitions.create('transform', {
-        duration: theme.transitions.duration.shortest,
-    }),
-}));
+})
+    (({ theme, expand }) => ({
+        transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
+        marginLeft: 'auto',
+        transition: theme.transitions.create('transform', {
+            duration: theme.transitions.duration.shortest,
+        }),
+    }));
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     '& .MuiDialogContent-root': {
         padding: theme.spacing(2),
@@ -78,6 +79,7 @@ const Client = ({ client }) => {
     };
     const handleCloseWithSave = () => {
         setOpen(false)
+        console.log({client});
         let id = client.id
         dis(updateClientOnServer({ ...editClient, id }))
     }
@@ -92,13 +94,14 @@ const Client = ({ client }) => {
     }
     //const [idFlag, setIdFlag] = useState(false);
     let editClient = {
+        userName: client?.userName,
         name: client?.name,
         password: client?.password,
         phone: client?.phone,
         city: client?.city,
         address: client?.address,
-        houseNumber: client?.houseNumber
-
+        houseNumber: client?.houseNumber,
+        role: client?.role
     }
 
     const handleMouseDownPassword = (event) => {
@@ -141,7 +144,6 @@ const Client = ({ client }) => {
     }
     const handleChangeCity = (e) => {
         const city = e.target.value;
-
         if (!((city.charAt(city.length - 1) >= 'a' && city.charAt(city.length - 1) <= 'z') ||
             (city.charAt(city.length - 1) >= 'A' && city.charAt(city.length - 1) <= 'Z') || (city.charAt(city.length - 1) === ' ')))
             e.target.value = city.slice(0, city.length - 1)
@@ -152,8 +154,8 @@ const Client = ({ client }) => {
         <Card sx={{ width: 1000 }}>
             <CardHeader sx={{ width: 200 }}
                 avatar={
-                    <Avatar sx={{ bgcolor: blue[500], fontFamily: 'Century' }} aria-label="recipe">
-                        {client.name?.charAt(0)}
+                    <Avatar sx={{ bgcolor: blue[500] }} aria-label="recipe">
+                        {client.name?.charAt(0).toUpperCase()}
                     </Avatar>
                 }
                 title={client?.name}
@@ -185,7 +187,6 @@ const Client = ({ client }) => {
                                 onClose={handleClose}
                                 aria-labelledby="customized-dialog-title"
                                 open={open}
-
                             >
                                 <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
                                     Edit

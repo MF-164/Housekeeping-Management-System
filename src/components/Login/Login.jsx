@@ -12,12 +12,13 @@ import FormControl from '@mui/material/FormControl';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Button from '@mui/material/Button';
-import { loginToWebSite } from '../../store/features/Client/clientSlice'
 import { styled } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux';
-import { store } from '../../store/app/store'
 import Alert from '@mui/material/Alert';
+
+import { loginToWebSite } from '../../store/features/Client/clientSlice'
+import { store } from '../../store/app/store'
 
 
 const BootstrapButton = styled(Button)({
@@ -54,7 +55,6 @@ const BootstrapButton = styled(Button)({
     width: '60%'
 })
 
-
 const Login = () => {
 
     let dis = useDispatch()
@@ -64,9 +64,7 @@ const Login = () => {
     })
 
     const [showPassword, setShowPassword] = React.useState(false);
-
     const handleClickShowPassword = () => setShowPassword((show) => !show);
-
     const handleMouseDownPassword = (event) => {
         event.preventDefault();
     };
@@ -75,6 +73,7 @@ const Login = () => {
         user.role = ''
         dis(loginToWebSite(user)).then(() => {
             let currentClient = store.getState().client.currentClient.client
+            console.log({currentClient});
             if (currentClient != null) {
                 navigate('/home')
             } else
