@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom'
 import { styled, alpha } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
@@ -24,6 +25,25 @@ import { store } from "../../store/app/store";
 import './Navbar.scss'
 import { useDispatch, useSelector } from 'react-redux';
 import { updateAllClientState } from '../../store/features/Client/clientSlice';
+import TextField from '@mui/material/TextField';
+import LocationCityOutlinedIcon from '@mui/icons-material/LocationCityOutlined';
+import HomeWorkOutlinedIcon from '@mui/icons-material/HomeWorkOutlined';
+import HouseOutlinedIcon from '@mui/icons-material/HouseOutlined';
+import LocalPhoneOutlinedIcon from '@mui/icons-material/LocalPhoneOutlined';
+import Input from '@mui/material/Input';
+import InputAdornment from '@mui/material/InputAdornment';
+import Dialog from '@mui/material/Dialog';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import DialogContentText from '@mui/material/DialogContentText';
+import Alert from '@mui/material/Alert';
+import Button from '@mui/material/Button';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
+import DialogActions from '@mui/material/DialogActions';
+import CloseIcon from '@mui/icons-material/Close';
+import { deleteClientFromServer, updateClientOnServer } from '../../store/features/Client/clientSlice';
+
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
     borderRadius: theme.shape.borderRadius,
@@ -74,6 +94,15 @@ const StyledSelect = {
         backgroundColor: 'rgba(255, 255, 255, 0.286)',
     },
 }
+const BootstrapDialog = styled(Dialog)(({ theme }) => ({
+    '& .MuiDialogContent-root': {
+        padding: theme.spacing(2),
+    },
+    '& .MuiDialogActions-root': {
+        padding: theme.spacing(1),
+    },
+}));
+
 
 const Navbar = ({ list }) => {
     let dispatch = useDispatch()
@@ -85,6 +114,86 @@ const Navbar = ({ list }) => {
     // let cleaningLadies = store.getState().cleaningLady.allCleaningLadies.ladies
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+    const [anchorEl1, setAnchorEl1] = React.useState(null);
+    const openM = Boolean(anchorEl1);
+    const [open, setOpen] = React.useState(false);
+    const [showPassword, setShowPassword] = useState(false);
+    let phoneFlag = false;
+    let phoneFlag2 = false
+    let houseNumber = false
+
+    const handleClickShowPassword = () => setShowPassword((show) => !show);
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+    const handleClose = () => {
+        setOpen(false);
+    };
+    const handleCloseWithSave = () => {
+        setOpen(false)
+        console.log({ client });
+        let id = client.id
+        dis(updateClientOnServer({ ...editClient, id }))
+    }
+
+    const dis = useDispatch()
+    let client = useSelector(s => s.client.currentClient.client)
+    let editClient = {
+        userName: client?.userName,
+        name: client?.name,
+        password: client?.password,
+        phone: client?.phone,
+        city: client?.city,
+        address: client?.address,
+        houseNumber: client?.houseNumber,
+        role: client?.role
+    }
+
+    const handleMouseDownPassword = (event) => {
+        event.preventDefault();
+    };
+    const handleBlurPhone = (e) => {
+        const tel = e.target.value
+        if (tel.length === 10 || tel.length === 9) {
+            e.target.value = tel
+            editClient.phone = tel
+            phoneFlag2 = false
+        }
+        else {
+            phoneFlag2 = true
+        }
+
+
+
+    }
+    const handleChangePhone = (e) => {
+        const tel = e.target.value
+        if (tel.charAt(tel.length - 1) > '9' || tel.charAt(tel.length - 1) < '0' || tel.length > 10) {
+            e.target.value = tel.slice(0, tel.length - 1)
+            phoneFlag = true
+        }
+        else {
+            e.target.value = tel
+            phoneFlag = false
+        }
+        phoneFlag2 = false
+    }
+    const handleChangeHouseNumber = (e) => {
+        houseNumber = false
+        const num = e.target.value
+        if (num.charAt(num.length - 1) > '9' || num.charAt(num.length - 1) < '0' || num.length > 2) {
+            e.target.value = num.slice(0, num.length - 1)
+            houseNumber = true
+        }
+
+    }
+    const handleChangeCity = (e) => {
+        const city = e.target.value;
+        if (!((city.charAt(city.length - 1) >= 'a' && city.charAt(city.length - 1) <= 'z') ||
+            (city.charAt(city.length - 1) >= 'A' && city.charAt(city.length - 1) <= 'Z') || (city.charAt(city.length - 1) === ' ')))
+            e.target.value = city.slice(0, city.length - 1)
+
+    }
 
     const isMenuOpen = Boolean(anchorEl);
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -168,18 +277,18 @@ const Navbar = ({ list }) => {
                 <p>
                     My account
                 </p>
+
             </MenuItem>
         </Menu>
     );
 
     // menu
 
-    const [anchorEl1, setAnchorEl1] = React.useState(null);
-    const open = Boolean(anchorEl1);
+
     const handleClick = (event) => {
         setAnchorEl1(event.currentTarget);
     };
-    const handleClose = () => {
+    const handleClose1 = () => {
         setAnchorEl1(null);
     };
 
@@ -264,32 +373,149 @@ const Navbar = ({ list }) => {
                 <AppBar position="static">
                     <Toolbar>
                         <div>
-                            <IconButton
-                                size="large"
-                                edge="start"
-                                color="inherit"
-                                aria-label="open drawer"
-                                onClick={handleClick}
-                                sx={{ mr: 2 }}
-                            >
-                                <MenuIcon />
-                            </IconButton>
-                            <Menu
-                                id="basic-menu"
-                                anchorEl={anchorEl1}
-                                open={open}
-                                onClose={handleClose}
-                                MenuListProps={{
-                                    'aria-labelledby': 'basic-button',
-                                }}
-                            >
-                                <Link className='connect' /*to='קומפוננטה של פרטי משתמש'*/>
-                                    <MenuItem onClick={handleClose}>
-                                        <PersonIcon sx={{ fontSize: 'medium' }} />
-                                        <p>&nbsp; My account</p>
-                                    </MenuItem>
-                                </Link>
-                            </Menu>
+                    
+                            <React.Fragment>
+                            <Button variant="none" onClick={handleClickOpen}>
+                                <MenuIcon sx={{ fontSize: 'xx-large' }} titleAccess='my account'/>
+                            </Button>
+                            <div className='around'>
+                                <div className='contant'>
+                                    <BootstrapDialog
+                                        onClose={handleClose}
+                                        aria-labelledby="customized-dialog-title"
+                                        open={open}
+                                    >
+                                        <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
+                                            Edit your details
+                                        </DialogTitle>
+
+                                        <IconButton
+                                            aria-label="close"
+                                            onClick={handleClose}
+                                            sx={{
+                                                position: 'absolute',
+                                                right: 8,
+                                                top: 8,
+                                                color: (theme) => theme.palette.grey[500],
+                                            }}
+                                        >
+                                            <CloseIcon />
+                                        </IconButton>
+                                        <DialogContent >
+                                            <DialogContentText id="alert-dialog-slide-description" sx={{ display: 'block' }}>
+                                                <br />
+
+                                                <TextField
+                                                    id="input-with-sx"
+                                                    label="Username"
+                                                    variant="standard"
+                                                    defaultValue={client?.name}
+                                                    onChange={handleChangeCity}
+                                                    onBlur={(e) => { editClient.name = e.target.value }}
+                                                    InputProps={{
+                                                        endAdornment: (
+                                                            <PersonIcon sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
+                                                        ),
+                                                    }}
+                                                />
+                                                <br />
+
+                                                <FormControl sx={{ m: 1, width: '25ch' }} variant="standard">
+                                                    <InputLabel htmlFor="standard-adornment-password">Password</InputLabel>
+                                                    <Input
+                                                        id="standard-adornment-password"
+                                                        type={showPassword ? 'text' : 'password'}
+                                                        defaultValue={client?.password}
+                                                        onBlur={(e) => { editClient.password = e.target.value }}
+                                                        endAdornment={
+                                                            <InputAdornment position="end">
+                                                                <IconButton
+                                                                    aria-label="toggle password visibility"
+                                                                    onClick={handleClickShowPassword}
+                                                                    onMouseDown={handleMouseDownPassword}
+                                                                >
+                                                                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                                                                </IconButton>
+                                                            </InputAdornment>
+                                                        }
+                                                    />
+                                                </FormControl>
+                                                <br />
+                                                <TextField
+                                                    id="input-with-sx"
+                                                    label="Phone"
+                                                    variant="standard"
+                                                    defaultValue={client?.phone}
+                                                    onChange={handleChangePhone}
+                                                    onBlur={handleBlurPhone}
+                                                    InputProps={{
+                                                        endAdornment: (
+                                                            <LocalPhoneOutlinedIcon sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
+                                                        ),
+                                                    }}
+                                                />
+                                                <br />
+                                                {phoneFlag && <Alert severity="error">phone contains just numbers!</Alert>}
+                                                {phoneFlag2 && <Alert severity="warning">Invalid phone number!</Alert>}
+
+                                                <TextField
+                                                    id="input-with-sx"
+                                                    label="City"
+                                                    variant="standard"
+                                                    defaultValue={client?.city}
+                                                    onBlur={(e) => { editClient.city = e.target.value }}
+                                                    onChange={handleChangeCity}
+                                                    InputProps={{
+                                                        endAdornment: (
+                                                            <LocationCityOutlinedIcon sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
+                                                        ),
+                                                    }}
+                                                />
+                                                <br />
+
+                                                <TextField
+                                                    id="input-with-sx"
+                                                    label="Address"
+                                                    variant="standard"
+                                                    defaultValue={client?.address}
+                                                    onBlur={(e) => { editClient.address = e.target.value }}
+                                                    InputProps={{
+                                                        endAdornment: (
+                                                            <HomeWorkOutlinedIcon sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
+                                                        ),
+                                                    }}
+                                                />
+                                                <br />
+                                                <TextField
+                                                    id="input-with-sx"
+                                                    label="HouseNumber"
+                                                    variant="standard"
+                                                    defaultValue={client?.houseNumber}
+                                                    onBlur={(e) => { editClient.houseNumber = e.target.value }}
+                                                    onChange={handleChangeHouseNumber}
+                                                    InputProps={{
+                                                        endAdornment: (
+                                                            <HouseOutlinedIcon sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
+                                                        ),
+                                                    }}
+                                                />
+                                                {houseNumber && <Alert severity="error">you type uncorrect tav</Alert>}
+                                                <br />
+                                            </DialogContentText>
+                                        </DialogContent>
+
+
+
+                                        <DialogActions sx={{ width: '150px' }}>
+                                            <Button autoFocus onClick={handleCloseWithSave}>
+                                                Save changes
+                                            </Button>
+                                        </DialogActions>
+                                    </BootstrapDialog>
+                                </div>
+                            </div>
+                        </React.Fragment>
+                      
                         </div>
                         <Typography
                             variant="h6"
@@ -307,6 +533,7 @@ const Navbar = ({ list }) => {
                                 </Link>
                             }
                         </Typography>
+                      
                         <Search>
                             <SearchIconWrapper>
                                 <SearchIcon />
