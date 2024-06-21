@@ -81,13 +81,13 @@ const AddComment = ({ cleaningLady }) => {
     const handleClose = () => {
         setOpen(false);
     }
-    
-    const handleCloseWithSave = (comment) => {
+    let comment = {rating:5}
+    const handleCloseWithSave = () => {
         console.log({ comment });
         comment.id = 0;
-        comment.sindTime = new Date();
+        comment.sendTime = new Date();
         comment.clientId = store.getState().client.currentClient.client.id
-        comment.cleaningLadyId = cleaningLady
+        comment.cleaningLadyId = cleaningLady.id
             setOpen(false)
         dis(insertCommenForServer(comment))
     }
@@ -135,7 +135,7 @@ const AddComment = ({ cleaningLady }) => {
                                 </Avatar>
                             </Button>
                             <div className='around'>
-                                <form className='contant' onSubmit={handleSubmit(handleCloseWithSave)}>
+                                <form className='contant' >
                                     <BootstrapDialog
                                         onClose={handleClose}
                                         aria-labelledby="customized-dialog-title"
@@ -163,6 +163,7 @@ const AddComment = ({ cleaningLady }) => {
                                                     id="rating"
                                                     name="rating"
                                                     defaultValue={5}
+                                                    onClick={(e)=>comment.rating = e.target.value}
                                                     IconContainerComponent={IconContainer}
                                                     getLabelText={(value) => customIcons[value].label}
                                                     highlightSelectedOnly
@@ -173,13 +174,14 @@ const AddComment = ({ cleaningLady }) => {
                                                     label="Content"
                                                     multiline
                                                     rows={4}
+                                                    onBlur={(e)=>comment.content = e.target.value}
                                                 />
 
                                             </DialogContentText>
                                         </DialogContent>
 
                                         <DialogActions sx={{ width: '150px' }}>
-                                            <Button autoFocus type='Submit'>
+                                            <Button autoFocus onClick={handleCloseWithSave}>
                                                 Add Comment
                                             </Button>
                                         </DialogActions>

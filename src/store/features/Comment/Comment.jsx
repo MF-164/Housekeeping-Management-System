@@ -20,6 +20,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { store } from '../../app/store';
 import { fetchAllClientFromServer } from '../Client/clientSlice';
 
+import {displayDate} from '../Day/Day'
+
 const bull = (
   <Box
     component="span"
@@ -119,13 +121,9 @@ const Comment = ({ comment, cleaningLady }) => {
   const card = (
     <React.Fragment>
       <CardActions>
-      {comment?.sendTime}
+      {displayDate(comment?.sendTime)}
       </CardActions>
       <CardContent>
-        <Typography sx={{ fontSize: 20, fontWeight: 'bold' }} color="text.secondary" gutterBottom>
-          {`${cleaningLady?.firstName} ${cleaningLady?.lastName}`}
-        </Typography>
-
         <Typography sx={{ mb: 1.5 }} color="text.secondary">
           <StyledRating
             name="highlight-selected-only"

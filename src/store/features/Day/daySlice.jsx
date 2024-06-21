@@ -1,10 +1,11 @@
 
+import { displayDate } from './Day'
 import { Delete, GetAll, GetOneById, Insert, Update } from './DayAPI'
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
 
 const dayState = {
     allDays: { days: [] },
-    currentDay:undefined,
+    currentDay: undefined,
     status: "idle"
 }
 
